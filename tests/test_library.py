@@ -46,6 +46,34 @@ def test_offsite_and_older_adults():
     assert all("Offsite" not in (r.venue_name or "") for r in raws)
 
 
+def one_event(description: str):
+    ics = ("BEGIN:VCALENDAR\r\nX-WR-CALNAME:Main Library\r\nBEGIN:VEVENT\r\nUID:LibCal-1-2-3\r\nSUMMARY:Craft Hour\r\n"
+           f"DTSTART:20260926T140000Z\r\nDTEND:20260926T150000Z\r\nDESCRIPTION:{description}\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n")
+    return library.parse(ics, "17419", {"name": "Main Library", "address": None})[0]
+
+
+def test_a_ticket_is_a_fee_only_when_it_is_bought():
+    # Bonetti Storytime hands out free entry tickets (#17); a ticket that is bought is still a fee.
+    main = library.parse((FIX / "17419.ics").read_text(), "17419", {"name": "Main Library", "address": None})
+    bonetti = [r for r in main if r.title == "Bonetti Storytime"]
+    assert bonetti and all(r.price == "free" and r.evidence["price"].quote == "library program" for r in bonetti)
+    assert one_event("Tickets will be handed out at the door.").price == "free"
+    for text in ("Tickets are $5.", "A $10 fee applies.", "Buy your tickets at the desk.", "Tickets are sold at the door.",
+                 "Every ticket purchased supports the library."):
+        assert one_event(text).price == "unknown", text
+
+
+def test_money_talk_leaves_the_price_to_the_model():
+    # "Free" in the library's own name used to mark ticketed fundraisers free (#24).
+    raws = [r for p in FIX.glob("*.ics") for r in library.parse(p.read_text(), p.stem, {"name": p.stem, "address": None})]
+    for title in ("The Curious Pint", "Library of Shadows"):
+        found = [r for r in raws if r.title.startswith(title)]
+        assert found and all(r.price == "unknown" for r in found), title
+    talk = next(r for r in raws if r.title == "Author Talk: Katie Yee")  # "copies available for purchase" is a book sale
+    assert talk.price == "free" and talk.evidence["price"].quote == "library program"
+    assert one_event("A talk at the Jersey City Free Public Library. Tickets are $5.").price == "unknown"
+
+
 def test_every_feed_parses():
     total = sum(len(library.parse(p.read_text(), p.stem, {"name": p.stem, "address": None})) for p in FIX.glob("*.ics"))
     assert total == 510  # Main, Pavonia, Bookmobile and Spotlight are frozen; they cover every special case

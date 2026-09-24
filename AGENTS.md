@@ -27,6 +27,8 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
   trailers (Co-authored-by: Claude or similar); AI assistance is disclosed once, in the README.
 - Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request,
   and the pull request ticks the ticket's Done-when list, saying how each item was checked.
+- Diagrams follow the code: when a pull request changes a workflow (the pipeline, the run, the page or the
+  ticket process), it also updates the matching diagram in docs/how-it-works.md or docs/routine.md.
 
 ## Commands
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
@@ -38,8 +40,8 @@ python -m http.server -d site                                      # preview the
 pipeline/   sources/, geocode.py, enrich.py, llm.py, check.py, gate.py, publish.py, cli.py
 fixtures/   frozen inputs per source (4 library calendars, 2 API pages); labeled/enrich.json is the labeled set
 data/       library_branches.json (config)
-site/       index.html, app.js, search.js; data/ is generated (events, enrich, geocode, report)
-docs/       brief.md, numbers.md, design.md
+site/       index.html, app.js, search.js, icons.js; data/ is generated (events, enrich, geocode, report)
+docs/       brief.md, numbers.md, design.md, how-it-works.md, routine.md
 city.json   boundary polygon, time zone, source list, site_url
 
 ## Not now

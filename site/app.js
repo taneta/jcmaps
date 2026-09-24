@@ -1,4 +1,5 @@
-import { search, fromLocal, localParts, listFor, pinCounts } from "./search.js";
+import { search, fromLocal, localParts, listFor, pinCounts, pinIcons, WINDOWS } from "./search.js";
+import { ICONS, PLACES, TYPES } from "./icons.js";
 
 const REPO = "taneta/jcmaps"; // "Report a problem" opens a prefilled issue here
 const DATA = "data/events.json";
@@ -6,24 +7,24 @@ const $ = (s) => document.querySelector(s);
 // Colors are the CSS tokens in index.html (docs/design.md); the map reads them, so it follows the theme.
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim();
 
-const state = { window: "weekend", view: "family", freeOnly: false, childAge: null, venue: null, custom: null };
+const state = { window: "today", view: "family", freeOnly: false, venue: null, custom: null };
 let snapshot = null, map = null, current = null, selected = null;
 
-// ---- URL state, so a link can carry a filter ("weekend, free, age 5") ----
+// ---- URL state, so a link can carry a filter ("tomorrow, free") ----
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
-  if (p.get("w")) state.window = p.get("w");
   if (p.get("v") === "everyone") state.view = "everyone";
   state.freeOnly = p.get("free") === "1";
-  state.childAge = p.get("age") ? +p.get("age") : null;
   if (p.get("from") && p.get("to")) state.custom = { from: p.get("from"), to: p.get("to") };
+  // An old link (w=now, afternoon, evening) or a window without dates opens on Today; age= is ignored.
+  const w = p.get("w");
+  state.window = WINDOWS.includes(w) || (w === "custom" && state.custom) ? w : "today";
 }
 function writeHash() {
   const p = new URLSearchParams();
   p.set("w", state.window);
   if (state.view === "everyone") p.set("v", "everyone");
   if (state.freeOnly) p.set("free", "1");
-  if (state.childAge != null) p.set("age", state.childAge);
   if (state.window === "custom" && state.custom) { p.set("from", state.custom.from); p.set("to", state.custom.to); }
   history.replaceState(null, "", "#" + p.toString());
 }
@@ -52,8 +53,11 @@ function reportUrl(ev) {
 }
 
 // ---- rendering ----
+const glyph = (name) => `<svg viewBox="0 0 256 256" aria-hidden="true"><path d="${ICONS[name]}"/></svg>`;
+
 function card(item) {
   const { event: ev, occ, venue, labels } = item;
+  const type = TYPES[ev.type]; // the icon and its name lead the card, so a list can be read by kind (docs/design.md, Icons)
   const tags = [];
   if (ev.price === "free") tags.push('<span class="tag free">Free</span>');
   else if (ev.price === "paid") tags.push(`<span class="tag">${esc(ev.price_text || "Paid")}</span>`);
@@ -63,7 +67,7 @@ function card(item) {
   for (const l of labels) tags.push(`<span class="tag unknown">${esc(l)}</span>`);
   const where = venue ? venue.name : "Location not stated";
   return `<div class="card${selected === ev.id ? " sel" : ""}" data-id="${esc(ev.id)}" data-venue="${esc(occ.venue_id || "")}">
-    <div class="when">${esc(when(occ))}</div>
+    <div class="when"><span class="mark">${type ? glyph(ev.type) : ""}</span><span>${type ? esc(type) + " · " : ""}${esc(when(occ))}</span></div>
     <h3>${esc(ev.title)}</h3>
     <div class="where">${esc(where)}${ev.organizer_name && ev.source_id !== "library" ? " · " + esc(ev.organizer_name) : ""}</div>
     ${ev.summary ? `<div class="sum">${esc(ev.summary)}</div>` : ""}
@@ -74,13 +78,16 @@ function card(item) {
 
 function render() {
   if (!snapshot) return;
-  const filter = { window: state.window === "custom" && state.custom ? customWindow() : (state.window === "custom" ? "weekend" : state.window),
-    view: state.view, freeOnly: state.freeOnly, childAge: state.childAge };
+  const filter = { window: state.window === "custom" ? customWindow() : state.window, view: state.view, freeOnly: state.freeOnly };
   current = search(snapshot, filter, new Date());
   const all = current.results.concat(current.ongoing);
-  const counts = pinCounts(all);
+  const counts = pinCounts(all), icons = pinIcons(all, new Set(Object.keys(PLACES)));
   if (!counts.has(state.venue)) state.venue = null; // a filter took the tapped pin off the map
-  const { inView, unpinned } = listFor(all, map ? map.getBounds().toArray() : null, state.venue);
+  const bounds = map ? map.getBounds().toArray() : null;
+  const { inView, unpinned } = listFor(all, bounds, state.venue);
+  // Free leaves out events that do not list a price; the list says how many, counted where it lists events.
+  const left = state.freeOnly ? listFor(current.unlisted, bounds, state.venue) : { inView: [], unpinned: [] };
+  const leftOut = left.inView.length + left.unpinned.length;
   const ongoing = inView.filter((i) => i.event.ongoing);
   const venueName = state.venue && snapshot.venues.find((v) => v.id === state.venue)?.name;
   $("#count").textContent = `${inView.length} event${inView.length === 1 ? "" : "s"}${venueName ? " at " + venueName : " in view"}`;
@@ -88,20 +95,21 @@ function render() {
   $("#clear").hidden = !state.venue;
   let html = inView.filter((i) => !i.event.ongoing).map(card).join("");
   if (!inView.length) html = `<div class="empty">Nothing on the map here for this window. Try another time, zoom out, or switch to Everyone.</div>`;
+  if (leftOut) html = `<div class="note">${leftOut} more ${leftOut === 1 ? "doesn't" : "don't"} list a price</div>` + html;
   if (ongoing.length) html += `<div class="section">Ongoing (${ongoing.length})</div>` + ongoing.map(card).join("");
   if (unpinned.length) html += `<div class="section">No map pin (${unpinned.length})</div>` + unpinned.map(card).join("");
   const gen = new Date(snapshot.generated_at);
   html += `<div class="foot">Updated ${fmtDay(gen)} ${fmtTime(gen)} · ${snapshot.events.length} events from ${Object.keys(snapshot.sources).length} sources · Times in Jersey City time.</div>`;
   $("#list").innerHTML = html;
-  updatePins(counts);
+  updatePins(counts, icons);
   writeHash();
 }
 
-function updatePins(counts) {
+function updatePins(counts, icons) {
   if (!map || !map.getSource("venues")) return;
   const features = snapshot.venues.filter((v) => counts.has(v.id)).map((v) => ({
     type: "Feature", geometry: { type: "Point", coordinates: [v.lon, v.lat] },
-    properties: { id: v.id, name: v.name, count: counts.get(v.id), sel: v.id === state.venue ? 1 : 0 } }));
+    properties: { id: v.id, name: v.name, count: counts.get(v.id), icon: icons.get(v.id) || "", sel: v.id === state.venue ? 1 : 0 } }));
   map.getSource("venues").setData({ type: "FeatureCollection", features });
 }
 
@@ -112,7 +120,6 @@ function syncControls() {
   $("#dates").classList.toggle("on", state.window === "custom");
   for (const b of document.querySelectorAll("#view button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.view));
   $("#free").setAttribute("aria-pressed", String(state.freeOnly));
-  $("#age").value = state.childAge ?? "";
   if (state.custom) { $("#d1").value = state.custom.from; $("#d2").value = state.custom.to; }
 }
 
@@ -136,7 +143,6 @@ function wire() {
     state.view = b.dataset.v; syncControls(); render();
   });
   $("#free").addEventListener("click", () => { state.freeOnly = !state.freeOnly; syncControls(); render(); });
-  $("#age").addEventListener("change", (e) => { const v = e.target.value; state.childAge = v === "" ? null : Math.max(0, Math.min(17, +v)); render(); });
   const sheet = $("#sheet");
   $("#handle").addEventListener("click", () => {
     sheet.classList.toggle("full", !sheet.classList.contains("full") && !sheet.classList.contains("peek"));
@@ -169,6 +175,18 @@ function tintBasemap() {
   }
 }
 
+// The icons become map images once, painted with --on-accent; a pin shows its icon at 16px, 20px when selected.
+function addIcons() {
+  const ratio = Math.max(2, Math.ceil(devicePixelRatio || 1)), px = 20 * ratio, paint = token("on-accent");
+  for (const [name, d] of Object.entries(ICONS)) {
+    const g = Object.assign(document.createElement("canvas"), { width: px, height: px }).getContext("2d");
+    g.scale(px / 256, px / 256);
+    g.fillStyle = paint;
+    g.fill(new Path2D(d));
+    map.addImage("icon-" + name, g.getImageData(0, 0, px, px), { pixelRatio: ratio });
+  }
+}
+
 function initMap() {
   const c = snapshot.city;
   map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/positron", center: c.center, zoom: 12.4,
@@ -180,11 +198,13 @@ function initMap() {
   map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), "bottom-right");
   map.on("load", () => {
     tintBasemap();
-    const [accent, edge, onAccent] = ["accent", "accent-edge", "on-accent"].map(token);
+    addIcons();
+    const [accent, edge, onAccent, surface, ink] = ["accent", "accent-edge", "on-accent", "surface", "ink"].map(token);
     const n = ["coalesce", ["get", "count"], 0], sel = ["==", ["coalesce", ["get", "sel"], 0], 1], pin = ["!", ["has", "point_count"]];
-    const pinRadius = ["+", ["step", n, 9, 3, 12, 8, 15], ["case", sel, 4, 0]];
+    const pinRadius = ["case", sel, 18, 14]; // one size, since the icon fills the middle and the count has its own badge
     const ring = { "circle-color": accent, "circle-stroke-color": edge, "circle-stroke-width": 1.5 }; // yellow needs an edge on the light map
     const count = { "text-field": ["to-string", ["get", "count"]], "text-font": ["Noto Sans Bold"], "text-allow-overlap": true }; // OpenFreeMap's glyphs
+    const corner = [11, -11]; // the count badge sits on the pin's top-right edge
     map.addSource("venues", { type: "geojson", data: { type: "FeatureCollection", features: [] }, cluster: true, clusterRadius: 36, clusterMaxZoom: 14,
       clusterProperties: { count: ["+", ["get", "count"]] } });
     // A selected pin is highlighted, never recolored: it grows and glows.
@@ -196,22 +216,27 @@ function initMap() {
       layout: { ...count, "text-size": 13 }, paint: { "text-color": onAccent } });
     map.addLayer({ id: "pins", type: "circle", source: "venues", filter: pin,
       paint: { ...ring, "circle-radius": pinRadius, "circle-stroke-width": ["case", sel, 2.5, 1.5] } });
+    map.addLayer({ id: "pin-icons", type: "symbol", source: "venues", filter: ["all", pin, ["!=", ["get", "icon"], ""]],
+      layout: { "icon-image": ["concat", "icon-", ["get", "icon"]], "icon-size": ["case", sel, 1, 0.8], "icon-allow-overlap": true, "icon-ignore-placement": true } });
+    map.addLayer({ id: "pin-badges", type: "circle", source: "venues", filter: ["all", pin, [">", n, 1]],
+      paint: { "circle-radius": 8.5, "circle-color": surface, "circle-stroke-color": edge, "circle-stroke-width": 1, "circle-translate": corner } });
     map.addLayer({ id: "pin-count", type: "symbol", source: "venues", filter: ["all", pin, [">", n, 1]],
-      layout: { ...count, "text-size": ["case", sel, 13, 11] }, paint: { "text-color": onAccent } });
+      layout: { ...count, "text-size": 11 }, paint: { "text-color": ink, "text-translate": corner } });
+    const tappable = ["pins", "pin-badges"];
     map.on("click", "clusters", (e) => {
       const f = map.queryRenderedFeatures(e.point, { layers: ["clusters"] })[0];
       map.getSource("venues").getClusterExpansionZoom(f.properties.cluster_id).then((z) => map.easeTo({ center: f.geometry.coordinates, zoom: z }));
     });
-    map.on("click", "pins", (e) => {
+    map.on("click", tappable, (e) => {
       const f = e.features[0];
       state.venue = state.venue === f.properties.id ? null : f.properties.id;
       $("#sheet").classList.remove("peek");
       render();
     });
-    for (const l of ["clusters", "pins"]) { map.on("mouseenter", l, () => (map.getCanvas().style.cursor = "pointer")); map.on("mouseleave", l, () => (map.getCanvas().style.cursor = "")); }
+    for (const l of ["clusters", ...tappable]) { map.on("mouseenter", l, () => (map.getCanvas().style.cursor = "pointer")); map.on("mouseleave", l, () => (map.getCanvas().style.cursor = "")); }
     // A tapped pin holds the list until any drag, zoom or tap on empty map; then the list follows the viewport again.
     map.on("click", (e) => {
-      if (state.venue && !map.queryRenderedFeatures(e.point, { layers: ["clusters", "pins"] }).length) { state.venue = null; render(); }
+      if (state.venue && !map.queryRenderedFeatures(e.point, { layers: ["clusters", ...tappable] }).length) { state.venue = null; render(); }
     });
     map.on("movestart", () => { state.venue = null; });
     map.on("moveend", render);

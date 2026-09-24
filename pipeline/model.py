@@ -11,6 +11,9 @@ Price = Literal["free", "paid", "unknown"]
 OrganizerType = Literal["city", "business", "community", "unknown"]
 Status = Literal["scheduled", "cancelled", "unknown"]
 YesNo = Literal["yes", "no", "unknown"]
+# One per event, decided by code in pipeline/enrich.py; each has an icon and a name in site/icons.js.
+EventType = Literal["festivals", "markets", "stories", "games", "shows", "music", "health", "crafts", "classes",
+                    "meetups", "unknown"]
 
 
 class Evidence(BaseModel):
@@ -82,6 +85,7 @@ class Event(BaseModel):
     organizer_name: str | None = None
     organizer_type: OrganizerType = "unknown"
     topics: list[str] = []
+    type: EventType = "unknown"
     kid_friendly: KidFriendly = "unknown"
     age_min: int | None = None
     age_max: int | None = None

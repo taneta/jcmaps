@@ -30,7 +30,9 @@ export function localDateStr(date, tz = TZ) {
 
 const addDays = (p, n) => new Date(Date.UTC(p.y, p.m - 1, p.d + n, 12));
 
-// Named windows. Afternoon and Evening move to the next day once today's has passed.
+// Named windows. Today runs from now to midnight, so what ended earlier today is gone and what is under way stays.
+export const WINDOWS = ["today", "tomorrow", "weekend"];
+
 export function windowFor(name, now, tz = TZ) {
   const p = localParts(now, tz);
   const dayAt = (offset, h1, h2) => {
@@ -38,16 +40,8 @@ export function windowFor(name, now, tz = TZ) {
     return { start: fromLocal(q.y, q.m, q.d, h1, 0, tz), end: fromLocal(q.y, q.m, q.d, h2, 0, tz) };
   };
   switch (name) {
-    case "now":
-      return { start: now, end: new Date(now.getTime() + 3 * HOUR) };
-    case "afternoon": {
-      const w = dayAt(0, 12, 17);
-      return now < w.end ? w : dayAt(1, 12, 17);
-    }
-    case "evening": {
-      const w = dayAt(0, 17, 21);
-      return now < w.end ? w : dayAt(1, 17, 21);
-    }
+    case "today":
+      return { start: now, end: dayAt(0, 0, 24).end };
     case "tomorrow":
       return dayAt(1, 0, 24);
     case "weekend": {
@@ -74,21 +68,16 @@ export function matches(occ, win, tz = TZ) {
   return s < win.end.getTime() && e > win.start.getTime();
 }
 
-export function ageMatches(ev, age) {
-  if (ev.age_min == null && ev.age_max == null) return true; // unknown range: shown, with a label
-  if (ev.age_min != null && age < ev.age_min) return false;
-  return !(ev.age_max != null && age > ev.age_max);
-}
-
-export function labelsFor(ev, filter) {
+export function labelsFor(ev) {
   const labels = [];
   if (ev.kid_friendly === "unknown") labels.push("kids: not stated");
   if (ev.price === "unknown") labels.push("price not listed");
-  if (filter.childAge != null && ev.age_min == null && ev.age_max == null) labels.push("ages not stated");
   return labels;
 }
 
-// filter: { window: name | {start, end}, view: "family" | "everyone", freeOnly, childAge }
+// filter: { window: name | {start, end}, view: "family" | "everyone", freeOnly }
+// Free shows only events that say they are free. The ones it leaves out for not listing a price come back as
+// `unlisted`, so the page can say how many there are: a listing that says nothing is not rewarded, but not hidden quietly.
 export function search(snapshot, filter, now = new Date()) {
   const tz = snapshot.city?.tz || TZ;
   const win = typeof filter.window === "string" ? windowFor(filter.window, now, tz) : filter.window;
@@ -96,18 +85,21 @@ export function search(snapshot, filter, now = new Date()) {
   const venues = new Map(snapshot.venues.map((v) => [v.id, v]));
   const results = [];
   const ongoing = [];
+  const unlisted = [];
   for (const occ of snapshot.occurrences) {
     const ev = events.get(occ.event_id);
     if (!ev || ev.status === "cancelled") continue;
     if (filter.view !== "everyone" && ev.kid_friendly === "no") continue;
-    if (filter.freeOnly && ev.price !== "free") continue;
-    if (filter.childAge != null && !ageMatches(ev, filter.childAge)) continue;
     if (!matches(occ, win, tz)) continue;
-    const item = { event: ev, occ, venue: venues.get(occ.venue_id) || null, labels: labelsFor(ev, filter) };
+    const item = { event: ev, occ, venue: venues.get(occ.venue_id) || null, labels: labelsFor(ev) };
+    if (filter.freeOnly && ev.price !== "free") {
+      if (ev.price === "unknown") unlisted.push(item);
+      continue;
+    }
     (ev.ongoing ? ongoing : results).push(item);
   }
   const byStart = (a, b) => Date.parse(a.occ.start_utc) - Date.parse(b.occ.start_utc);
-  return { window: win, results: results.sort(byStart), ongoing: ongoing.sort(byStart) };
+  return { window: win, results: results.sort(byStart), ongoing: ongoing.sort(byStart), unlisted };
 }
 
 const pinned = (item) => item.venue != null && item.venue.lat != null;
@@ -117,6 +109,23 @@ export function pinCounts(items) {
   const counts = new Map();
   for (const i of items) if (pinned(i)) counts.set(i.venue.id, (counts.get(i.venue.id) || 0) + 1);
   return counts;
+}
+
+// The icon on each pin, from the same items as its number (docs/design.md, Icons): the type they share; when they are
+// of several types, the venue's kind if that has an icon (places), else "several". Unknown types do not count, and a
+// venue with none known gets null, a plain pin.
+export function pinIcons(items, places = new Set()) {
+  const types = new Map();
+  for (const i of items) {
+    if (!pinned(i)) continue;
+    if (!types.has(i.venue.id)) types.set(i.venue.id, { kind: i.venue.kind, seen: new Set() });
+    if (i.event.type && i.event.type !== "unknown") types.get(i.venue.id).seen.add(i.event.type);
+  }
+  const icons = new Map();
+  for (const [id, { kind, seen }] of types) {
+    icons.set(id, seen.size === 1 ? [...seen][0] : seen.size === 0 ? null : places.has(kind) ? kind : "several");
+  }
+  return icons;
 }
 
 // The list under the map: items whose pin is inside bounds ([[west, south], [east, north]]; null means no map),

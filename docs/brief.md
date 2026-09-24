@@ -11,7 +11,7 @@ A map-first web app for Jersey City that answers one question: what is happening
 The data is general: city, business and community events, for adults and children alike. The view is family by default: events marked not kid-friendly are hidden until the user switches to Everyone. Reason: the open sources are mostly adult events, the data model already carries both, and a family default is what makes the app shareable among parents.
 
 - **v1, one day:** feeds from the library and the city, refreshed twice a day, on a static map. No accounts, no database, no user input.
-- **v1.x:** more sources, a weekly coverage check against the baseline, pin styles.
+- **v1.x:** more sources, a weekly coverage check against the baseline.
 - **v2:** organizers add events from a flyer photo or text; a checker screens them.
 - **v3:** plain-language search and an MCP server over the same filter.
 
@@ -48,7 +48,7 @@ Library calendar ids: Main 17419, Morgan 17420, West Bergen 17421, Pavonia 17422
 Source rules:
 - **The library venue is the calendar**, not the LOCATION field, which holds room codes such as `PGML- Bonetti Room`. Exceptions: Bookmobile and Spotlight, where LOCATION says "Offsite" and the address is in the description; enrichment extracts it.
 - **Library audience** comes from categories: Storytime, Children and All-Ages mean kid-friendly yes; Adults (19+) means no.
-- **Library price** is free by adapter rule, with "library program" recorded as the evidence, unless the description mentions a fee.
+- **Library price** is free by adapter rule, with "library program" recorded as the evidence, unless the listing talks about money: a price, a fee, a cost, a fundraiser, or a ticket in a sentence about buying it (branches also hand out free entry tickets). Then the model decides, with a quote. The word "free" decides nothing on its own, because it is part of the library's name.
 - **An empty `cost` field in The Events Calendar means unknown, not free.** Only the word free or a zero means free.
 - **Boundary:** occurrences outside the city polygon are dropped and counted in the run report.
 
@@ -65,7 +65,7 @@ Stages are plain functions with files between them. The scheduled job runs them 
 1. **Fetch.** Each adapter downloads its feed to `cache/`, which is not committed. Fixtures are.
 2. **Parse.** Code turns the feed into Event and Occurrence records: source uid, title, times in UTC, venue name and address, description text, categories, cost text, URL. Date-only entries are all-day. If an RRULE appears, expand it for 30 days.
 3. **Geocode.** Venue address to coordinates, cached in the repo. One venue per address: records with the same house number, street and city share it however each source spells them, and the other names become aliases. Nominatim at one request per second with a User-Agent, or Photon. Library branches are seeded once from OpenStreetMap. An event that fails to geocode keeps its record and is shown in the list without a pin.
-4. **Enrich.** One model call per new or changed event. Input: title, description, categories, cost text, venue, source name. Output, schema-bound, each field with an evidence quote: `kid_friendly`, `age_min`, `age_max`, `age_text`, `price`, `price_text`, `organizer_type`, `topics`, `summary`, `status`, and for offsite library events the venue name and address. `kid_friendly: no` requires explicit evidence such as 21+, adults only, singles, mixer, happy hour. Each quote must be a substring of the normalized input, or the field becomes unknown. The model never creates, merges or deletes events, so invented events are impossible by construction.
+4. **Enrich.** One model call per new or changed event. Input: title, description, categories, cost text, venue, source name. Output, schema-bound, each field with an evidence quote: `kid_friendly`, `age_min`, `age_max`, `age_text`, `price`, `price_text`, `organizer_type`, `topics`, `summary`, `status`, and for offsite library events the venue name and address. `kid_friendly: no` requires explicit evidence such as 21+, adults only, singles, mixer, happy hour. Each quote must be a substring of the normalized input, or the field becomes unknown. The model never creates, merges or deletes events, so invented events are impossible by construction. Code, not the model, also gives each event one type for its icon: the first type whose words are in the title, else in the feed's own categories, with the matched words as evidence; no match is `unknown`.
 5. **Check.** Rules only in v1: required fields, start in the future or ongoing, inside the boundary, duplicates. Duplicates share a venue and a date, overlap in time and have similar titles, or one title starts with the other's first three words; the record with more evidence wins and keeps every URL. A title containing cancelled or postponed sets the status to cancelled. Failures go to the run report with a reason.
 6. **Publish.** Write `site/data/events.json` (events, occurrences, venues, generated_at) and the run report; the workflow deploys `site/` to GitHub Pages. Nothing is committed: the next run pulls the snapshot and caches back from the live site. The snapshot passes the publish gate first, compared with the last good snapshot; if it fails, the last good snapshot stays and an issue opens. The job runs twice a day, about 2am and 7am local time (cron is in UTC). Cancellations show within hours because feeds are re-read on every run.
 
@@ -79,6 +79,7 @@ Source      id, name, kind (ics|tribe|page), url, state (active|degraded|down),
 Venue       id, name, aliases[], address, lat, lon, kind, osm_id
 Event       id, source_id, source_uid, title, url, organizer_name,
             organizer_type (city|business|community|unknown), topics[],
+            type (festivals|markets|stories|games|shows|music|health|crafts|classes|meetups|unknown),
             kid_friendly (yes|no|unknown), age_min, age_max, age_text,
             price (free|paid|unknown), price_text, registration (yes|no|unknown),
             summary (own words, <=200 chars), ongoing (bool),
@@ -86,7 +87,7 @@ Event       id, source_id, source_uid, title, url, organizer_name,
             first_seen, last_seen, updated_at
 Occurrence  event_id, venue_id|null, start_utc, end_utc|null, all_day, tz
 Filter      window_start, window_end, bbox, view (family|everyone), free_only,
-            child_age|null, topics[]      # shared by the UI, v3 search and the MCP tool
+            topics[]      # shared by the UI, v3 search and the MCP tool
 Submission  (v2) id, channel (photo|text), raw_ref, input_hash, submitter_id,
             status (pending|published|rejected|escalated), reason, created_at
 ```
@@ -97,17 +98,16 @@ Raw text fields such as `age_text` and `price_text` are kept and shown, because 
 
 - Time zone America/New_York; store UTC plus the zone.
 - An occurrence matches a window if it starts before the window ends and ends after it starts. A missing end means two hours. All-day items match any window on their date.
-- Windows: Now (the next three hours), Afternoon (12:00 to 17:00), Evening (17:00 to 21:00), Tomorrow, Weekend, or a custom range, up to 30 days ahead.
+- Windows: Today (from now until midnight, so what ended earlier today is gone and what is under way stays; the default), Tomorrow, Weekend, or Dates, a custom range up to 30 days ahead.
 - **View.** Family, the default, hides `kid_friendly: no`. Everyone shows all. Unknown is always shown, with a label.
-- **Free only** shows `price: free`. Unknown prices carry a "price not listed" label.
-- **Child age**, optional: an event matches if the age is within its range, or if its range is unknown, with a label.
+- **Free only** shows `price: free`, so stating a price never costs an event visibility and saying "free" earns it; hiding only known-paid events would reward listings that say nothing. While Free is on, the list says how many events it left out for not listing a price. Without Free, unknown prices carry a "price not listed" label.
 - Ongoing items appear in a separate layer.
 
 The rules are pure functions over the snapshot, tested with a fixed clock.
 
 ## Frontend
 
-Static, no framework: one HTML file and one module. MapLibre GL JS with a vector basemap, clustered pins from a GeoJSON source, and a bottom-sheet list that follows the viewport: the count is the pinned events in view, events without a pin sit under their own heading, and a tapped pin lists its venue's events until the map moves. The map stays north-up and flat. Controls: time chips, Family or Everyone, Free, an age field. An event card shows title, time, venue, price, ages, summary, the source link and a "Report a problem" link that opens a prefilled issue with the event id and a reason. The page shows when the snapshot was generated and a warning banner when it is older than a day. Phone width first, tap targets of 44 px, no horizontal scroll. A manifest for add-to-home-screen; a service worker that caches the snapshot is optional.
+Static, no framework: one HTML file and one module. MapLibre GL JS with a vector basemap, clustered pins from a GeoJSON source, and a bottom-sheet list that follows the viewport: the count is the pinned events in view, events without a pin sit under their own heading, and a tapped pin lists its venue's events until the map moves. The map stays north-up and flat. Controls: time chips (Today, Tomorrow, Weekend, Dates), Family or Everyone, Free. Each pin shows one icon for what is on there and a badge with its count; when its events are of several types it shows the place's own icon (a library) or a calendar (see `docs/design.md`, Icons). An event card starts with its event's icon and type, and shows title, time, venue, price, ages, summary, the source link and a "Report a problem" link that opens a prefilled issue with the event id and a reason. The page shows when the snapshot was generated and a warning banner when it is older than a day. Phone width first, tap targets of 44 px, no horizontal scroll. A manifest for add-to-home-screen; a service worker that caches the snapshot is optional.
 
 Basemap: OpenFreeMap's hosted `positron` style, tinted with the palette in `docs/design.md`; no key, no file. Day one used `liberty`. In v1.x, a PMTiles extract of the city from Protomaps' daily build (`pmtiles extract https://build.protomaps.com/<date>.pmtiles jc.pmtiles --bbox=-74.13,40.65,-74.01,40.78`), one static file on Pages, for independence.
 
@@ -178,7 +178,7 @@ Not now: accounts before v2, voice input, RSVPs, notifications, native apps, age
 ## Open decisions
 
 1. Partnerships: whom to contact and in what order, once the idea is final. JC Families before their data is used; Cultural Affairs as a courtesy; the library needs no permission for its public feed.
-2. Pin styles for city, business and community.
+2. Pin styles for city, business and community. Decided 2026-09-24: a pin shows what kind of event is on, not who runs it (`docs/design.md`, Icons).
 3. v2 identity: named organizer only, or sign-in.
 4. Geography: Hoboken.
 5. Languages beyond English.

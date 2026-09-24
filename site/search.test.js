@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { fromLocal, windowFor, matches, search, localDateStr, listFor, pinCounts } from "./search.js";
+import { fromLocal, windowFor, matches, search, localDateStr, listFor, pinCounts, pinIcons } from "./search.js";
 
 const NOW = fromLocal(2026, 9, 24, 15, 0); // Thursday 3pm in Jersey City
 const iso = (d) => d.toISOString();
@@ -14,12 +14,9 @@ test("wall clock to instant handles daylight saving", () => {
 
 test("named windows", () => {
   const w = (n, now = NOW) => windowFor(n, now);
-  assert.deepEqual([iso(w("now").start), iso(w("now").end)], ["2026-09-24T19:00:00.000Z", "2026-09-24T22:00:00.000Z"]);
-  assert.deepEqual([iso(w("afternoon").start), iso(w("afternoon").end)], ["2026-09-24T16:00:00.000Z", "2026-09-24T21:00:00.000Z"]);
-  assert.deepEqual([iso(w("evening").start), iso(w("evening").end)], ["2026-09-24T21:00:00.000Z", "2026-09-25T01:00:00.000Z"]);
-  const late = fromLocal(2026, 9, 24, 21, 30);
-  assert.equal(iso(w("afternoon", late).start), "2026-09-25T16:00:00.000Z"); // today's afternoon is over
-  assert.equal(iso(w("evening", late).start), "2026-09-25T21:00:00.000Z");
+  assert.deepEqual([iso(w("today").start), iso(w("today").end)], ["2026-09-24T19:00:00.000Z", "2026-09-25T04:00:00.000Z"]); // now to midnight
+  const late = fromLocal(2026, 9, 24, 23, 30);
+  assert.deepEqual([iso(w("today", late).start), iso(w("today", late).end)], ["2026-09-25T03:30:00.000Z", "2026-09-25T04:00:00.000Z"]);
   assert.deepEqual([iso(w("tomorrow").start), iso(w("tomorrow").end)], ["2026-09-25T04:00:00.000Z", "2026-09-26T04:00:00.000Z"]);
   assert.deepEqual([iso(w("weekend").start), iso(w("weekend").end)], ["2026-09-26T04:00:00.000Z", "2026-09-28T04:00:00.000Z"]);
   const sunday = fromLocal(2026, 9, 27, 10, 0);
@@ -28,13 +25,16 @@ test("named windows", () => {
   assert.equal(iso(w("weekend", saturday).start), "2026-09-26T12:00:00.000Z"); // clamped to now
 });
 
-test("occurrence matching", () => {
-  const afternoon = windowFor("afternoon", NOW);
+test("occurrence matching: today drops what is over and keeps what is under way or all day", () => {
+  const today = windowFor("today", NOW); // Thursday, 3pm to midnight
   const occ = (start, end, all_day = false, date = "2026-09-24") => ({ start_utc: start, end_utc: end, all_day, date });
-  assert.ok(matches(occ("2026-09-24T20:30:00Z", "2026-09-24T21:30:00Z"), afternoon)); // 4:30-5:30pm overlaps
-  assert.ok(!matches(occ("2026-09-24T21:00:00Z", "2026-09-24T22:00:00Z"), afternoon)); // starts at 5pm sharp
-  assert.ok(matches(occ("2026-09-24T15:00:00Z", null), afternoon)); // 11am, no end: two hours reach into the afternoon
-  assert.ok(!matches(occ("2026-09-24T13:30:00Z", null), afternoon));
+  assert.ok(!matches(occ("2026-09-24T14:00:00Z", "2026-09-24T16:00:00Z"), today)); // 10am-noon: ended earlier today
+  assert.ok(matches(occ("2026-09-24T18:00:00Z", "2026-09-24T20:00:00Z"), today)); // 2-4pm: under way
+  assert.ok(matches(occ("2026-09-24T17:30:00Z", null), today)); // 1:30pm, no end: two hours reach past 3pm
+  assert.ok(!matches(occ("2026-09-24T16:00:00Z", null), today)); // noon, no end: over by 2pm
+  assert.ok(matches(occ("2026-09-24T23:00:00Z", null), today)); // 7pm
+  assert.ok(matches(occ("2026-09-24T04:00:00Z", "2026-09-25T04:00:00Z", true), today)); // all day today
+  assert.ok(!matches(occ("2026-09-25T13:00:00Z", "2026-09-25T14:00:00Z", false, "2026-09-25"), today)); // tomorrow, 9am
   const weekend = windowFor("weekend", NOW);
   assert.ok(matches(occ("2026-09-26T04:00:00Z", "2026-09-27T04:00:00Z", true, "2026-09-26"), weekend));
   assert.ok(!matches(occ("2026-09-25T04:00:00Z", "2026-09-26T04:00:00Z", true, "2026-09-25"), weekend));
@@ -48,28 +48,35 @@ const SNAP = {
     { id: "b", title: "Mixer", kid_friendly: "no", price: "paid", status: "scheduled", ongoing: false, age_min: null, age_max: null },
     { id: "c", title: "Exhibit", kid_friendly: "unknown", price: "unknown", status: "scheduled", ongoing: true, age_min: null, age_max: null },
     { id: "d", title: "Cancelled thing", kid_friendly: "yes", price: "free", status: "cancelled", ongoing: false, age_min: null, age_max: null },
+    { id: "e", title: "Open studio", kid_friendly: "yes", price: "unknown", status: "scheduled", ongoing: false, age_min: null, age_max: null },
   ],
   occurrences: [
     { event_id: "a", venue_id: "v", start_utc: "2026-09-26T14:00:00Z", end_utc: "2026-09-26T15:00:00Z", all_day: false, date: "2026-09-26" },
     { event_id: "b", venue_id: "v", start_utc: "2026-09-26T23:00:00Z", end_utc: null, all_day: false, date: "2026-09-26" },
     { event_id: "c", venue_id: null, start_utc: "2026-09-10T04:00:00Z", end_utc: "2026-10-10T04:00:00Z", all_day: false, date: "2026-09-10" },
     { event_id: "d", venue_id: "v", start_utc: "2026-09-26T16:00:00Z", end_utc: null, all_day: false, date: "2026-09-26" },
+    { event_id: "e", venue_id: "v", start_utc: "2026-09-26T18:00:00Z", end_utc: null, all_day: false, date: "2026-09-26" },
   ],
 };
 
-test("filters: view, free, age, cancelled, ongoing layer, labels", () => {
+test("filters: view, free, cancelled, ongoing layer, labels", () => {
   const ids = (r) => r.results.map((x) => x.event.id);
   const family = search(SNAP, { window: "weekend", view: "family" }, NOW);
-  assert.deepEqual(ids(family), ["a"]);
+  assert.deepEqual(ids(family), ["a", "e"]);
   assert.deepEqual(family.ongoing.map((x) => x.event.id), ["c"]);
   assert.deepEqual(family.ongoing[0].labels, ["kids: not stated", "price not listed"]);
-  assert.deepEqual(ids(search(SNAP, { window: "weekend", view: "everyone" }, NOW)), ["a", "b"]);
-  assert.deepEqual(ids(search(SNAP, { window: "weekend", view: "everyone", freeOnly: true }, NOW)), ["a"]);
-  assert.deepEqual(ids(search(SNAP, { window: "weekend", view: "everyone", childAge: 9 }, NOW)), ["b"]);
-  const aged = search(SNAP, { window: "weekend", view: "everyone", childAge: 4 }, NOW);
-  assert.deepEqual(ids(aged), ["a", "b"]);
-  assert.deepEqual(aged.results[1].labels, ["ages not stated"]);
+  assert.deepEqual(family.unlisted, []); // only Free leaves events out for their price
+  assert.deepEqual(ids(search(SNAP, { window: "weekend", view: "everyone" }, NOW)), ["a", "e", "b"]);
   assert.equal(family.results[0].venue.name, "Main");
+});
+
+test("free: only events that say they are free, and a count of those left out for not listing a price", () => {
+  const free = search(SNAP, { window: "weekend", view: "everyone", freeOnly: true }, NOW);
+  assert.deepEqual(free.results.map((x) => x.event.id), ["a"]);
+  assert.deepEqual(free.ongoing, []);
+  assert.deepEqual(free.unlisted.map((x) => x.event.id).sort(), ["c", "e"]); // the paid mixer is not counted
+  const { inView, unpinned } = listFor(free.unlisted, null); // the list counts them where it lists events
+  assert.equal(inView.length + unpinned.length, 2);
 });
 
 // Issue #2: one pin on a street-level screen, two events without a pin, one pin off screen.
@@ -96,4 +103,15 @@ test("list: a tapped pin lists exactly as many events as its label", () => {
     assert.ok(list.inView.every((i) => i.venue.id === id));
     assert.deepEqual(list.unpinned, []);
   }
+});
+
+test("pins: the icon is the type the events share; several types show the place's icon, or several", () => {
+  const lib = { id: "lib", kind: "library", lat: 40.71, lon: -74.05 }, hall = { id: "hall", kind: null, lat: 40.72, lon: -74.04 };
+  const park = venue("park", 40.73, -74.03), cafe = venue("cafe", 40.74, -74.02);
+  const at = (v, type) => ({ event: { type }, venue: v });
+  const places = new Set(["library"]);
+  const one = pinIcons([at(lib, "stories"), at(lib, "stories"), at(hall, "shows"), at(hall, "unknown"), at(nowhere, "music")], places);
+  assert.deepEqual(Object.fromEntries(one), { lib: "stories", hall: "shows" }); // unknown does not make a mix
+  const several = pinIcons([at(lib, "stories"), at(lib, "crafts"), at(park, "markets"), at(park, "health"), at(cafe, "unknown")], places);
+  assert.deepEqual(Object.fromEntries(several), { lib: "library", park: "several", cafe: null });
 });

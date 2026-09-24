@@ -1,11 +1,12 @@
 # JCMaps
 
-A map of Jersey City events by time window: what is on now, this afternoon, tonight, tomorrow or at the weekend,
+A map of Jersey City events by time window: what is on today, tomorrow, at the weekend or on the dates you pick,
 with a family view by default. Non-commercial. Data comes from the public feeds of the Jersey City Free Public
 Library, the Office of Cultural Affairs and Jersey City Connects, rebuilt twice a day by GitHub Actions and served
 as a static page from GitHub Pages at https://jcmaps.com/.
 
 - `docs/brief.md` is the product brief; `AGENTS.md` holds the build rules for anyone (or any agent) working here.
+- New here? Read `docs/how-it-works.md` (the pieces, in two diagrams) and `docs/routine.md` (who does what, and when).
 - `uv run jcmaps build --pull` runs the pipeline; `uv run pytest` runs the offline tests; `python -m http.server -d site` previews the page.
 - Events show a "Report a problem" link that opens a prefilled issue.
 - Built with AI assistance; every change is reviewed by a person, who is responsible for it.
