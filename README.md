@@ -20,10 +20,6 @@ as a static page from GitHub Pages at https://jcmaps.com/.
   on the site; run reports and model logs are workflow artifacts kept for 90 days.
 - **Local runs** use `.env` (git-ignored) for `OPENAI_API_KEY`; without a key, enrichment falls back to the
   adapter rules and whatever is cached. `--offline` builds from fixtures alone.
-- **The domain** jcmaps.com is registered at Squarespace, whose DNS points it at GitHub Pages: four A and four
-  AAAA records, `www` as a CNAME to `taneta.github.io`, and a TXT record that verifies the domain for the
-  `taneta` account. The domain is set in the repo's Pages settings, not in a CNAME file, which Actions deploys
-  ignore. The old address, taneta.github.io/jcmaps, redirects to it.
 
 ## Secrets and safety
 
