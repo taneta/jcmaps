@@ -59,24 +59,37 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
+          SERVER: ${{ github.server_url }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+          TODAY: ${{ github.run_started_at }}
         run: |
           python3 - <<'PY' > /tmp/issue.md || exit 0
-          import json, sys
+          import json, os, sys
+          run = f"{os.environ['SERVER']}/{os.environ['REPO']}/actions/runs/{os.environ['RUN_ID']}"
           try:
               r = json.load(open("site/data/report.json"))
           except FileNotFoundError:
-              print("## Build crashed before writing a report\n\nSee the workflow run for the traceback.")
-              sys.exit(0)
-          gate, srcs = r["gate"], r["sources"]
-          empty = [s for s, v in srcs.items() if v.get("published", 0) == 0]
-          if gate["passed"] and not empty:
-              sys.exit(1)
-          print("## Build needs attention\n")
-          if not gate["passed"]:
-              print("Gate failed; the last good snapshot stays:\n" + "\n".join(f"- {x}" for x in gate["reasons"]))
-          if empty:
-              print("\nSources with zero events: " + ", ".join(empty))
-          print("\n```json\n" + json.dumps({k: r.get(k) for k in ("sources", "drops", "geocode", "enrich", "pulled")}, indent=1) + "\n```")
+              r = None
+          if r:
+              gate, srcs = r["gate"], r["sources"]
+              empty = [s for s, v in srcs.items() if v.get("published", 0) == 0]
+              if gate["passed"] and not empty:
+                  sys.exit(1)
+          print(f"**Where:** pipeline · **Seen:** run report, {os.environ['TODAY']} ([run]({run}))\n")
+          print("## What happens")
+          if r is None:
+              print("The build crashed before writing a report; the traceback is in the run log.")
+          else:
+              if not gate["passed"]:
+                  print("The gate failed, so the last good snapshot stayed published:\n" + "\n".join(f"- {x}" for x in gate["reasons"]))
+              if empty:
+                  print("\nSources that published zero events: " + ", ".join(empty))
+              print("\n```json\n" + json.dumps({k: r.get(k) for k in ("sources", "drops", "geocode", "enrich", "pulled")}, indent=1) + "\n```")
+          print("\n## What should happen\nA scheduled run publishes a snapshot that passes the gate, with every source non-empty.")
+          print("\n## Cause\nUnknown yet. Start with the run log and the `run-" + os.environ["RUN_ID"] + "` artifact (report and model log).")
+          print("\n## Plan\n1. Read the report and the log.\n2. Fix the adapter or the source; refreeze the fixture if a feed changed shape.\n3. Re-run the workflow.\nOut of scope: anything the report does not mention.")
+          print("\n## Done when\n- [ ] a run publishes with the gate passed and every source non-empty")
           PY
           if [ -s /tmp/issue.md ]; then
             gh label create "auto:build" --force --color D93F0B --description "opened by the build" >/dev/null

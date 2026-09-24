@@ -1,6 +1,6 @@
 # JCMaps
 Map of Jersey City events by time window. Static site + a Python pipeline run twice a day.
-Read docs/brief.md when a decision needs context; docs/issues/ holds open tickets.
+Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 
 ## Rules
 - Feeds are parsed by code. Model calls are single functions: no tools, schema output,
@@ -23,6 +23,8 @@ Read docs/brief.md when a decision needs context; docs/issues/ holds open ticket
   and tests/test_search.py runs their node tests.
 - Commits: the person committing is the author and is responsible for the change. No AI co-author
   trailers (Co-authored-by: Claude or similar); AI assistance is disclosed once, in the README.
+- Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request,
+  and the pull request ticks the ticket's Done-when list, saying how each item was checked.
 
 ## Commands
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
@@ -35,7 +37,7 @@ pipeline/   sources/, geocode.py, enrich.py, llm.py, check.py, gate.py, publish.
 fixtures/   frozen inputs per source (4 library calendars, 2 API pages); labeled/enrich.json is the labeled set
 data/       library_branches.json (config)
 site/       index.html, app.js, search.js; data/ is generated (events, enrich, geocode, report)
-docs/       brief.md, numbers.md, issues/
+docs/       brief.md, numbers.md
 city.json   boundary polygon, time zone, source list, site_url
 
 ## Not now

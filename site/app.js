@@ -44,8 +44,8 @@ function customWindow() {
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 function reportUrl(ev) {
-  const title = `Problem with event ${ev.id}: ${ev.title}`.slice(0, 120);
-  const body = `Event: ${ev.title}\nId: ${ev.id}\nSource: ${ev.url}\n\nWhat is wrong? (wrong time, wrong place, cancelled, not for kids, price, other)\n\n`;
+  const title = `Wrong listing: ${ev.title}`.slice(0, 120);
+  const body = `**Where:** data · **Seen:** live site, ${new Date().toISOString().slice(0, 10)}\n\nEvent: ${ev.title}\nId: ${ev.id}\nSource: ${ev.url}\n\n## What happens\n(What is wrong: the time, the place, it is cancelled, not for kids, the price, something else?)\n\n## What should happen\n\n`;
   return `https://github.com/${REPO}/issues/new?labels=report&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 }
 
