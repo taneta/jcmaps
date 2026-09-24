@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { fromLocal, windowFor, matches, search, localDateStr, listFor, pinCounts } from "./search.js";
+import { fromLocal, windowFor, matches, search, localDateStr, listFor, pinCounts, pinIcons } from "./search.js";
 
 const NOW = fromLocal(2026, 9, 24, 15, 0); // Thursday 3pm in Jersey City
 const iso = (d) => d.toISOString();
@@ -96,4 +96,15 @@ test("list: a tapped pin lists exactly as many events as its label", () => {
     assert.ok(list.inView.every((i) => i.venue.id === id));
     assert.deepEqual(list.unpinned, []);
   }
+});
+
+test("pins: the icon is the type the events share; several types show the place's icon, or several", () => {
+  const lib = { id: "lib", kind: "library", lat: 40.71, lon: -74.05 }, hall = { id: "hall", kind: null, lat: 40.72, lon: -74.04 };
+  const park = venue("park", 40.73, -74.03), cafe = venue("cafe", 40.74, -74.02);
+  const at = (v, type) => ({ event: { type }, venue: v });
+  const places = new Set(["library"]);
+  const one = pinIcons([at(lib, "stories"), at(lib, "stories"), at(hall, "shows"), at(hall, "unknown"), at(nowhere, "music")], places);
+  assert.deepEqual(Object.fromEntries(one), { lib: "stories", hall: "shows" }); // unknown does not make a mix
+  const several = pinIcons([at(lib, "stories"), at(lib, "crafts"), at(park, "markets"), at(park, "health"), at(cafe, "unknown")], places);
+  assert.deepEqual(Object.fromEntries(several), { lib: "library", park: "several", cafe: null });
 });

@@ -7,8 +7,8 @@ the `:root` block at the top of `site/index.html`; this file says what each is f
 ## Principles
 
 1. **The map is the content.** Surfaces are warm neutrals and the basemap is muted, so the pins carry the color.
-2. **Color means event.** Marigold marks events and nothing else: pins, clusters, the dot before a card's time, the
-   selected card, the app icon. Controls are ink: a pressed chip is dark on light.
+2. **Color means event.** Marigold marks events and nothing else: pins, clusters, the small pin before a card's time,
+   the selected card, the app icon. Controls are ink: a pressed chip is dark on light.
    Selection highlights and never recolors: a selected pin grows and glows.
 3. **Facts are solid, unknowns are dashed.** A filled tag states something from the listing; a dashed outline says
    the listing does not state it. This is the brief's "evidence or unknown" rule, made visible.
@@ -21,17 +21,17 @@ the `:root` block at the top of `site/index.html`; this file says what each is f
 
 | Token | Used for | Value |
 |---|---|---|
-| `--surface` | sheet, chips, map controls, banner text | `#FFFFFF` |
+| `--surface` | sheet, chips, map controls, banner text, count badges on pins | `#FFFFFF` |
 | `--surface-2` | fact tags, section headings | `#F4F1EC` |
-| `--ink` | titles, pressed controls, the banner, focus ring | `#1E1B17` |
+| `--ink` | titles, pressed controls, the banner, focus ring, numbers on count badges | `#1E1B17` |
 | `--ink-2` | summaries, links, unpressed segments | `#534D45` |
 | `--ink-3` | venue, hints, footer, unknown tags, map place names | `#736B61` |
 | `--line` | dividers, the ring around the sheet | `#EAE6E0` |
 | `--line-strong` | field borders, dashed tags, the grip | `#958C81` |
-| `--accent` | pins, clusters, the glow, the dot on a card, the icon: marigold | `#FFB627` |
-| `--accent-edge` | the thin ring around pins, clusters and the dot | `#B27200` |
+| `--accent` | pins, clusters, the glow, the small pin on a card, the app icon: marigold | `#FFB627` |
+| `--accent-edge` | the thin ring around pins, clusters, count badges and the small pin | `#B27200` |
 | `--accent-tint` | the selected card | `#FFF3D6` |
-| `--on-accent` | numbers on pins and clusters | `#1E1B17` |
+| `--on-accent` | numbers on clusters, icons on pins and cards | `#1E1B17` |
 | `--free-bg` / `--free-text` | the Free tag | `#E3F0DA` / `#2D6526` |
 | `--kids-bg` / `--kids-text` | the Kids tag | `#EDE7FA` / `#5A3DA6` |
 | `--map-land` | land, the page behind the map, theme-color | `#F3F0EA` |
@@ -46,8 +46,8 @@ the `:root` block at the top of `site/index.html`; this file says what each is f
   sunflower (too pale on the light map) and tangerine (closer to a warning).
 - **Why yellow needs a ring and dark numbers.** Marigold is light, so on the light map it barely differs from the land
   (1.5:1). A thin `--accent-edge` ring gives each pin its outline (3.5:1 on land, 3.1:1 in parks). It is the lightest
-  amber that still does, so it stays a soft tonal edge rather than an outline. The numbers are ink (9.8:1), never
-  white. Yellow text is unreadable on white, so a card's time is ink with a marigold dot in front.
+  amber that still does, so it stays a soft tonal edge rather than an outline. Numbers and icons on marigold are ink
+  (9.8:1), never white. Yellow text is unreadable on white, so a card's time is ink with a small marigold pin in front.
 - **Why the banner is ink.** An amber warning would look like an event, so the stale-data banner is inverted instead:
   `--ink` background, `--surface` text.
 - **Why Free is green and Kids is violet.** They mirror the two filters people use most, Free and Family. Every
@@ -64,7 +64,7 @@ nothing to download and it looks native.
 |---|---|---|
 | 16px | 500, 600 | card title and sheet count (600); inputs (500) |
 | 14px | 400, 500 | venue, summary, banner (400); chips and segments (500) |
-| 13px | 400 to 600 | time on a card (600), links (500), hints (400) |
+| 13px | 400 to 600 | type and time on a card (600), links (500), hints (400) |
 | 12px | 400 to 600 | footer (400), tags (500), section headings (600, uppercase, 0.06em tracking) |
 
 Line height is 1.45 for text and 1.3 for titles. There are no other sizes and nothing heavier than 600. Times and
@@ -95,9 +95,10 @@ counts use tabular numerals, so they line up.
 - **Sheet**: surface, 20px top corners, a grip (phones only), and a handle row with the count (16px/600), a hint
   (13px, `--ink-3`) and, while a pin is selected, the Clear text button. On a phone it covers 42% of the height, or
   88% expanded. From 900px wide it is a 420px panel floating on the right, 16px from the edges.
-- **Event card**: time (13px/600, `--ink-2`) after an 8px marigold dot, which is the pin in small; then the title
-  (16px/600), venue and organizer (`--ink-3`), summary (`--ink-2`), tags and links. Selected: `--accent-tint`
-  background. The card is one tap target, and each link is its own.
+- **Event card**: a 20px marigold pin with the event's icon (12px, `--on-accent`), 8px before the type's name and the
+  time (13px/600, `--ink-2`): "Art and crafts · Sat, Sep 26 · 9:30–11 AM". A card of unknown type has the pin without
+  an icon and no name. Then the title (16px/600), venue and organizer (`--ink-3`), summary (`--ink-2`), tags and
+  links. Selected: `--accent-tint` background. The card is one tap target, and each link is its own.
 - **Tags**: 12px/500 pills. A fact (price text, ages, Registration) is `--surface-2` with `--ink-2`; Free and Kids
   use their own colors. An unknown (kids: not stated, price not listed, ages not stated) is a dashed
   `--line-strong` outline with `--ink-3` text.
@@ -115,18 +116,57 @@ counts use tabular numerals, so they line up.
 - **Basemap.** OpenFreeMap's `positron`. `tintBasemap()` in `app.js` paints land, water, parks and buildings with the
   `--map-*` tokens, softens place names to `--ink-3` and hides route-number shields. It matches layers by type and
   source layer rather than by id, so a style update leaves a new layer untinted instead of breaking the page.
-- **Pins.** `--accent` circles with a 1.5px `--accent-edge` ring, 9, 12 or 15px as the event count grows. Counts above
-  one are in `--on-accent`, Noto Sans Bold 11px, from OpenFreeMap's glyphs.
-- **Clusters.** Drawn like pins, 16, 20 or 25px, with a 13px count; their size tells them apart.
-- **Selected venue.** Highlighted, never recolored: the pin grows by 4px, its ring thickens to 2.5px and its count to
-  13px, and a soft marigold glow (80%, blurred, 16px beyond the pin) lies beneath it. On the map, a glow means
+- **Pins.** `--accent` circles of 14px radius with a 1.5px `--accent-edge` ring and one icon (16px, `--on-accent`)
+  chosen as in Icons below. A pin with more than one event carries the count on a badge on its top-right edge:
+  `--surface` with a 1px `--accent-edge` ring and the number in `--ink`, Noto Sans Bold 11px, from OpenFreeMap's
+  glyphs. The count tells whether a tap shows one event or several.
+- **Clusters.** Drawn like pins, 16, 20 or 25px, with a 13px count in the middle and no icon; the number in the
+  middle tells a cluster from a pin.
+- **Selected venue.** Highlighted, never recolored: the pin grows by 4px and its icon to 20px, its ring thickens to
+  2.5px, and a soft marigold glow (80%, blurred, 16px beyond the pin) lies beneath it. On the map, a glow means
   "selected" and nothing else.
 - **Controls.** MapLibre's own controls, restyled: 44px buttons in a 12px-radius group with the float shadow. A phone
   shows only "locate me", above the sheet on the right, within reach of a thumb; a mouse also gets zoom buttons. On
   desktop, the controls and the attribution sit left of the sheet. The OpenStreetMap attribution stays visible: the
   license requires it.
-- **Pin styles by organizer type** (open decision 2 in the brief): if they come, vary the shape or the ring, not the
-  color, so that color keeps meaning "event".
+- **No pin styles by organizer type** (open decision 2 in the brief, closed by Icons): one mark per pin is enough,
+  and what is on matters more than who runs it.
+
+## Icons
+
+One icon on each pin says what is on there, and each card in the list starts with its event's icon and the type's
+name. The icons are Phosphor Icons 2.1 (MIT license, fill weight), kept as SVG paths in `site/icons.js` with the
+license notice: nothing to download, painted with `--on-accent`, never a new color.
+
+| Type | Icon | Name on a card | For example |
+|---|---|---|---|
+| `festivals` | confetti | Festivals | festivals, parades, block parties |
+| `markets` | storefront | Markets and fairs | farmers markets, fairs, sales, swaps |
+| `stories` | book-open | Stories and books | storytimes, book clubs, poetry, Bookmobile stops |
+| `games` | puzzle-piece | Games | bingo, chess, board games, trivia, Lego |
+| `shows` | mask-happy | Shows and films | theater, puppet shows, comedy, movies |
+| `music` | music-notes | Music and dance | concerts, karaoke, salsa, dance classes |
+| `health` | heartbeat | Health and sport | yoga, run clubs, vaccine clinics |
+| `crafts` | palette | Art and crafts | crafts, painting, sewing, exhibitions |
+| `classes` | graduation-cap | Classes and talks | languages, tech help, talks, workshops |
+| `meetups` | users-three | Meetups | mixers, speed dating, volunteering |
+
+- **The icon on a pin**, from its events in view (the ones its badge counts): the type they share. When they are of
+  several types, the place's own icon, or a calendar (`calendar-dots`) for a place without one. Events of unknown
+  type do not count, and a pin whose events are all unknown stays plain. One rule for every place:
+  `pinIcons()` in `site/search.js`.
+- **Place icons** belong to a `Venue.kind` in `PLACES` in `site/icons.js`: today only `library`, the columned building
+  (`bank`), which is what the main library looks like. A kind of place gets an icon when it regularly hosts several
+  kinds of events. On most maps the columned building means a museum; if museums arrive, the library can take books
+  on a shelf (`books`).
+- **Where a type comes from.** Code, never the model: `type_of()` in `pipeline/enrich.py` takes the first type whose
+  words are in the title, else the first of the feed's own categories that names one, and keeps the matched words as
+  evidence. Nothing matched is `unknown`. The order settles overlaps: a festival with a band is a festival, musical
+  bingo is a game. About 92% of events had a type on 2026-09-24.
+- **In the list**, a card shows its own event's icon whatever the pin shows, and the type's name next to it, so the list
+  reads by kind without learning the icons. The icon is `aria-hidden`; the name says it.
+- **Adding a type** means a line in `EventType` and `TITLE_WORDS` in the pipeline and an icon and a name in
+  `site/icons.js`, all in the same order; `test_every_type_has_an_icon_and_a_name` keeps them together.
 
 ## Accessibility
 
@@ -138,7 +178,8 @@ counts use tabular numerals, so they line up.
 - Motion: the sheet's 200ms height change is the only animation, and `prefers-reduced-motion` turns it off. MapLibre
   skips its fly-to animation under the same setting.
 - Color never carries meaning alone: Free and Kids are words, unknown tags also differ by outline, and a selected
-  pin also grows and changes the list heading to "N events at" the venue.
+  pin also grows and changes the list heading to "N events at" the venue. An icon never stands alone either: every
+  card names its type.
 
 ## Where the values live
 
@@ -146,7 +187,9 @@ counts use tabular numerals, so they line up.
 |---|---|---|
 | `site/index.html`, the `:root` block | every token | this file |
 | `site/index.html`, everything else in `<style>` | `var()` references only | `test_colors_are_tokens` |
-| `site/app.js` | token names, read at load for the map | `test_colors_are_tokens` |
+| `site/app.js` | token names, read at load for the map and its icons | `test_colors_are_tokens` |
+| `site/icons.js` | icon paths, type names, place icons; no colors | `test_every_type_has_an_icon_and_a_name` |
+| `pipeline/enrich.py`, `TITLE_WORDS` and `CATEGORY_WORDS` | the words that decide a type | `tests/test_enrich.py` |
 | `<meta name="theme-color">` | `--map-land` | `test_copies_match_tokens` |
 | `site/manifest.webmanifest` | `--map-land` | `test_copies_match_tokens` |
 | `site/icon.svg` | palette colors only, `--accent` among them | `test_copies_match_tokens` |
@@ -156,6 +199,6 @@ counts use tabular numerals, so they line up.
 Change the token, not the component. Run `uv run pytest`, then look at the page at phone width and on desktop.
 A new component uses the existing tokens; a new token is a decision, recorded here with its reason.
 
-Not now: web fonts, an icon set, illustrations, animation beyond the sheet, and a dark theme. The dark theme came out
+Not now: web fonts, icons beyond the ones in Icons, illustrations, animation beyond the sheet, and a dark theme. The dark theme came out
 on 2026-09-24 because dark maps are hard to read. Its tokens and the dark map tinting are in the history of #10; if
 it comes back, it first needs a map that stays legible at night.

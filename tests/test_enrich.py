@@ -95,3 +95,26 @@ def test_cache_prunes_unused_entries(make_raw, tmp_path):
     after = json.loads((tmp_path / "e.json").read_text())
     assert stats["pruned"] == 1 and "deadbeef" not in after and "recent" in after
     assert after[sha(raw.enrich_text())]["seen"] >= "2026-09-24" and fields["t:1"]["summary"]
+
+
+def test_type_comes_from_the_title_then_the_feed_categories(make_raw):
+    from pipeline.util import normalize
+
+    def type_of(title, categories=()):
+        raw = make_raw(title=title, categories=list(categories))
+        kind, why = enrich.type_of(raw)
+        assert why is None or normalize(why.quote) in normalize(raw.enrich_text())  # evidence, like any other field
+        return kind, why and why.from_
+
+    assert type_of("Hamilton Park Farmers Market 2026") == ("markets", "title")
+    assert type_of("Egyptian Festival 2026") == ("festivals", "title")
+    assert type_of("Bonetti Storytime") == ("stories", "title")
+    assert type_of("NJ Symphony Arts & Music Festival Kids Day")[0] == "festivals"  # the order settles overlaps
+    assert type_of("Musical Bingo for Adults")[0] == "games"
+    assert type_of("History on the Hudson")[0] == "classes"  # "story" inside "History" is no story
+    assert type_of("Community Business Academy: Start, Scale & Sustain")[0] == "classes"  # nor "art" inside "Start"
+    assert type_of("SAT Diagnostic Tests Session")[0] == "classes" and type_of("Sat. Social")[0] == "unknown"
+    assert type_of("Paper Architects", ["October", "Popular Events > Arts and Crafts Events"]) == ("crafts", "categories")
+    assert type_of("Teen Advisory Board", ["Teen Programs"]) == ("unknown", None)
+    f = enrich.merge(make_raw(title="Run Club"), None)
+    assert f["type"] == "health" and f["evidence"]["type"].quote == "Run Club"

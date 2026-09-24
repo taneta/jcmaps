@@ -119,6 +119,23 @@ export function pinCounts(items) {
   return counts;
 }
 
+// The icon on each pin, from the same items as its number (docs/design.md, Icons): the type they share; when they are
+// of several types, the venue's kind if that has an icon (places), else "several". Unknown types do not count, and a
+// venue with none known gets null, a plain pin.
+export function pinIcons(items, places = new Set()) {
+  const types = new Map();
+  for (const i of items) {
+    if (!pinned(i)) continue;
+    if (!types.has(i.venue.id)) types.set(i.venue.id, { kind: i.venue.kind, seen: new Set() });
+    if (i.event.type && i.event.type !== "unknown") types.get(i.venue.id).seen.add(i.event.type);
+  }
+  const icons = new Map();
+  for (const [id, { kind, seen }] of types) {
+    icons.set(id, seen.size === 1 ? [...seen][0] : seen.size === 0 ? null : places.has(kind) ? kind : "several");
+  }
+  return icons;
+}
+
 // The list under the map: items whose pin is inside bounds ([[west, south], [east, north]]; null means no map),
 // or, after a pin is tapped, that venue's items, since its pin is on screen. Items without a pin cannot be in view,
 // so they are listed apart, and not at all while a pin is tapped.

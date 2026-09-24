@@ -24,7 +24,7 @@ def compose(raws: list[Raw], fields: dict[str, dict], venues: dict[str, Venue], 
         span = (r.end_utc - r.start_utc) if r.end_utc else timedelta(0)
         ev = Event(
             id=r.id, source_id=r.source_id, source_uid=r.source_uid, title=r.title, url=r.url,
-            organizer_name=r.organizer_name, organizer_type=f["organizer_type"], topics=f["topics"],
+            organizer_name=r.organizer_name, organizer_type=f["organizer_type"], topics=f["topics"], type=f["type"],
             kid_friendly=f["kid_friendly"], age_min=f["age_min"], age_max=f["age_max"], age_text=f["age_text"],
             price=f["price"], price_text=f["price_text"], registration=f["registration"], summary=f["summary"],
             ongoing=span > timedelta(hours=24) and not (r.all_day and span <= timedelta(days=1)),
