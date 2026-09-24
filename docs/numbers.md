@@ -24,4 +24,4 @@ The done-when column in the brief's day-one table is the prediction; this file r
 - Kid-friendly before the model: yes 148, no 10, unknown 335; after: yes 309, no 58, unknown 121. Price after: free 406, paid 6, unknown 76. Registration: yes 72, no 21. Every event has a summary; 195 carry the listing's own age wording.
 - Prompt follow-ups for the first scored change: summarize from title and venue when a listing has no description; do not infer kid-friendly from a ceremony's title.
 - Jersey City Connects' API says its timezone is UTC+0 while its times are local; the adapter treats wall time as Jersey City time.
-- Deploy (step 6) waits for the GitHub repo; the hand-check (step 3) is done.
+- Deployed 2026-09-24 to https://taneta.github.io/jcmaps/ from github.com/taneta/jcmaps. The first run crashed on an empty variable and opened its own issue; the second published 488 events with geocoding done on the runner (191 s cold). Model enrichment in Actions starts once the OPENAI_API_KEY secret exists.
