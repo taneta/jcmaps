@@ -64,7 +64,7 @@ nothing to download and it looks native.
 |---|---|---|
 | 16px | 500, 600 | card title and sheet count (600); inputs (500) |
 | 14px | 400, 500 | venue, summary, banner (400); chips and segments (500) |
-| 13px | 400 to 600 | type and time on a card (600), links (500), hints (400) |
+| 13px | 400 to 600 | type and time on a card (600), links (500), hints and the Free note (400) |
 | 12px | 400 to 600 | footer (400), tags (500), section headings (600, uppercase, 0.06em tracking) |
 
 Line height is 1.45 for text and 1.3 for titles. There are no other sizes and nothing heavier than 600. Times and
@@ -83,12 +83,13 @@ counts use tabular numerals, so they line up.
 ## Components
 
 - **Time chips** (`#windows .chip`): 36px pills, 14px/500, ink on surface; pressed is an ink fill with surface text.
-  One is always pressed. On a phone the row scrolls sideways and brings the pressed chip into view.
+  One is always pressed, Today by default. The four (Today, Tomorrow, Weekend, Dates) fit on one line at 375px;
+  "Dates" is short so that they do. A narrower phone scrolls the row sideways and brings the pressed chip into view.
 - **Segmented control** (`.seg`, Family | Everyone): one pill holding two buttons; the chosen one is ink. Use it for
   a choice between two named states, never a single button whose label flips.
 - **Toggle chip** (Free): a chip with `aria-pressed`, looking like a time chip.
-- **Field chip** (Age, From, To): a `label.chip` around its input, so the label text names it. Number fields get a
-  pill border; date fields have none, because the chip is their frame.
+- **Field chip** (From, To, under Dates): a `label.chip` around its date input, so the label text names it. The
+  input has no border of its own, because the chip is its frame.
 - **Text button** (for example, clearing a selected pin): 14px/600 in `--ink-2`, no fill, 44px tall. Never `--accent`.
 - **Banner** (`#banner`): inverted, `--surface` text on `--ink`, with a 12px radius and the float shadow, inside the
   12px margins. It is for stale data only; a failed load says so in the list.
@@ -100,10 +101,13 @@ counts use tabular numerals, so they line up.
   an icon and no name. Then the title (16px/600), venue and organizer (`--ink-3`), summary (`--ink-2`), tags and
   links. Selected: `--accent-tint` background. The card is one tap target, and each link is its own.
 - **Tags**: 12px/500 pills. A fact (price text, ages, Registration) is `--surface-2` with `--ink-2`; Free and Kids
-  use their own colors. An unknown (kids: not stated, price not listed, ages not stated) is a dashed
+  use their own colors. An unknown (kids: not stated, price not listed) is a dashed
   `--line-strong` outline with `--ink-3` text.
 - **Links**: 13px/500, underlined in `--line-strong`; "Source ↗" in `--ink-2`, "Report a problem" in `--ink-3`,
   both full ink on hover.
+- **Note** (what Free left out): while Free is on, the first row of the list says how many events it left out for
+  not listing a price ("9 more don't list a price"), counted where the list counts events. 13px `--ink-3` on
+  `--surface-2`, full width, with a `--line` below. Free stays strict and says so, rather than hiding quietly.
 - **Section heading** (Ongoing, No map pin): 12px/600 uppercase in `--ink-3` on `--surface-2`.
 - **Empty state and footer**: `--ink-3`; the empty state is centered, the footer 12px.
 - **App icon** (`site/icon.svg`, also the favicon): Jersey City's strip of land (`--map-land`) between the

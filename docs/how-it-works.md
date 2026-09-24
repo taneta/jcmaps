@@ -69,9 +69,10 @@ flowchart TB
 
 ## The page
 
-Pick a time window (now, afternoon, evening, tomorrow, weekend or dates), Family or Everyone, Free, and a child's
-age. Each pin shows what kind of event is on and how many, and the list shows the events in view. Family hides
-only events marked not for kids; unknowns show with a label. Data more than a day old shows a banner.
+Pick a time window (today, the default; tomorrow, weekend or dates), Family or Everyone, and Free. Each pin shows
+what kind of event is on and how many, and the list shows the events in view. Family hides only events marked not
+for kids; unknowns show with a label. Free shows only events that say they are free, and the list says how many it
+left out for not listing a price. Data more than a day old shows a banner.
 
 ## Where the code is
 
