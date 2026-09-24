@@ -48,7 +48,7 @@ Library calendar ids: Main 17419, Morgan 17420, West Bergen 17421, Pavonia 17422
 Source rules:
 - **The library venue is the calendar**, not the LOCATION field, which holds room codes such as `PGML- Bonetti Room`. Exceptions: Bookmobile and Spotlight, where LOCATION says "Offsite" and the address is in the description; enrichment extracts it.
 - **Library audience** comes from categories: Storytime, Children and All-Ages mean kid-friendly yes; Adults (19+) means no.
-- **Library price** is free by adapter rule, with "library program" recorded as the evidence, unless the description mentions a fee. A ticket counts as a fee only in a sentence about buying it, because branches also hand out free entry tickets.
+- **Library price** is free by adapter rule, with "library program" recorded as the evidence, unless the listing talks about money: a price, a fee, a cost, a fundraiser, or a ticket in a sentence about buying it (branches also hand out free entry tickets). Then the model decides, with a quote. The word "free" decides nothing on its own, because it is part of the library's name.
 - **An empty `cost` field in The Events Calendar means unknown, not free.** Only the word free or a zero means free.
 - **Boundary:** occurrences outside the city polygon are dropped and counted in the run report.
 

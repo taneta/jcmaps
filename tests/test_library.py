@@ -63,6 +63,17 @@ def test_a_ticket_is_a_fee_only_when_it_is_bought():
         assert one_event(text).price == "unknown", text
 
 
+def test_money_talk_leaves_the_price_to_the_model():
+    # "Free" in the library's own name used to mark ticketed fundraisers free (#24).
+    raws = [r for p in FIX.glob("*.ics") for r in library.parse(p.read_text(), p.stem, {"name": p.stem, "address": None})]
+    for title in ("The Curious Pint", "Library of Shadows"):
+        found = [r for r in raws if r.title.startswith(title)]
+        assert found and all(r.price == "unknown" for r in found), title
+    talk = next(r for r in raws if r.title == "Author Talk: Katie Yee")  # "copies available for purchase" is a book sale
+    assert talk.price == "free" and talk.evidence["price"].quote == "library program"
+    assert one_event("A talk at the Jersey City Free Public Library. Tickets are $5.").price == "unknown"
+
+
 def test_every_feed_parses():
     total = sum(len(library.parse(p.read_text(), p.stem, {"name": p.stem, "address": None})) for p in FIX.glob("*.ics"))
     assert total == 510  # Main, Pavonia, Bookmobile and Spotlight are frozen; they cover every special case
