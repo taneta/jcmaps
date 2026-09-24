@@ -108,6 +108,17 @@ def test_a_source_that_cannot_be_fetched_keeps_its_last_good_events(build):
     assert all(o["venue_id"] in venues for o in snap["occurrences"] if o["venue_id"])
 
 
+def test_events_carried_from_an_older_snapshot_take_the_new_fields_defaults(build):
+    build(T0)
+    old = json.loads(publish.SNAPSHOT.read_text())
+    for e in old["events"]:
+        del e["type"]  # as published before event types (#18)
+    publish.SNAPSHOT.write_text(json.dumps(old))
+    code, rep, snap = build(T0 + timedelta(hours=6), down={"culture"})
+    assert code == 0 and rep["sources"]["culture"]["state"] == "degraded"
+    assert {e["type"] for e in snap["events"] if e["source_id"] == "culture"} == {"unknown"}
+
+
 def test_a_source_down_for_a_day_is_left_out_until_it_fetches_again(build):
     _, _, first = build(T0)
     build(T0 + timedelta(hours=12), down={"culture"})
