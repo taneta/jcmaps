@@ -18,11 +18,12 @@ KID_YES = {"Storytime Events", "Children Events", "All-Ages Events", "Family Eve
 KID_NO = {"Older Adults Events"}
 NOISE = re.compile(r"^(January|February|March|April|May|June|July|August|September|October|November|December"
                    r"|Blue Schedule|Red Schedule|Popular Events|Other/Multidisciplinary)$")
-FREE = re.compile(r"\bfree\b", re.I)
-# A ticket is a fee only in a sentence about buying it: branches also hand out free entry tickets (#17).
-FEE = re.compile(r"\$\s?\d|\bfees?\b|\bcosts?\b|\bpurchase\b"
-                 r"|\btickets?\b[^.!?\n]*\b(?:buy|bought|purchas\w*|sold|sell\w*|sales?|price\w*)\b"
-                 r"|\b(?:buy|bought|purchas\w*|sold|sell\w*)\b[^.!?\n]*\btickets?\b", re.I)
+# Talk of money leaves the price to the model: a price, a fee, a cost, a fundraiser, or a ticket in a sentence about
+# buying it (branches also hand out free entry tickets, #17). The word "free" decides nothing on its own: it is in the
+# library's name, "Jersey City Free Public Library" (#24).
+MONEY = re.compile(r"\$\s?\d|\bfees?\b|\bcosts?\b|\bfundrais\w*"
+                   r"|\btickets?\b[^.!?\n]*\b(?:buy|bought|purchas\w*|sold|sell\w*|sales?|price\w*)\b"
+                   r"|\b(?:buy|bought|purchas\w*|sold|sell\w*)\b[^.!?\n]*\btickets?\b", re.I)
 BOOKMOBILE_STOP = re.compile(r"^(?P<place>.+?)\s*-\s*[^-]*?,?\s*Bookmobile Stop\s*$", re.I)
 
 
@@ -99,10 +100,7 @@ def parse(text: str, cid: str, branch: dict | None) -> list[Raw]:
             kid = "no"
             evidence["kid_friendly"] = Evidence(quote=next(c for c in short if c in KID_NO).lower(), from_="categories")
         price = "unknown"
-        if FREE.search(title) or FREE.search(description):
-            price = "free"
-            evidence["price"] = Evidence(quote="free", from_="title" if FREE.search(title) else "description")
-        elif not FEE.search(description):
+        if not (MONEY.search(title) or MONEY.search(description)):
             price = "free"
             evidence["price"] = Evidence(quote="library program", from_="rule")
         evidence["organizer_type"] = Evidence(quote="public library", from_="rule")
