@@ -5,7 +5,6 @@ const DATA = "data/events.json";
 const $ = (s) => document.querySelector(s);
 // Colors are the CSS tokens in index.html (docs/design.md); the map reads them, so it follows the theme.
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim();
-const dark = matchMedia("(prefers-color-scheme: dark)").matches;
 
 const state = { window: "weekend", view: "family", freeOnly: false, childAge: null, venue: null, custom: null };
 let snapshot = null, map = null, current = null, selected = null;
@@ -172,8 +171,7 @@ function tintBasemap() {
 
 function initMap() {
   const c = snapshot.city;
-  // The map style is picked once, at load: a theme change shows on the next visit.
-  map = new maplibregl.Map({ container: "map", style: `https://tiles.openfreemap.org/styles/${dark ? "dark" : "positron"}`, center: c.center, zoom: 12.4,
+  map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/positron", center: c.center, zoom: 12.4,
     maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true },
     dragRotate: false, maxPitch: 0 }); // north-up and flat: nothing to undo, and "in view" is what the screen shows
   map.touchZoomRotate.disableRotation();
