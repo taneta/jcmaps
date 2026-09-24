@@ -87,7 +87,7 @@ Event       id, source_id, source_uid, title, url, organizer_name,
             first_seen, last_seen, updated_at
 Occurrence  event_id, venue_id|null, start_utc, end_utc|null, all_day, tz
 Filter      window_start, window_end, bbox, view (family|everyone), free_only,
-            child_age|null, topics[]      # shared by the UI, v3 search and the MCP tool
+            topics[]      # shared by the UI, v3 search and the MCP tool
 Submission  (v2) id, channel (photo|text), raw_ref, input_hash, submitter_id,
             status (pending|published|rejected|escalated), reason, created_at
 ```
@@ -98,17 +98,16 @@ Raw text fields such as `age_text` and `price_text` are kept and shown, because 
 
 - Time zone America/New_York; store UTC plus the zone.
 - An occurrence matches a window if it starts before the window ends and ends after it starts. A missing end means two hours. All-day items match any window on their date.
-- Windows: Now (the next three hours), Afternoon (12:00 to 17:00), Evening (17:00 to 21:00), Tomorrow, Weekend, or a custom range, up to 30 days ahead.
+- Windows: Today (from now until midnight, so what ended earlier today is gone and what is under way stays; the default), Tomorrow, Weekend, or Dates, a custom range up to 30 days ahead.
 - **View.** Family, the default, hides `kid_friendly: no`. Everyone shows all. Unknown is always shown, with a label.
-- **Free only** shows `price: free`. Unknown prices carry a "price not listed" label.
-- **Child age**, optional: an event matches if the age is within its range, or if its range is unknown, with a label.
+- **Free only** shows `price: free`, so stating a price never costs an event visibility and saying "free" earns it; hiding only known-paid events would reward listings that say nothing. While Free is on, the list says how many events it left out for not listing a price. Without Free, unknown prices carry a "price not listed" label.
 - Ongoing items appear in a separate layer.
 
 The rules are pure functions over the snapshot, tested with a fixed clock.
 
 ## Frontend
 
-Static, no framework: one HTML file and one module. MapLibre GL JS with a vector basemap, clustered pins from a GeoJSON source, and a bottom-sheet list that follows the viewport: the count is the pinned events in view, events without a pin sit under their own heading, and a tapped pin lists its venue's events until the map moves. The map stays north-up and flat. Controls: time chips, Family or Everyone, Free, an age field. Each pin shows one icon for what is on there and a badge with its count; when its events are of several types it shows the place's own icon (a library) or a calendar (see `docs/design.md`, Icons). An event card starts with its event's icon and type, and shows title, time, venue, price, ages, summary, the source link and a "Report a problem" link that opens a prefilled issue with the event id and a reason. The page shows when the snapshot was generated and a warning banner when it is older than a day. Phone width first, tap targets of 44 px, no horizontal scroll. A manifest for add-to-home-screen; a service worker that caches the snapshot is optional.
+Static, no framework: one HTML file and one module. MapLibre GL JS with a vector basemap, clustered pins from a GeoJSON source, and a bottom-sheet list that follows the viewport: the count is the pinned events in view, events without a pin sit under their own heading, and a tapped pin lists its venue's events until the map moves. The map stays north-up and flat. Controls: time chips (Today, Tomorrow, Weekend, Dates), Family or Everyone, Free. Each pin shows one icon for what is on there and a badge with its count; when its events are of several types it shows the place's own icon (a library) or a calendar (see `docs/design.md`, Icons). An event card starts with its event's icon and type, and shows title, time, venue, price, ages, summary, the source link and a "Report a problem" link that opens a prefilled issue with the event id and a reason. The page shows when the snapshot was generated and a warning banner when it is older than a day. Phone width first, tap targets of 44 px, no horizontal scroll. A manifest for add-to-home-screen; a service worker that caches the snapshot is optional.
 
 Basemap: OpenFreeMap's hosted `positron` style, tinted with the palette in `docs/design.md`; no key, no file. Day one used `liberty`. In v1.x, a PMTiles extract of the city from Protomaps' daily build (`pmtiles extract https://build.protomaps.com/<date>.pmtiles jc.pmtiles --bbox=-74.13,40.65,-74.01,40.78`), one static file on Pages, for independence.
 

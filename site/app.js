@@ -1,4 +1,4 @@
-import { search, fromLocal, localParts, listFor, pinCounts, pinIcons } from "./search.js";
+import { search, fromLocal, localParts, listFor, pinCounts, pinIcons, WINDOWS } from "./search.js";
 import { ICONS, PLACES, TYPES } from "./icons.js";
 
 const REPO = "taneta/jcmaps"; // "Report a problem" opens a prefilled issue here
@@ -7,24 +7,24 @@ const $ = (s) => document.querySelector(s);
 // Colors are the CSS tokens in index.html (docs/design.md); the map reads them, so it follows the theme.
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim();
 
-const state = { window: "weekend", view: "family", freeOnly: false, childAge: null, venue: null, custom: null };
+const state = { window: "today", view: "family", freeOnly: false, venue: null, custom: null };
 let snapshot = null, map = null, current = null, selected = null;
 
-// ---- URL state, so a link can carry a filter ("weekend, free, age 5") ----
+// ---- URL state, so a link can carry a filter ("tomorrow, free") ----
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
-  if (p.get("w")) state.window = p.get("w");
   if (p.get("v") === "everyone") state.view = "everyone";
   state.freeOnly = p.get("free") === "1";
-  state.childAge = p.get("age") ? +p.get("age") : null;
   if (p.get("from") && p.get("to")) state.custom = { from: p.get("from"), to: p.get("to") };
+  // An old link (w=now, afternoon, evening) or a window without dates opens on Today; age= is ignored.
+  const w = p.get("w");
+  state.window = WINDOWS.includes(w) || (w === "custom" && state.custom) ? w : "today";
 }
 function writeHash() {
   const p = new URLSearchParams();
   p.set("w", state.window);
   if (state.view === "everyone") p.set("v", "everyone");
   if (state.freeOnly) p.set("free", "1");
-  if (state.childAge != null) p.set("age", state.childAge);
   if (state.window === "custom" && state.custom) { p.set("from", state.custom.from); p.set("to", state.custom.to); }
   history.replaceState(null, "", "#" + p.toString());
 }
@@ -78,13 +78,16 @@ function card(item) {
 
 function render() {
   if (!snapshot) return;
-  const filter = { window: state.window === "custom" && state.custom ? customWindow() : (state.window === "custom" ? "weekend" : state.window),
-    view: state.view, freeOnly: state.freeOnly, childAge: state.childAge };
+  const filter = { window: state.window === "custom" ? customWindow() : state.window, view: state.view, freeOnly: state.freeOnly };
   current = search(snapshot, filter, new Date());
   const all = current.results.concat(current.ongoing);
   const counts = pinCounts(all), icons = pinIcons(all, new Set(Object.keys(PLACES)));
   if (!counts.has(state.venue)) state.venue = null; // a filter took the tapped pin off the map
-  const { inView, unpinned } = listFor(all, map ? map.getBounds().toArray() : null, state.venue);
+  const bounds = map ? map.getBounds().toArray() : null;
+  const { inView, unpinned } = listFor(all, bounds, state.venue);
+  // Free leaves out events that do not list a price; the list says how many, counted where it lists events.
+  const left = state.freeOnly ? listFor(current.unlisted, bounds, state.venue) : { inView: [], unpinned: [] };
+  const leftOut = left.inView.length + left.unpinned.length;
   const ongoing = inView.filter((i) => i.event.ongoing);
   const venueName = state.venue && snapshot.venues.find((v) => v.id === state.venue)?.name;
   $("#count").textContent = `${inView.length} event${inView.length === 1 ? "" : "s"}${venueName ? " at " + venueName : " in view"}`;
@@ -92,6 +95,7 @@ function render() {
   $("#clear").hidden = !state.venue;
   let html = inView.filter((i) => !i.event.ongoing).map(card).join("");
   if (!inView.length) html = `<div class="empty">Nothing on the map here for this window. Try another time, zoom out, or switch to Everyone.</div>`;
+  if (leftOut) html = `<div class="note">${leftOut} more ${leftOut === 1 ? "doesn't" : "don't"} list a price</div>` + html;
   if (ongoing.length) html += `<div class="section">Ongoing (${ongoing.length})</div>` + ongoing.map(card).join("");
   if (unpinned.length) html += `<div class="section">No map pin (${unpinned.length})</div>` + unpinned.map(card).join("");
   const gen = new Date(snapshot.generated_at);
@@ -116,7 +120,6 @@ function syncControls() {
   $("#dates").classList.toggle("on", state.window === "custom");
   for (const b of document.querySelectorAll("#view button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.view));
   $("#free").setAttribute("aria-pressed", String(state.freeOnly));
-  $("#age").value = state.childAge ?? "";
   if (state.custom) { $("#d1").value = state.custom.from; $("#d2").value = state.custom.to; }
 }
 
@@ -140,7 +143,6 @@ function wire() {
     state.view = b.dataset.v; syncControls(); render();
   });
   $("#free").addEventListener("click", () => { state.freeOnly = !state.freeOnly; syncControls(); render(); });
-  $("#age").addEventListener("change", (e) => { const v = e.target.value; state.childAge = v === "" ? null : Math.max(0, Math.min(17, +v)); render(); });
   const sheet = $("#sheet");
   $("#handle").addEventListener("click", () => {
     sheet.classList.toggle("full", !sheet.classList.contains("full") && !sheet.classList.contains("peek"));
