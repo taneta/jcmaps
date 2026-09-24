@@ -69,13 +69,13 @@ Stages are plain functions with files between them. The scheduled job runs them 
 5. **Check.** Rules only in v1: required fields, start in the future or ongoing, inside the boundary, duplicates. Duplicates share a venue and a date, overlap in time and have similar titles, or one title starts with the other's first three words; the record with more evidence wins and keeps every URL. A title containing cancelled or postponed sets the status to cancelled. Failures go to the run report with a reason.
 6. **Publish.** Write `site/data/events.json` (events, occurrences, venues, generated_at) and the run report; the workflow deploys `site/` to GitHub Pages. Nothing is committed: the next run pulls the snapshot and caches back from the live site. The snapshot passes the publish gate first, compared with the last good snapshot; if it fails, the last good snapshot stays and an issue opens. The job runs twice a day, about 2am and 7am local time (cron is in UTC). Cancellations show within hours because feeds are re-read on every run.
 
-Run report per run: events per source, drops with reasons, geocode failures, model calls, cost, duration, the gate result. A source returning zero events opens a GitHub issue.
+Run report per run: events and state per source, drops with reasons, geocode failures, model calls, cost, duration, the gate result. A source that cannot be fetched or returns zero events opens a GitHub issue.
 
 ## Data model
 
 ```
-Source      id, name, kind (ics|tribe|page), url, state (active|degraded|disabled),
-            failed_runs, last_run, last_count, last_good_count
+Source      id, name, kind (ics|tribe|page), url, state (active|degraded|down),
+            carried_from, last_run, last_count, last_good_count
 Venue       id, name, aliases[], address, lat, lon, kind, osm_id
 Event       id, source_id, source_uid, title, url, organizer_name,
             organizer_type (city|business|community|unknown), topics[],
@@ -132,8 +132,8 @@ A closed loop has three parts: a check that runs without a person, a response th
 |---|---|---|---|
 | Evidence is real | A quote is not a substring of the normalized input | The field becomes unknown | Code, per item |
 | Publish gate | Against the last good snapshot: a source shrinks by over 30%, a past occurrence, a pin outside the boundary, a schema failure | The last good snapshot stays; an issue opens | Code, then repair |
-| Source health | Zero events, or a drop rate over 30%, for two runs | The source is marked degraded and its last good data carried forward; disabled after five failed runs; re-enabled on the first success | Code, then repair |
-| Cancellations | "Cancelled" or "postponed" in a title, or an occurrence gone from its feed | Marked cancelled and hidden. Each run rebuilds from the feeds, so a vanished occurrence drops on the next run; data carried forward for a degraded source drops after two runs | Code |
+| Source health | A source's fetch fails (an error; a feed that answers with fewer events is left to the publish gate) | The source is degraded: its last good events are carried forward for 24 hours after its last successful fetch, and the same checks and gate judge them. Then it is down: left out without failing the gate, and back on its first successful fetch. Either way an issue opens | Code, then repair |
+| Cancellations | "Cancelled" or "postponed" in a title, or an occurrence gone from its feed | Marked cancelled and hidden. Each run rebuilds from the feeds, so a vanished occurrence drops on the next run; data carried forward for a degraded source drops 24 hours after its last successful fetch | Code |
 | Model drift | The labeled set re-enriched weekly; agreement under 90% | New enrichments rejected, cached values kept, an issue opens | Code; a person picks the prompt or model |
 | Change control | Any change to the prompt or model | Scored on the labeled set first; replaces cached values only if it scores at least as well | Code |
 | Cost cap | Model spend over the cap during a run | Enrichment stops, the run publishes from cache, an issue opens | Code |
@@ -146,7 +146,7 @@ A closed loop has three parts: a check that runs without a person, a response th
 - **No second-model checker in v1.** Every v1 event exists because a feed said so, so existence needs no checking; the model only classifies. The substring rule catches a hallucinated quote deterministically and the weekly canary catches drift. The checker on a different model returns in v2, when input becomes untrusted.
 - **The repair loop** is v0.3's self-repair scoped down from "agents write parsers for new sources" to "agents fix what the checks flag." The gates make it safe, not the agent: its pull request passes the same tests and the same labeled set as any other change. The agent edits and opens the pull request; CI, not the agent, runs anything that needs the API key, so no secret enters the agent's context, and the agent fetches only source domains.
 - **The process loop.** The done-when column in the day-one table is the prediction; `docs/numbers.md` records the outcome.
-- **Timing.** Day one includes the substring rule, the cancelled-title rule, the publish gate, the freshness banner and the report link. Source health, the drift canary, change control, the cost cap and the smoke test come after a week of runs has produced numbers to set thresholds against. The repair agent is set up after the first real breakage, so it is designed against a real failure rather than a guessed one.
+- **Timing.** Day one includes the substring rule, the cancelled-title rule, the publish gate, the freshness banner and the report link. Source health for failed fetches came with the first real breakage, a few minutes of one feed's outage that froze every source (#21). The drift canary, change control, the cost cap and the smoke test come after a week of runs has produced numbers to set thresholds against. The repair agent is set up after the first real breakage, so it is designed against a real failure rather than a guessed one.
 
 ## Day one
 
@@ -169,7 +169,7 @@ Numbers to record at the end of the day: events per source, share geocoded, wron
 
 ## After day one
 
-- **v1.x:** probe the candidate sources one at a time with the same adapter pattern, feeds first; the PMTiles basemap; the weekly coverage check; after a week of runs, source health states, the drift canary, change control, the cost cap and the site smoke test; after the first real breakage, the repair agent.
+- **v1.x:** probe the candidate sources one at a time with the same adapter pattern, feeds first; the PMTiles basemap; the weekly coverage check; pin styles per organizer type; after a week of runs, the drift canary, change control, the cost cap and the site smoke test; after the first real breakage, the repair agent.
 - **v2:** organizer submissions. `POST /submissions` with a photo or text runs the same parse and enrich functions and returns a confirmation card (the actual date, noon versus midnight, the pin); `POST /submissions/{id}/confirm` sends it through the checker. Posters identify as a named organizer or person. Reports hide a post and the checker reviews it again. This is where a backend and a database first appear: Cloudflare Workers with D1 and R2, or Supabase. Aimed at organizers, who have the flyer and want the reach; parents mostly will not post.
 - **v3:** an MCP server with `search_events(Filter)` and `get_event(id)`; the app's plain-language search is a thin client that maps text to a Filter, and any assistant can use the same server.
 
