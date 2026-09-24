@@ -153,7 +153,10 @@ function wire() {
 function initMap() {
   const c = snapshot.city;
   map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/liberty", center: c.center, zoom: 12.4,
-    maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true } });
+    maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true },
+    dragRotate: false, maxPitch: 0 }); // north-up and flat: nothing to undo, and "in view" is what the screen shows
+  map.touchZoomRotate.disableRotation();
+  map.keyboard.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), "top-right");
   map.on("load", () => {
