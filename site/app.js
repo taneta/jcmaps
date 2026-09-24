@@ -3,9 +3,12 @@ import { search, fromLocal, localParts, listFor, pinCounts } from "./search.js";
 const REPO = "taneta/jcmaps"; // "Report a problem" opens a prefilled issue here
 const DATA = "data/events.json";
 const $ = (s) => document.querySelector(s);
+// Colors are the CSS tokens in index.html (docs/design.md); the map reads them, so it follows the theme.
+const token = (name) => getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim();
+const dark = matchMedia("(prefers-color-scheme: dark)").matches;
 
 const state = { window: "weekend", view: "family", freeOnly: false, childAge: null, venue: null, custom: null };
-let snapshot = null, map = null, current = null, selected = null, glyphFont = null;
+let snapshot = null, map = null, current = null, selected = null;
 
 // ---- URL state, so a link can carry a filter ("weekend, free, age 5") ----
 function readHash() {
@@ -58,7 +61,7 @@ function card(item) {
   if (ev.kid_friendly === "yes") tags.push('<span class="tag kids">Kids</span>');
   if (ev.age_text) tags.push(`<span class="tag">${esc(ev.age_text)}</span>`);
   if (ev.registration === "yes") tags.push('<span class="tag">Registration</span>');
-  for (const l of labels) tags.push(`<span class="tag">${esc(l)}</span>`);
+  for (const l of labels) tags.push(`<span class="tag unknown">${esc(l)}</span>`);
   const where = venue ? venue.name : "Location not stated";
   return `<div class="card${selected === ev.id ? " sel" : ""}" data-id="${esc(ev.id)}" data-venue="${esc(occ.venue_id || "")}">
     <div class="when">${esc(when(occ))}</div>
@@ -106,9 +109,9 @@ function updatePins(counts) {
 // ---- controls ----
 function syncControls() {
   for (const b of document.querySelectorAll("#windows .chip")) b.setAttribute("aria-pressed", String(b.dataset.w === state.window));
+  $('#windows [aria-pressed="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest" }); // on a phone the row scrolls
   $("#dates").classList.toggle("on", state.window === "custom");
-  $("#view").textContent = state.view === "family" ? "Family" : "Everyone";
-  $("#view").setAttribute("aria-pressed", String(state.view === "family"));
+  for (const b of document.querySelectorAll("#view button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.view));
   $("#free").setAttribute("aria-pressed", String(state.freeOnly));
   $("#age").value = state.childAge ?? "";
   if (state.custom) { $("#d1").value = state.custom.from; $("#d2").value = state.custom.to; }
@@ -129,7 +132,10 @@ function wire() {
     if (from && to && to >= from) { state.custom = { from, to }; render(); }
   };
   $("#d1").addEventListener("change", dateChange); $("#d2").addEventListener("change", dateChange);
-  $("#view").addEventListener("click", () => { state.view = state.view === "family" ? "everyone" : "family"; syncControls(); render(); });
+  $("#view").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-v]"); if (!b) return;
+    state.view = b.dataset.v; syncControls(); render();
+  });
   $("#free").addEventListener("click", () => { state.freeOnly = !state.freeOnly; syncControls(); render(); });
   $("#age").addEventListener("change", (e) => { const v = e.target.value; state.childAge = v === "" ? null : Math.max(0, Math.min(17, +v)); render(); });
   const sheet = $("#sheet");
@@ -150,28 +156,50 @@ function wire() {
 }
 
 // ---- map ----
+// The stock basemap is grey: paint land, water, parks, buildings and place names with the palette, whatever the
+// layer ids, and hide route-number shields, which compete with the pins.
+function tintBasemap() {
+  const prop = { background: "background-color", fill: "fill-color", symbol: "text-color" };
+  for (const l of map.getStyle().layers) {
+    const src = l["source-layer"];
+    if (l.id.includes("shield")) { map.setLayoutProperty(l.id, "visibility", "none"); continue; }
+    const name = l.type === "background" ? "map-land" : l.type === "symbol" ? (src === "place" ? "ink-3" : null) : l.type !== "fill" ? null
+      : src === "water" ? "map-water" : src === "building" ? "map-building" : /park|wood|grass/.test(l.id) ? "map-park"
+      : ["landuse", "landcover", "transportation"].includes(src) ? "map-land" : null;
+    if (name) map.setPaintProperty(l.id, prop[l.type], token(name));
+  }
+}
+
 function initMap() {
   const c = snapshot.city;
-  map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/liberty", center: c.center, zoom: 12.4,
+  // The map style is picked once, at load: a theme change shows on the next visit.
+  map = new maplibregl.Map({ container: "map", style: `https://tiles.openfreemap.org/styles/${dark ? "dark" : "positron"}`, center: c.center, zoom: 12.4,
     maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true },
     dragRotate: false, maxPitch: 0 }); // north-up and flat: nothing to undo, and "in view" is what the screen shows
   map.touchZoomRotate.disableRotation();
   map.keyboard.disableRotation();
-  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-  map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), "top-right");
+  if (matchMedia("(pointer: fine)").matches) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right"); // phones pinch
+  map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), "bottom-right");
   map.on("load", () => {
-    const styled = map.getStyle().layers.find((l) => l.layout && l.layout["text-font"]);
-    glyphFont = styled ? styled.layout["text-font"] : ["Noto Sans Regular"];
+    tintBasemap();
+    const [accent, edge, onAccent] = ["accent", "accent-edge", "on-accent"].map(token);
+    const n = ["coalesce", ["get", "count"], 0], sel = ["==", ["coalesce", ["get", "sel"], 0], 1], pin = ["!", ["has", "point_count"]];
+    const pinRadius = ["+", ["step", n, 9, 3, 12, 8, 15], ["case", sel, 4, 0]];
+    const ring = { "circle-color": accent, "circle-stroke-color": edge, "circle-stroke-width": 1.5 }; // yellow needs an edge on the light map
+    const count = { "text-field": ["to-string", ["get", "count"]], "text-font": ["Noto Sans Bold"], "text-allow-overlap": true }; // OpenFreeMap's glyphs
     map.addSource("venues", { type: "geojson", data: { type: "FeatureCollection", features: [] }, cluster: true, clusterRadius: 36, clusterMaxZoom: 14,
       clusterProperties: { count: ["+", ["get", "count"]] } });
+    // A selected pin is highlighted, never recolored: it grows and glows.
+    map.addLayer({ id: "glow", type: "circle", source: "venues", filter: ["all", pin, sel],
+      paint: { "circle-color": accent, "circle-opacity": 0.8, "circle-blur": 0.5, "circle-radius": ["+", pinRadius, 16] } });
     map.addLayer({ id: "clusters", type: "circle", source: "venues", filter: ["has", "point_count"],
-      paint: { "circle-color": "#1e40af", "circle-radius": ["step", ["coalesce", ["get", "count"], 0], 16, 10, 20, 40, 25], "circle-stroke-width": 2, "circle-stroke-color": "#fff", "circle-opacity": 0.9 } });
+      paint: { ...ring, "circle-radius": ["step", n, 16, 10, 20, 40, 25] } });
     map.addLayer({ id: "cluster-count", type: "symbol", source: "venues", filter: ["has", "point_count"],
-      layout: { "text-field": ["to-string", ["get", "count"]], "text-font": glyphFont, "text-size": 13, "text-allow-overlap": true }, paint: { "text-color": "#fff" } });
-    map.addLayer({ id: "pins", type: "circle", source: "venues", filter: ["!", ["has", "point_count"]],
-      paint: { "circle-color": ["case", ["==", ["coalesce", ["get", "sel"], 0], 1], "#dc2626", "#1d4ed8"], "circle-radius": ["step", ["coalesce", ["get", "count"], 0], 9, 3, 12, 8, 15], "circle-stroke-width": 2, "circle-stroke-color": "#fff" } });
-    map.addLayer({ id: "pin-count", type: "symbol", source: "venues", filter: ["all", ["!", ["has", "point_count"]], [">", ["coalesce", ["get", "count"], 0], 1]],
-      layout: { "text-field": ["to-string", ["get", "count"]], "text-font": glyphFont, "text-size": 11, "text-allow-overlap": true }, paint: { "text-color": "#fff" } });
+      layout: { ...count, "text-size": 13 }, paint: { "text-color": onAccent } });
+    map.addLayer({ id: "pins", type: "circle", source: "venues", filter: pin,
+      paint: { ...ring, "circle-radius": pinRadius, "circle-stroke-width": ["case", sel, 2.5, 1.5] } });
+    map.addLayer({ id: "pin-count", type: "symbol", source: "venues", filter: ["all", pin, [">", n, 1]],
+      layout: { ...count, "text-size": ["case", sel, 13, 11] }, paint: { "text-color": onAccent } });
     map.on("click", "clusters", (e) => {
       const f = map.queryRenderedFeatures(e.point, { layers: ["clusters"] })[0];
       map.getSource("venues").getClusterExpansionZoom(f.properties.cluster_id).then((z) => map.easeTo({ center: f.geometry.coordinates, zoom: z }));

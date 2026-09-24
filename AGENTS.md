@@ -21,6 +21,8 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 - A prompt or model change is scored on fixtures/labeled/enrich.json before it replaces cached values.
 - Search rules live once, in site/search.js (pure functions, no DOM); the browser runs them
   and tests/test_search.py runs their node tests.
+- The look follows docs/design.md: colors, radii, shadows and the font are tokens in the :root blocks of
+  site/index.html, light and dark; nothing else names a color. Marigold (--accent) means an event, never a control.
 - Commits: the person committing is the author and is responsible for the change. No AI co-author
   trailers (Co-authored-by: Claude or similar); AI assistance is disclosed once, in the README.
 - Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request,
@@ -29,7 +31,7 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 ## Commands
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
 uv run jcmaps eval-enrich                                          # 30 enriched events with quotes for a hand-check
-uv run pytest                                                      # contract and search-rule tests, offline (needs node)
+uv run pytest                                                      # contract, search-rule and design tests, offline (needs node)
 python -m http.server -d site                                      # preview the frontend
 
 ## Layout
@@ -37,7 +39,7 @@ pipeline/   sources/, geocode.py, enrich.py, llm.py, check.py, gate.py, publish.
 fixtures/   frozen inputs per source (4 library calendars, 2 API pages); labeled/enrich.json is the labeled set
 data/       library_branches.json (config)
 site/       index.html, app.js, search.js; data/ is generated (events, enrich, geocode, report)
-docs/       brief.md, numbers.md
+docs/       brief.md, numbers.md, design.md
 city.json   boundary polygon, time zone, source list, site_url
 
 ## Not now
