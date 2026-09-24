@@ -8,10 +8,10 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
-from pipeline.util import ROOT, now_utc, sha
+from pipeline.util import ROOT, env, now_utc, sha
 
-MODEL = os.environ.get("JCMAP_MODEL", "gpt-6-luna")
-EFFORT = os.environ.get("JCMAP_EFFORT", "low")  # none | low | medium | high | xhigh | max
+MODEL = env("JCMAP_MODEL", "gpt-6-luna")
+EFFORT = env("JCMAP_EFFORT", "low")  # none | low | medium | high | xhigh | max
 LOG = ROOT / "logs" / "llm.jsonl"
 # USD per million tokens: input, output, cached input. An unknown model is priced like Sol so the cost cap errs safe.
 PRICES = {"gpt-6-luna": (0.10, 0.50, 0.01), "gpt-6-sol": (2.0, 10.0, 0.20)}

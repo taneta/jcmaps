@@ -14,7 +14,7 @@ from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
 from pipeline.sources import library, tribe
-from pipeline.util import ROOT, UA, now_utc, read_json, write_json
+from pipeline.util import ROOT, UA, env, now_utc, read_json, write_json
 
 CITY = ROOT / "city.json"
 BRANCHES = ROOT / "data" / "library_branches.json"
@@ -86,8 +86,8 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
 
     model_client = None if (offline or no_model) else llm.make_client()
     classify = (lambda text: llm.classify(model_client, text)) if model_client else None
-    cap = float(os.environ.get("JCMAP_COST_CAP_USD", "5"))
-    fields, enrich_stats = enrich.enrich_all(raws, classify, cap, concurrency=int(os.environ.get("JCMAP_CONCURRENCY", "6")),
+    cap = float(env("JCMAP_COST_CAP_USD", "5"))
+    fields, enrich_stats = enrich.enrich_all(raws, classify, cap, concurrency=int(env("JCMAP_CONCURRENCY", "6")),
                                              organizer_defaults={s["id"]: s.get("organizer_type", "unknown") for s in city["sources"]})
     enrich_stats["model"] = llm.MODEL if classify else None
     for r in raws:  # offsite events get their venue from the model, with a quote

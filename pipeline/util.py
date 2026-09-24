@@ -15,6 +15,13 @@ TZ = ZoneInfo("America/New_York")
 UA = "JCMaps/0.1 (non-commercial Jersey City events map)"
 
 
+def env(name: str, default: str) -> str:
+    """An environment variable, or the default when it is unset or empty (unset Actions variables arrive as '')."""
+    import os
+
+    return os.environ.get(name) or default
+
+
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
