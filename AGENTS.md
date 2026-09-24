@@ -21,6 +21,8 @@ Read docs/brief.md when a decision needs context; docs/issues/ holds open ticket
 - A prompt or model change is scored on fixtures/labeled/enrich.json before it replaces cached values.
 - Search rules live once, in site/search.js (pure functions, no DOM); the browser runs them
   and tests/test_search.py runs their node tests.
+- Commits: the person committing is the author and is responsible for the change. No AI co-author
+  trailers (Co-authored-by: Claude or similar); AI assistance is disclosed once, in the README.
 
 ## Commands
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
