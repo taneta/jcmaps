@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { fromLocal, windowFor, matches, search, localDateStr } from "./search.js";
+import { fromLocal, windowFor, matches, search, localDateStr, listFor, pinCounts } from "./search.js";
 
 const NOW = fromLocal(2026, 9, 24, 15, 0); // Thursday 3pm in Jersey City
 const iso = (d) => d.toISOString();
@@ -70,4 +70,30 @@ test("filters: view, free, age, cancelled, ongoing layer, labels", () => {
   assert.deepEqual(ids(aged), ["a", "b"]);
   assert.deepEqual(aged.results[1].labels, ["ages not stated"]);
   assert.equal(family.results[0].venue.name, "Main");
+});
+
+// Issue #2: one pin on a street-level screen, two events without a pin, one pin off screen.
+const venue = (id, lat, lon) => ({ id, name: id, lat, lon });
+const branch = venue("branch", 40.7122, -74.0566), park = venue("park", 40.745, -74.03), nowhere = venue("nowhere", null, null);
+const item = (id, v) => ({ event: { id }, venue: v });
+const ITEMS = [item("1", branch), item("2", park), item("3", branch), item("4", nowhere), item("5", null)];
+const STREET = [[-74.06, 40.71], [-74.05, 40.715]]; // [[west, south], [east, north]] around the branch only
+const ids = (items) => items.map((i) => i.event.id);
+
+test("list: the header counts pinned events in view; events without a pin are listed apart", () => {
+  const list = listFor(ITEMS, STREET);
+  assert.deepEqual(ids(list.inView), ["1", "3"]); // two, not four: the unpinned events are not in view
+  assert.deepEqual(ids(list.unpinned), ["4", "5"]);
+  assert.deepEqual(ids(listFor(ITEMS, null).inView), ["1", "2", "3"]); // no map: every pinned event
+});
+
+test("list: a tapped pin lists exactly as many events as its label", () => {
+  const counts = pinCounts(ITEMS);
+  assert.deepEqual([...counts], [["branch", 2], ["park", 1]]);
+  for (const [id, n] of counts) {
+    const list = listFor(ITEMS, STREET, id); // bounds do not count once a pin is tapped: its centre may be just off screen
+    assert.equal(list.inView.length, n);
+    assert.ok(list.inView.every((i) => i.venue.id === id));
+    assert.deepEqual(list.unpinned, []);
+  }
 });

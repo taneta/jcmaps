@@ -109,3 +109,30 @@ export function search(snapshot, filter, now = new Date()) {
   const byStart = (a, b) => Date.parse(a.occ.start_utc) - Date.parse(b.occ.start_utc);
   return { window: win, results: results.sort(byStart), ongoing: ongoing.sort(byStart) };
 }
+
+const pinned = (item) => item.venue != null && item.venue.lat != null;
+
+// The number on each pin: items per venue with coordinates.
+export function pinCounts(items) {
+  const counts = new Map();
+  for (const i of items) if (pinned(i)) counts.set(i.venue.id, (counts.get(i.venue.id) || 0) + 1);
+  return counts;
+}
+
+// The list under the map: items whose pin is inside bounds ([[west, south], [east, north]]; null means no map),
+// or, after a pin is tapped, that venue's items, since its pin is on screen. Items without a pin cannot be in view,
+// so they are listed apart, and not at all while a pin is tapped.
+export function listFor(items, bounds, venueId = null) {
+  const inView = [], unpinned = [];
+  for (const i of items) {
+    if (!pinned(i)) {
+      if (!venueId) unpinned.push(i);
+      continue;
+    }
+    const { id, lat, lon } = i.venue;
+    const shown = venueId ? id === venueId
+      : !bounds || (lon >= bounds[0][0] && lon <= bounds[1][0] && lat >= bounds[0][1] && lat <= bounds[1][1]);
+    if (shown) inView.push(i);
+  }
+  return { inView, unpinned };
+}

@@ -1,4 +1,4 @@
-import { search, fromLocal, localParts } from "./search.js";
+import { search, fromLocal, localParts, listFor, pinCounts } from "./search.js";
 
 const REPO = "taneta/jcmaps"; // "Report a problem" opens a prefilled issue here
 const DATA = "data/events.json";
@@ -59,7 +59,6 @@ function card(item) {
   if (ev.age_text) tags.push(`<span class="tag">${esc(ev.age_text)}</span>`);
   if (ev.registration === "yes") tags.push('<span class="tag">Registration</span>');
   for (const l of labels) tags.push(`<span class="tag">${esc(l)}</span>`);
-  if (venue && venue.lat == null) tags.push('<span class="tag">no map pin</span>');
   const where = venue ? venue.name : "Location not stated";
   return `<div class="card${selected === ev.id ? " sel" : ""}" data-id="${esc(ev.id)}" data-venue="${esc(occ.venue_id || "")}">
     <div class="when">${esc(when(occ))}</div>
@@ -71,35 +70,33 @@ function card(item) {
   </div>`;
 }
 
-function inView(item) {
-  if (!map || !item.venue || item.venue.lat == null) return true; // unpinned items are always listed
-  return map.getBounds().contains([item.venue.lon, item.venue.lat]);
-}
-
 function render() {
   if (!snapshot) return;
   const filter = { window: state.window === "custom" && state.custom ? customWindow() : (state.window === "custom" ? "weekend" : state.window),
     view: state.view, freeOnly: state.freeOnly, childAge: state.childAge };
   current = search(snapshot, filter, new Date());
-  const shown = current.results.filter((i) => inView(i) && (!state.venue || i.occ.venue_id === state.venue));
-  const ongoing = current.ongoing.filter((i) => !state.venue || i.occ.venue_id === state.venue);
+  const all = current.results.concat(current.ongoing);
+  const counts = pinCounts(all);
+  if (!counts.has(state.venue)) state.venue = null; // a filter took the tapped pin off the map
+  const { inView, unpinned } = listFor(all, map ? map.getBounds().toArray() : null, state.venue);
+  const ongoing = inView.filter((i) => i.event.ongoing);
   const venueName = state.venue && snapshot.venues.find((v) => v.id === state.venue)?.name;
-  $("#count").textContent = `${shown.length} event${shown.length === 1 ? "" : "s"}${venueName ? " at " + venueName : " in view"}`;
-  $("#hint").textContent = state.venue ? "clear pin ×" : current.results.length !== shown.length ? `${current.results.length} total` : "";
-  let html = shown.map(card).join("");
-  if (!shown.length) html = `<div class="empty">Nothing here for this window. Try another time, zoom out, or switch to Everyone.</div>`;
+  $("#count").textContent = `${inView.length} event${inView.length === 1 ? "" : "s"}${venueName ? " at " + venueName : " in view"}`;
+  $("#hint").textContent = state.venue || all.length === inView.length ? "" : `${all.length} total`;
+  $("#clear").hidden = !state.venue;
+  let html = inView.filter((i) => !i.event.ongoing).map(card).join("");
+  if (!inView.length) html = `<div class="empty">Nothing on the map here for this window. Try another time, zoom out, or switch to Everyone.</div>`;
   if (ongoing.length) html += `<div class="section">Ongoing (${ongoing.length})</div>` + ongoing.map(card).join("");
+  if (unpinned.length) html += `<div class="section">No map pin (${unpinned.length})</div>` + unpinned.map(card).join("");
   const gen = new Date(snapshot.generated_at);
   html += `<div class="foot">Updated ${fmtDay(gen)} ${fmtTime(gen)} · ${snapshot.events.length} events from ${Object.keys(snapshot.sources).length} sources · Times in Jersey City time.</div>`;
   $("#list").innerHTML = html;
-  updatePins();
+  updatePins(counts);
   writeHash();
 }
 
-function updatePins() {
+function updatePins(counts) {
   if (!map || !map.getSource("venues")) return;
-  const counts = new Map();
-  for (const i of current.results.concat(current.ongoing)) if (i.venue && i.venue.lat != null) counts.set(i.venue.id, (counts.get(i.venue.id) || 0) + 1);
   const features = snapshot.venues.filter((v) => counts.has(v.id)).map((v) => ({
     type: "Feature", geometry: { type: "Point", coordinates: [v.lon, v.lat] },
     properties: { id: v.id, name: v.name, count: counts.get(v.id), sel: v.id === state.venue ? 1 : 0 } }));
@@ -137,16 +134,17 @@ function wire() {
   $("#age").addEventListener("change", (e) => { const v = e.target.value; state.childAge = v === "" ? null : Math.max(0, Math.min(17, +v)); render(); });
   const sheet = $("#sheet");
   $("#handle").addEventListener("click", () => {
-    if (state.venue) { state.venue = null; render(); return; }
     sheet.classList.toggle("full", !sheet.classList.contains("full") && !sheet.classList.contains("peek"));
     sheet.classList.toggle("peek", false);
   });
+  $("#clear").addEventListener("click", (e) => { e.stopPropagation(); state.venue = null; render(); });
   $("#list").addEventListener("click", (e) => {
     if (e.target.closest("a")) return;
     const c = e.target.closest(".card"); if (!c) return;
     selected = c.dataset.id;
     const v = snapshot.venues.find((x) => x.id === c.dataset.venue);
-    if (v && v.lat != null && map) map.flyTo({ center: [v.lon, v.lat], zoom: Math.max(map.getZoom(), 14.5) });
+    // a tapped pin is already on screen, and moving the map would clear it
+    if (!state.venue && v && v.lat != null && map) map.flyTo({ center: [v.lon, v.lat], zoom: Math.max(map.getZoom(), 14.5) });
     for (const el of document.querySelectorAll(".card")) el.classList.toggle("sel", el.dataset.id === selected);
   });
 }
@@ -155,7 +153,10 @@ function wire() {
 function initMap() {
   const c = snapshot.city;
   map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/liberty", center: c.center, zoom: 12.4,
-    maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true } });
+    maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true },
+    dragRotate: false, maxPitch: 0 }); // north-up and flat: nothing to undo, and "in view" is what the screen shows
+  map.touchZoomRotate.disableRotation();
+  map.keyboard.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), "top-right");
   map.on("load", () => {
@@ -182,7 +183,12 @@ function initMap() {
       render();
     });
     for (const l of ["clusters", "pins"]) { map.on("mouseenter", l, () => (map.getCanvas().style.cursor = "pointer")); map.on("mouseleave", l, () => (map.getCanvas().style.cursor = "")); }
-    map.on("moveend", () => { if (!state.venue) render(); });
+    // A tapped pin holds the list until any drag, zoom or tap on empty map; then the list follows the viewport again.
+    map.on("click", (e) => {
+      if (state.venue && !map.queryRenderedFeatures(e.point, { layers: ["clusters", "pins"] }).length) { state.venue = null; render(); }
+    });
+    map.on("movestart", () => { state.venue = null; });
+    map.on("moveend", render);
     render();
   });
 }
