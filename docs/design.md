@@ -107,9 +107,9 @@ counts use tabular numerals, so they line up.
 - **Section heading** (Ongoing, No map pin): 12px/600 uppercase in `--ink-3` on `--surface-2`.
 - **Empty state and footer**: `--ink-3`; the empty state is centered, the footer 12px.
 - **App icon** (`site/icon.svg`, also the favicon): Jersey City's strip of land (`--map-land`) between the
-  Hackensack and the Hudson (the dark theme's `--map-water`), with the pin on it, drawn as on the map. It has no
-  teardrop pin, and it never puts ink on yellow: yellow and black read as a taxi brand. It has to hold up at 16px in
-  a browser tab, so it uses deep water rather than the pale day water.
+  Hackensack and the Hudson (`--map-water`), with the pin on it glowing, drawn as a selected pin on the map. It has
+  no teardrop pin, and it never puts ink on yellow: yellow and black read as a taxi brand. The day colors are pale,
+  so at 16px in a browser tab the pin carries the icon.
 
 ## Map
 
