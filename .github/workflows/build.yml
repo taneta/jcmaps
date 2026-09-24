@@ -1,0 +1,95 @@
+name: build
+on:
+  schedule:
+    - cron: "0 6,11 * * *" # 2am and 7am in Jersey City during daylight saving time, an hour earlier in winter
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+# The bot never commits: the site is the state, artifacts hold logs and reports.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # The github-pages environment only deploys from main, and it holds the OPENAI_API_KEY secret.
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run pytest -q
+
+      - name: Build (pull the live data, fetch feeds, enrich, check, gate)
+        id: build
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          JCMAP_MODEL: ${{ vars.JCMAP_MODEL }}
+          JCMAP_EFFORT: ${{ vars.JCMAP_EFFORT }}
+          JCMAP_COST_CAP_USD: ${{ vars.JCMAP_COST_CAP_USD }}
+        run: |
+          set +e
+          uv run jcmaps build --pull
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Keep the run report and model log for 90 days
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-${{ github.run_id }}
+          path: |
+            reports/
+            logs/
+          retention-days: 90
+          if-no-files-found: ignore
+
+      - name: Open an issue when the gate fails or a source is empty
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY' > /tmp/issue.md || exit 0
+          import json, sys
+          try:
+              r = json.load(open("site/data/report.json"))
+          except FileNotFoundError:
+              print("## Build crashed before writing a report\n\nSee the workflow run for the traceback.")
+              sys.exit(0)
+          gate, srcs = r["gate"], r["sources"]
+          empty = [s for s, v in srcs.items() if v.get("published", 0) == 0]
+          if gate["passed"] and not empty:
+              sys.exit(1)
+          print("## Build needs attention\n")
+          if not gate["passed"]:
+              print("Gate failed; the last good snapshot stays:\n" + "\n".join(f"- {x}" for x in gate["reasons"]))
+          if empty:
+              print("\nSources with zero events: " + ", ".join(empty))
+          print("\n```json\n" + json.dumps({k: r.get(k) for k in ("sources", "drops", "geocode", "enrich", "pulled")}, indent=1) + "\n```")
+          PY
+          if [ -s /tmp/issue.md ]; then
+            gh label create "auto:build" --force --color D93F0B --description "opened by the build" >/dev/null
+            gh issue create --title "Build $(date -u +%Y-%m-%d) needs attention" --body-file /tmp/issue.md --label "auto:build"
+          fi
+
+      # Deploy even after a failed gate: site/data then still holds the pulled last good snapshot.
+      - uses: actions/configure-pages@v5
+        if: always()
+      - uses: actions/upload-pages-artifact@v3
+        if: always()
+        with:
+          path: site
+      - id: deploy
+        if: always()
+        uses: actions/deploy-pages@v4

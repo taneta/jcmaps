@@ -1,0 +1,10 @@
+{
+  "name": "JC Maps",
+  "short_name": "JC Maps",
+  "description": "What is happening in Jersey City, by time window.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
