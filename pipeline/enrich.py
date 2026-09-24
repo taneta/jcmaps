@@ -2,17 +2,67 @@
 A model-filled value survives only if its quote is a substring of the normalized input; otherwise unknown."""
 from __future__ import annotations
 
+import re
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 
 from pipeline.check import status_of
-from pipeline.model import Evidence, Raw
+from pipeline.model import Evidence, EventType, Raw
 from datetime import timedelta
 
 from pipeline.util import ROOT, normalize, now_utc, read_json, sha, write_json
 
 CACHE = ROOT / "site" / "data" / "enrich.json"  # published with the site, pulled back on the next run
 KEEP_DAYS = 60  # cache entries not used for this long are dropped
+
+# An event's type, for its icon on the map and in the list (docs/design.md, Icons). Code decides, never the model:
+# the first type whose words are in the title, else the first of the feed's own categories that names one; the
+# matched words are the evidence. No match means unknown, a plain pin. The order settles overlaps: a festival with a
+# band is a festival, musical bingo is a game.
+TITLE_WORDS: list[tuple[EventType, str]] = [
+    ("festivals", r"festival|\bfest\b|oktoberfest|\bparades?\b|block party|street fair|carnival|fiesta|tree lighting"),
+    ("markets", r"\bmarkets?\b|\bfairs?\b|flea|bazaar|\bswap\b|\bsale\b|food crawl"),
+    ("stories", r"storytime|story ?time|story ?hour|\bstor(?:y|ies)\b|cuentos|\bbooks?\b|\bread(?:ing|s)?\b|read-aloud|lectura"
+                r"|author|\bpoe(?:m|ms|try|t|ts)\b|\bwrit(?:e|ing|ers?)\b|bookmobile|literary"),
+    ("games", r"\bgames?\b|bingo|chess|trivia|\blegos?\b|minecraft|pok[eé]mon|dungeons|d&d|puzzle|escape room|gaming"),
+    ("shows", r"theat(?:er|re)|\bmusical\b|puppet|cabaret|comedy|stand-up|improv|magic show|\bmovies?\b|\bfilms?\b|cinema"
+              r"|matinee|circus|opera|drag show"),
+    ("music", r"\bmusic\b|concert|\bband\b|jazz|choir|orchestra|symphony|\bdj\b|karaoke|karoke|vinyl|open mic|\bsing(?:ing)?\b"
+              r"|salsa|flamenco|bachata|\bdanc(?:e|es|ing)\b|ballet|hip.hop|boogie|groove|unplugged|silent stage|sextet|quartet"),
+    ("health", r"yoga|pilates|zumba|fitness|workout|exercise|run club|\brun(?:ning)?\b|\bwalk(?:ing)?\b|\bhik(?:e|ing)\b|cycling"
+               r"|\bbik(?:e|ing)\b|soccer|basketball|baseball|tennis|swim|\bsports?\b|martial arts|karate|self.defen[cs]e|\bhealth"
+               r"|wellness|vaccin|medical|dental|blood drive|medicare|menopause|meditation|mindful|tai chi"),
+    ("crafts", r"craft|\barts?\b|artist|creativ|\bpaint|\bdraw(?:ing)?\b|sketch|\bsew|knit|crochet|\bclay\b|pottery|ceramic"
+               r"|jewel|\bbead|bracelet|mosaic|collage|origami|felting|\btote\b|coloring|\bmak(?:ing|ers?|ery|erspace)\b"
+               r"|3d print|silk screen|keychain|bookmark|exhibit|gallery|studio|upcycl|sneakers|trinket|photo|junk journal|scrapbook"),
+    ("classes", r"\bclass(?:es)?\b|workshop|\blessons?\b|course|training|seminar|lecture|\btalks?\b|info(?:rmation)? session"
+                r"|open house|\bq&a\b|panel|discussion|conversation|\blearn|language|spanish|english|\besl\b|hindi|japanese"
+                r"|french|mandarin|\basl\b|sign language|tutor|homework|(?-i:\bSAT\b)|test prep|r[eé]sum[eé]|\bjobs?\b|career"
+                r"|business|financ|money|\btech\b|computer|coding|3d model|podcast|etiquette|admission|college|preparedness"
+                r"|history|\b101\b|intro(?:duction)? to"),
+    ("meetups", r"mixer|speed dating|singles|happy hour|meet ?-?up|networking|social club|club meeting|date night|couples"
+                r"|volunteer|clean ?-?up|hangout"),
+]
+CATEGORY_WORDS: list[tuple[EventType, str]] = [
+    ("festivals", r"festival"), ("markets", r"market"), ("stories", r"storytime|literary|author|literature"),
+    ("games", r"games"), ("shows", r"\bfilm|moving image|theat"), ("music", r"music|dance"),
+    ("health", r"health|wellness|sport|fitness"), ("crafts", r"crafts|visual arts|exhibition|makerspace|photography"),
+    ("classes", r"educational|workshop|computer|s\.?t\.?e\.?a?\.?m|training"), ("meetups", r"social gatherings"),
+]
+_TITLE = [(t, re.compile(rx, re.I)) for t, rx in TITLE_WORDS]
+_CATEGORY = [(t, re.compile(rx, re.I)) for t, rx in CATEGORY_WORDS]
+
+
+def type_of(raw: Raw) -> tuple[EventType, Evidence | None]:
+    for t, rx in _TITLE:
+        if m := rx.search(raw.title):
+            return t, Evidence(quote=m.group(0), from_="title")
+    for category in raw.categories:  # in the feed's order; the library writes "Popular Events > Storytime Events"
+        short = category.split(">")[-1].strip()
+        for t, rx in _CATEGORY:
+            if rx.search(short):
+                return t, Evidence(quote=short, from_="categories")
+    return "unknown", None
 
 
 def quoted(quote: str | None, norm_text: str) -> bool:
@@ -22,9 +72,11 @@ def quoted(quote: str | None, norm_text: str) -> bool:
 def merge(raw: Raw, out: dict | None, organizer_default: str = "unknown") -> dict:
     """Event fields from the adapter's rules plus whatever the model proved with a quote.
     organizer_default is the source's kind (city, community) and applies only when nothing else decided."""
+    kind, why = type_of(raw)
     f: dict = {
         "kid_friendly": raw.kid_friendly, "price": raw.price, "organizer_type": raw.organizer_type,
-        "status": status_of(raw), "topics": list(raw.topics), "evidence": dict(raw.evidence),
+        "status": status_of(raw), "topics": list(raw.topics), "type": kind,
+        "evidence": dict(raw.evidence) | ({"type": why} if why else {}),
         "age_min": None, "age_max": None, "age_text": None, "price_text": raw.cost_text,
         "registration": "unknown", "summary": None, "venue_name": None, "venue_address": None,
     }
