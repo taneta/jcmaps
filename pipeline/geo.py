@@ -1,7 +1,5 @@
-"""Point in polygon and distance, without a GIS dependency."""
+"""Point in polygon, without a GIS dependency."""
 from __future__ import annotations
-
-from math import asin, cos, radians, sin, sqrt
 
 
 def inside(lat: float, lon: float, ring: list[list[float]]) -> bool:
@@ -16,10 +14,3 @@ def inside(lat: float, lon: float, ring: list[list[float]]) -> bool:
             if lon < x:
                 hit = not hit
     return hit
-
-
-def distance_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    p1, p2 = radians(lat1), radians(lat2)
-    dp, dl = radians(lat2 - lat1), radians(lon2 - lon1)
-    a = sin(dp / 2) ** 2 + cos(p1) * cos(p2) * sin(dl / 2) ** 2
-    return 2 * 6371000 * asin(sqrt(a))

@@ -8,6 +8,7 @@ from pathlib import Path
 
 import httpx
 
+from pipeline.check import CANCELLED
 from pipeline.model import Raw, Venue
 from pipeline.util import ROOT, UA, normalize, read_json, slug, write_json
 
@@ -17,6 +18,26 @@ KNOWN_CITIES = ("jersey city", "hoboken", "union city", "bayonne", "newark", "ne
                 "north bergen", "secaucus", "kearny", "harrison", "west new york")
 STREET = re.compile(r"\b\d{1,5}(?:-\d{1,5})?\s+[A-Za-z][A-Za-z\.' ]{2,40}?\b(?:Ave|Avenue|St|Street|Dr|Drive|Blvd|"
                     r"Boulevard|Pl|Place|Rd|Road|Way|Ter|Terrace|Ct|Court|Ln|Lane)\b\.?", re.I)
+HOUSE = re.compile(r"\b\d+[a-z]?(?:-\d+)?\s+[^,]+")  # house number and street, up to the next comma
+SHORT = {"avenue": "ave", "street": "st", "drive": "dr", "boulevard": "blvd", "place": "pl", "road": "rd",
+         "terrace": "ter", "court": "ct", "lane": "ln"}
+
+
+def _words(text: str) -> str:
+    words = re.findall(r"[a-z0-9]+", normalize(text).replace("'", "").replace(".", ""))
+    return " ".join(SHORT.get(w, w) for w in words)
+
+
+def venue_key(name: str | None, address: str | None) -> str:
+    """One key per place, however a source spells it: house number, street and city, lowercase, suffixes shortened,
+    punctuation dropped ("295 JOHNSTON AVE., Jersey City" and "295 Johnston Ave" are "295 johnston ave, jersey city").
+    An address without a house number is used whole; without an address, the name."""
+    text = normalize(address or "")
+    m = HOUSE.search(text)
+    if not m:
+        return _words(address or name or "")
+    city = next((c for c in KNOWN_CITIES if c in text[m.end():]), "jersey city")  # Hoboken has a Grand St too
+    return f"{_words(m.group(0))}, {city}"
 
 
 def with_city(text: str) -> str:
@@ -75,17 +96,33 @@ class Geocoder:
         return None
 
 
+def _rank(r: Raw) -> tuple[int, bool, bool]:
+    """Whose name a shared venue takes: a library branch, then any other source, then a Bookmobile stop label;
+    within each, labels that say cancelled last ("Bookmobile stop: Canceled- 222 Laidlaw Ave."), all caps after."""
+    name = r.venue_name or r.venue_address or ""
+    tier = 2 if name.startswith("Bookmobile stop") else 0 if r.source_id == "library" and not r.offsite else 1
+    return tier, bool(CANCELLED.search(name)), name.isupper()
+
+
 def build_venues(raws: list[Raw], geocoder: Geocoder) -> dict[str, Venue]:
-    """Assign raw.venue_id and return the venue table. Failed lookups keep a venue without coordinates."""
-    venues: dict[str, Venue] = {}
+    """Assign raw.venue_id and return the venue table: one venue per venue_key, named by its best record, other
+    names as aliases, coordinates from the first query that hits. Failed lookups keep a venue without coordinates."""
+    groups: dict[str, list[Raw]] = {}
     for r in raws:
-        if not (r.venue_name or r.venue_address):
-            continue
-        vid = slug(f"{r.venue_name or ''} {r.venue_address or ''}")[:80]
-        if vid not in venues:
-            hit = geocoder.lookup(candidates(r.venue_name, r.venue_address))
-            venues[vid] = Venue(id=vid, name=r.venue_name or r.venue_address or "", address=r.venue_address,
-                                lat=hit[0] if hit else None, lon=hit[1] if hit else None,
-                                kind="library" if r.source_id == "library" and not r.venue_name.startswith("Bookmobile") else None)
-        r.venue_id = vid
+        if r.venue_name or r.venue_address:
+            groups.setdefault(venue_key(r.venue_name, r.venue_address), []).append(r)
+    venues: dict[str, Venue] = {}
+    for key, group in groups.items():
+        group.sort(key=_rank)
+        names: dict[str, str] = {}
+        for r in group:
+            names.setdefault(normalize(r.venue_name or r.venue_address), r.venue_name or r.venue_address)
+        name, *aliases = names.values()
+        hit = geocoder.lookup(list(dict.fromkeys(q for r in group for q in candidates(r.venue_name, r.venue_address))))
+        vid = slug(key)[:80]
+        venues[vid] = Venue(id=vid, name=name, aliases=aliases, address=next((r.venue_address for r in group if r.venue_address), None),
+                            lat=hit[0] if hit else None, lon=hit[1] if hit else None,
+                            kind="library" if _rank(group[0])[0] == 0 else None)
+        for r in group:
+            r.venue_id = vid
     return venues

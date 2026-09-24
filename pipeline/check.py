@@ -6,7 +6,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from difflib import SequenceMatcher
 
-from pipeline.geo import distance_m, inside
+from pipeline.geo import inside
 from pipeline.model import Raw, Venue
 from pipeline.util import normalize
 
@@ -55,35 +55,41 @@ def check(raws: list[Raw], venues: dict[str, Venue], boundary: list[list[float]]
             return "outside_boundary"
         return None
     kept, drops = _split(raws, reason_of)
-    kept, dup_drops = dedupe(kept, venues)
+    kept, dup_drops = dedupe(kept)
     return kept, drops + dup_drops
 
 
-def _near(a: Raw, b: Raw, venues: dict[str, Venue]) -> bool:
-    va, vb = venues.get(a.venue_id or ""), venues.get(b.venue_id or "")
-    if va and vb and va.lat is not None and vb.lat is not None:
-        return distance_m(va.lat, va.lon, vb.lat, vb.lon) <= 150
-    return a.venue_id is not None and a.venue_id == b.venue_id
+def _overlap(a: Raw, b: Raw) -> bool:
+    """A missing end means two hours, as in the search rules."""
+    return (a.start_utc < (b.end_utc or b.start_utc + DEFAULT_LENGTH)
+            and b.start_utc < (a.end_utc or a.start_utc + DEFAULT_LENGTH))
 
 
-def dedupe(raws: list[Raw], venues: dict[str, Venue]) -> tuple[list[Raw], list[dict]]:
-    """Same date, start within 30 minutes, within 150 m, similar title: the record with more evidence wins."""
-    by_date: dict[str, list[Raw]] = defaultdict(list)
+def _same_title(a: str, b: str) -> bool:
+    """Similar, or one starts with the other's first three words ("What We Keep 2026" and
+    "WHAT WE KEEP: Artist Talk & Mini-photobook Workshop")."""
+    if SequenceMatcher(None, normalize(a), normalize(b)).ratio() >= 0.8:
+        return True
+    wa, wb = re.findall(r"[a-z0-9]+", normalize(a)), re.findall(r"[a-z0-9]+", normalize(b))
+    n = min(3, len(wa), len(wb))
+    return n > 0 and wa[:n] == wb[:n]
+
+
+def dedupe(raws: list[Raw]) -> tuple[list[Raw], list[dict]]:
+    """Same venue, same date, overlapping times, same title: the record with more evidence wins and keeps every URL."""
+    groups: dict[tuple[str, str], list[Raw]] = defaultdict(list)
     for r in raws:
-        by_date[r.date].append(r)
+        if r.venue_id:
+            groups[(r.venue_id, r.date)].append(r)
     gone: set[int] = set()
     drops: list[dict] = []
-    for group in by_date.values():
+    for group in groups.values():
+        group.sort(key=lambda r: len(r.evidence), reverse=True)  # so the first of two duplicates is the winner
         for i, a in enumerate(group):
             for b in group[i + 1:]:
-                if id(a) in gone or id(b) in gone:
+                if id(a) in gone or id(b) in gone or not (_overlap(a, b) and _same_title(a.title, b.title)):
                     continue
-                if abs((a.start_utc - b.start_utc).total_seconds()) > 1800 or not _near(a, b, venues):
-                    continue
-                if SequenceMatcher(None, normalize(a.title), normalize(b.title)).ratio() < 0.8:
-                    continue
-                winner, loser = (a, b) if len(a.evidence) >= len(b.evidence) else (b, a)
-                gone.add(id(loser))
-                winner.alt_urls.append(loser.url)
-                drops.append({"id": loser.id, "title": loser.title, "reason": "duplicate", "of": winner.id})
+                gone.add(id(b))
+                a.alt_urls.append(b.url)
+                drops.append({"id": b.id, "title": b.title, "reason": "duplicate", "of": a.id})
     return [r for r in raws if id(r) not in gone], drops

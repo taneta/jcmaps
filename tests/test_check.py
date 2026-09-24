@@ -2,13 +2,21 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from pipeline import check
+from pipeline import check, cli
 from pipeline.geo import inside
-from pipeline.geocode import Geocoder, candidates
+from pipeline.geocode import Geocoder, build_venues, candidates, venue_key
 from pipeline.model import Venue
 
 CITY = json.loads((Path(__file__).parent.parent / "city.json").read_text())
 NOW = datetime(2026, 9, 24, 12, 0, tzinfo=timezone.utc)
+COMMUNIPAW = [("library", "Communipaw Branch", "295 Johnston Ave, Jersey City, NJ"),  # one branch, three spellings (#2)
+              ("culture", "COMMUNIPAW BRANCH LIBRARY", "295 JOHNSTON AVE., Jersey City, 07304"),
+              ("connects", "Communipaw Branch", "295 Johnston Ave, Jersey City, 07304")]
+
+
+def one_point(tmp_path) -> Geocoder:
+    """Every query lands on the Communipaw branch, as Nominatim put Bethune Park and the amphitheater on one point."""
+    return Geocoder(lambda q: (40.71215, -74.056565), cache_path=tmp_path / "geo.json", min_interval=0)
 
 
 def test_boundary():
@@ -38,16 +46,68 @@ def test_drop_reasons(make_raw):
 
 
 def test_duplicates_keep_more_evidence(make_raw):
-    venues = {"a": Venue(id="a", name="A", lat=40.7189, lon=-74.0473), "b": Venue(id="b", name="B", lat=40.7190, lon=-74.0474)}
+    venues = {"a": Venue(id="a", name="A", lat=40.7189, lon=-74.0473)}
     rich = make_raw(source_id="library", source_uid="1", title="Toddler Storytime", venue_id="a",
                     evidence={"price": {"quote": "library program", "from": "rule"}})
-    poor = make_raw(source_id="connects", source_uid="2", title="Toddler Story Time", venue_id="b",
+    poor = make_raw(source_id="connects", source_uid="2", title="Toddler Story Time", venue_id="a",
                     start_utc=datetime(2026, 9, 26, 14, 45, tzinfo=timezone.utc), url="https://y/2")
     other = make_raw(source_uid="3", title="Chess Club", venue_id="a")
     kept, drops = check.check([poor, rich, other], venues, CITY["boundary"])
     assert [r.source_uid for r in kept] == ["1", "3"]
     assert drops == [{"id": "connects:2", "title": "Toddler Story Time", "reason": "duplicate", "of": "library:1"}]
     assert rich.alt_urls == ["https://y/2"]
+
+
+def test_three_listings_of_one_event_become_one(make_raw, tmp_path):
+    """"What We Keep" on Sat Sep 26: Connects lists 2 to 4 PM inside the others' 1 to 5 PM, and Cultural Affairs
+    shares only the first three words of the title."""
+    at = lambda h: datetime(2026, 9, 26, h, tzinfo=timezone.utc)
+    title = "WHAT WE KEEP: Artist Talk & Mini-photobook Workshop"
+    (_, lib_name, lib_addr), (_, cul_name, cul_addr), (_, con_name, con_addr) = COMMUNIPAW
+    lib = make_raw(source_id="library", source_uid="17233848", title=title, url="https://lib/1", start_utc=at(17), end_utc=at(21),
+                   venue_name=lib_name, venue_address=lib_addr, evidence={"price": {"quote": "library program", "from": "rule"}})
+    cul = make_raw(source_id="culture", source_uid="44071", title="What We Keep 2026", url="https://cul/1",
+                   start_utc=at(17), end_utc=at(21), venue_name=cul_name, venue_address=cul_addr)
+    con = make_raw(source_id="connects", source_uid="19964", title=title, url="https://con/1", start_utc=at(18), end_utc=at(20),
+                   venue_name=con_name, venue_address=con_addr)
+    after = make_raw(source_id="library", source_uid="2", title=title, url="https://lib/2", start_utc=at(21), end_utc=at(22),
+                     venue_name=lib_name, venue_address=lib_addr)  # a later session, back to back: not a duplicate
+    raws = [con, cul, lib, after]
+    kept, drops = check.check(raws, build_venues(raws, one_point(tmp_path)), CITY["boundary"])
+    assert [r.id for r in kept] == ["library:17233848", "library:2"]
+    assert lib.alt_urls == ["https://con/1", "https://cul/1"]
+    assert [(d["id"], d["of"]) for d in drops] == [("connects:19964", "library:17233848"), ("culture:44071", "library:17233848")]
+
+
+def test_one_venue_per_address(make_raw, tmp_path):
+    raws = [make_raw(source_id=s, source_uid=s, venue_name=n, venue_address=a) for s, n, a in COMMUNIPAW]
+    raws += [make_raw(source_uid="park", venue_name="Mary McLeod Bethune Park", venue_address="43 Martin Luther King Drive, Jersey City, 07305"),
+             make_raw(source_uid="amph", venue_name="Glenn D. Cunningham Branch Library Amphitheater",
+                      venue_address="275 Martin Luther King Drive, Jersey City, NJ 07305"),
+             make_raw(source_uid="hob", venue_name="Grand Street Branch", venue_address="124 Grand St, Hoboken, 07030"),
+             make_raw(source_uid="jc", venue_name="Somewhere", venue_address="124 Grand Street, Jersey City"),
+             make_raw(source_id="library", source_uid="c", venue_name="Bookmobile stop: Canceled- 222 Laidlaw Ave.",
+                      venue_address="Canceled- 222 Laidlaw Ave."),
+             make_raw(source_id="library", source_uid="s", venue_name="Bookmobile stop: MS. 7, 222 Laidlaw Ave.",
+                      venue_address="MS. 7, 222 Laidlaw Ave.")]
+    venues = build_venues(raws, one_point(tmp_path))
+    communipaw = venues[raws[0].venue_id]
+    assert raws[1].venue_id == raws[2].venue_id == communipaw.id == "295-johnston-ave-jersey-city"
+    assert (communipaw.name, communipaw.aliases, communipaw.kind) == ("Communipaw Branch", ["COMMUNIPAW BRANCH LIBRARY"], "library")
+    assert raws[3].venue_id != raws[4].venue_id  # one point, two addresses: two venues
+    assert raws[5].venue_id != raws[6].venue_id  # Hoboken has a Grand St too
+    assert venues[raws[7].venue_id].name == "Bookmobile stop: MS. 7, 222 Laidlaw Ave."  # not the cancelled stop's label
+    assert len(venues) == 6
+
+
+def test_fixture_venue_table_has_one_venue_per_address(tmp_path):
+    raws, _ = cli.load_raws(CITY, None, True, None)
+    venues = build_venues(raws, Geocoder(None, cache_path=tmp_path / "geo.json"))
+    keys = [venue_key(v.name, v.address) for v in venues.values()]
+    assert len(keys) == len(set(keys))
+    assert len(venues) == 90  # 103 distinct name and address pairs
+    art = next(v for v in venues.values() if v.id == "345-marin-blvd-jersey-city")
+    assert (art.name, art.aliases) == ("Art House Productions", ["ART HOUSE"])  # mixed case over all caps
 
 
 def test_cancelled_title(make_raw):
