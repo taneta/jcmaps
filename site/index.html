@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>JC Maps</title>
 <meta name="description" content="What is happening in Jersey City in the next few hours, tonight, tomorrow or this weekend.">
-<meta name="theme-color" content="#F3F0EA" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#100F0D" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F3F0EA">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css">
 <style>
-  /* Design tokens: docs/design.md says what each is for. No color appears outside these two blocks. */
+  /* Design tokens: docs/design.md says what each is for. No color appears outside this block. */
   :root {
-    color-scheme: light dark;
+    color-scheme: light; /* light even on a dark system: dark maps are hard to read */
     --surface: #FFFFFF; --surface-2: #F4F1EC;
     --ink: #1E1B17; --ink-2: #534D45; --ink-3: #736B61;
     --line: #EAE6E0; --line-strong: #958C81;
@@ -26,19 +25,6 @@
     --shadow-sheet: 0 0 0 1px var(--line), 0 -4px 24px rgb(30 27 23 / .10);
     --radius-md: 12px; --radius-lg: 20px; --radius-pill: 999px;
     --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --surface: #1B1916; --surface-2: #26231F;
-      --ink: #F2EEE8; --ink-2: #CFC7BC; --ink-3: #A0978B;
-      --line: #332F29; --line-strong: #716960;
-      --accent-tint: #33290F;
-      --free-bg: #1E2D1B; --free-text: #9FD18F;
-      --kids-bg: #2A2440; --kids-text: #C4B5F4;
-      --map-land: #100F0D; --map-water: #1A2830; --map-park: #1B271B; --map-building: #211F1B;
-      --shadow-float: 0 0 0 1px var(--line), 0 2px 6px rgb(0 0 0 / .45);
-      --shadow-sheet: 0 0 0 1px var(--line), 0 -4px 24px rgb(0 0 0 / .5);
-    }
   }
 
   * { box-sizing: border-box; }
@@ -115,7 +101,6 @@
   .maplibregl-ctrl-group button:focus:focus-visible { box-shadow: 0 0 0 2px var(--ink); }
   .maplibregl-ctrl-attrib.maplibregl-compact { background: var(--surface); color: var(--ink-3); box-shadow: var(--shadow-float); }
   .maplibregl-ctrl-attrib a { color: inherit; }
-  @media (prefers-color-scheme: dark) { .maplibregl-ctrl-icon, .maplibregl-ctrl-attrib-button { filter: invert(1) hue-rotate(180deg); } }
 
   @media (min-width: 900px) {
     .bar { right: 452px; }
