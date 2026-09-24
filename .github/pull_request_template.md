@@ -10,6 +10,7 @@ Closes #
 ## Verified by
 <!-- Commands with their result line; screens if it is visual. -->
 - `uv run pytest` →
+- Diagrams in `docs/how-it-works.md`, `docs/routine.md` → (still true / updated)
 
 ## Review guide
 <!-- Start here: the one or two files where the decision lives. What is risky. What is untouched on purpose. -->

@@ -6,6 +6,7 @@ Library, the Office of Cultural Affairs and Jersey City Connects, rebuilt twice 
 as a static page from GitHub Pages at https://jcmaps.com/.
 
 - `docs/brief.md` is the product brief; `AGENTS.md` holds the build rules for anyone (or any agent) working here.
+- New here? Read `docs/how-it-works.md` (the pieces, in two diagrams) and `docs/routine.md` (who does what, and when).
 - `uv run jcmaps build --pull` runs the pipeline; `uv run pytest` runs the offline tests; `python -m http.server -d site` previews the page.
 - Events show a "Report a problem" link that opens a prefilled issue.
 - Built with AI assistance; every change is reviewed by a person, who is responsible for it.
