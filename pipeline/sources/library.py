@@ -19,7 +19,10 @@ KID_NO = {"Older Adults Events"}
 NOISE = re.compile(r"^(January|February|March|April|May|June|July|August|September|October|November|December"
                    r"|Blue Schedule|Red Schedule|Popular Events|Other/Multidisciplinary)$")
 FREE = re.compile(r"\bfree\b", re.I)
-FEE = re.compile(r"\$\s?\d|\bfees?\b|\bcosts?\b|\btickets?\b|\bpurchase\b", re.I)
+# A ticket is a fee only in a sentence about buying it: branches also hand out free entry tickets (#17).
+FEE = re.compile(r"\$\s?\d|\bfees?\b|\bcosts?\b|\bpurchase\b"
+                 r"|\btickets?\b[^.!?\n]*\b(?:buy|bought|purchas\w*|sold|sell\w*|sales?|price\w*)\b"
+                 r"|\b(?:buy|bought|purchas\w*|sold|sell\w*)\b[^.!?\n]*\btickets?\b", re.I)
 BOOKMOBILE_STOP = re.compile(r"^(?P<place>.+?)\s*-\s*[^-]*?,?\s*Bookmobile Stop\s*$", re.I)
 
 
