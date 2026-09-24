@@ -55,7 +55,7 @@ jobs:
           retention-days: 90
           if-no-files-found: ignore
 
-      - name: Open an issue when the gate fails or a source is empty
+      - name: Open an issue when the gate fails or a source cannot be fetched or is empty
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
@@ -73,8 +73,9 @@ jobs:
               r = None
           if r:
               gate, srcs = r["gate"], r["sources"]
-              empty = [s for s, v in srcs.items() if v.get("published", 0) == 0]
-              if gate["passed"] and not empty:
+              failed = {s: v for s, v in srcs.items() if v.get("error")}
+              empty = [s for s, v in srcs.items() if v.get("published", 0) == 0 and s not in failed]
+              if gate["passed"] and not failed and not empty:
                   sys.exit(1)
           print(f"**Where:** pipeline · **Seen:** run report, {os.environ['TODAY']} ([run]({run}))\n")
           print("## What happens")
@@ -83,13 +84,20 @@ jobs:
           else:
               if not gate["passed"]:
                   print("The gate failed, so the last good snapshot stayed published:\n" + "\n".join(f"- {x}" for x in gate["reasons"]))
+              for s, v in failed.items():
+                  if v.get("state") == "degraded":
+                      print(f"\nSource {s} could not be fetched ({v['error']}). Its last good events, fetched {v['carried_from']}, "
+                            f"were carried forward ({v['published']} published); 24 hours after that fetch they are left out.")
+                  else:
+                      print(f"\nSource {s} could not be fetched ({v['error']}) and has nothing left to carry, "
+                            "so it is left out until a fetch succeeds.")
               if empty:
                   print("\nSources that published zero events: " + ", ".join(empty))
               print("\n```json\n" + json.dumps({k: r.get(k) for k in ("sources", "drops", "geocode", "enrich", "pulled")}, indent=1) + "\n```")
-          print("\n## What should happen\nA scheduled run publishes a snapshot that passes the gate, with every source non-empty.")
+          print("\n## What should happen\nA scheduled run publishes a snapshot that passes the gate, with every source fetched and non-empty.")
           print("\n## Cause\nUnknown yet. Start with the run log and the `run-" + os.environ["RUN_ID"] + "` artifact (report and model log).")
           print("\n## Plan\n1. Read the report and the log.\n2. Fix the adapter or the source; refreeze the fixture if a feed changed shape.\n3. Re-run the workflow.\nOut of scope: anything the report does not mention.")
-          print("\n## Done when\n- [ ] a run publishes with the gate passed and every source non-empty")
+          print("\n## Done when\n- [ ] a run publishes with the gate passed and every source fetched and non-empty")
           PY
           if [ -s /tmp/issue.md ]; then
             gh label create "auto:build" --force --color D93F0B --description "opened by the build" >/dev/null

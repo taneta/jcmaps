@@ -11,7 +11,10 @@ SHRINK = 0.30  # a source losing more than this share of its events fails the ga
 MIN_BASE = 10  # unless the previous count was too small to judge
 
 
-def gate(candidate: Snapshot, previous: dict | None, boundary: list[list[float]], now: datetime) -> list[str]:
+def gate(candidate: Snapshot, previous: dict | None, boundary: list[list[float]], now: datetime,
+         failed: set[str] = frozenset()) -> list[str]:
+    """failed: sources whose fetch raised. Their carried events are judged like fresh ones; a failed source with
+    nothing left to carry is down, which the report and the issue say, not a shrink."""
     reasons: list[str] = []
     grace = now - timedelta(hours=1)
     for o in candidate.occurrences:
@@ -27,7 +30,7 @@ def gate(candidate: Snapshot, previous: dict | None, boundary: list[list[float]]
         reasons.append("no events at all")
     for sid, old in (previous or {}).get("sources", {}).items():
         before, after = old.get("count", 0), candidate.sources.get(sid, {}).get("count", 0)
-        if before >= MIN_BASE and after < before * (1 - SHRINK):
+        if before >= MIN_BASE and after < before * (1 - SHRINK) and not (sid in failed and after == 0):
             reasons.append(f"source {sid} shrank from {before} to {after}")
     return reasons
 
