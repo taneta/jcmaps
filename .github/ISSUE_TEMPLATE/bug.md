@@ -6,7 +6,9 @@ labels: bug
 
 <!-- Title: what is wrong, in plain words. "Pin says 2, list says 1", not "Map issue". -->
 
-**Where:** site | pipeline | data | ops · **Seen:** live site | local preview | run report, date
+**Where:** site | pipeline | data | ops · **Priority:** high | medium | low · **Seen:** live site | local preview | run report, date
+<!-- Priority: high if the site is broken or stale, medium for wrong data or a fix that prevents a class of errors,
+low for new features and polish (docs/routine.md). -->
 
 ## What happens
 <!-- Facts only: the screen, the numbers, ids, links. A screenshot if it is visual. -->

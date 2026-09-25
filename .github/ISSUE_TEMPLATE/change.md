@@ -6,7 +6,9 @@ labels: change
 
 <!-- Title: the outcome, in plain words. "Weekend list follows the map", not "Improve UX". -->
 
-**Where:** site | pipeline | data | ops
+**Where:** site | pipeline | data | ops · **Priority:** high | medium | low
+<!-- Priority: high if the site is broken or stale, medium for wrong data or a fix that prevents a class of errors,
+low for new features and polish (docs/routine.md). -->
 
 ## Now
 <!-- How it works today, one or two sentences. -->
