@@ -33,3 +33,15 @@ def test_connects_times_are_local_despite_utc_flag():
     assert r.start_utc == datetime(2026, 9, 24, 22, 0, tzinfo=timezone.utc)
     assert r.end_utc == datetime(2026, 9, 25, 1, 30, tzinfo=timezone.utc)
     assert r.organizer_type == "unknown"  # the model decides; the source default applies afterwards
+
+
+def test_city_markets_are_free_to_enter_and_other_empty_costs_stay_unknown():
+    from pipeline import enrich
+    raws = tribe.parse(load("culture.p1.json", "culture.p2.json"), "culture", "city")
+    fields = {r.source_uid: enrich.merge(r, None, "city") for r in raws}
+    markets = [r for r in raws if "Farmers Market" in r.title]
+    assert len(markets) == 12
+    assert all(fields[r.source_uid]["price"] == "free" and fields[r.source_uid]["evidence"]["price"].from_ == "rule"
+               for r in markets)
+    rent = [r for r in raws if r.title == "RENT: The Musical"]
+    assert rent and all(fields[r.source_uid]["price"] == "unknown" for r in rent)  # no quote, no default

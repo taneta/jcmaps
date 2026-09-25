@@ -118,3 +118,19 @@ def test_type_comes_from_the_title_then_the_feed_categories(make_raw):
     assert type_of("Teen Advisory Board", ["Teen Programs"]) == ("unknown", None)
     f = enrich.merge(make_raw(title="Run Club"), None)
     assert f["type"] == "health" and f["evidence"]["type"].quote == "Run Club"
+
+
+def test_city_markets_and_street_fairs_are_free_to_enter_unless_the_listing_talks_money(make_raw):
+    city = lambda **kw: make_raw(source_id="culture", **kw)
+    market = enrich.merge(city(title="Hamilton Park Farmers Market 2026", description="Fresh produce every Wednesday."), None)
+    assert market["price"] == "free" and market["evidence"]["price"].quote == "Farmers Market"
+    assert market["evidence"]["price"].from_ == "rule"
+    assert enrich.merge(city(title="Newark Avenue Street Fair"), None)["price"] == "free"
+    # A listing that talks about money is the model's to decide, and a price the model proved wins.
+    fee = city(title="Night Farmers Market", description="A $5 entry fee at the gate.")
+    assert enrich.merge(fee, None)["price"] == "unknown"
+    gala = city(title="Farmers Market Gala", description="Tickets $40.")
+    assert enrich.merge(gala, dict(OUT, price="paid", price_quote="Tickets $40.", price_text="Tickets $40."))["price"] == "paid"
+    assert enrich.merge(city(title="Marketing 101"), None)["price"] == "unknown"
+    # Only the city's calendar: the same market listed by another source keeps its unknown price.
+    assert enrich.merge(make_raw(source_id="connects", title="Hamilton Park Farmers Market"), None)["price"] == "unknown"

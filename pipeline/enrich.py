@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from pipeline.check import status_of
 from pipeline.model import Evidence, EventType, Raw
+from pipeline.sources.library import MONEY
 from datetime import timedelta
 
 from pipeline.util import ROOT, normalize, now_utc, read_json, sha, write_json
@@ -51,6 +52,8 @@ CATEGORY_WORDS: list[tuple[EventType, str]] = [
 ]
 _TITLE = [(t, re.compile(rx, re.I)) for t, rx in TITLE_WORDS]
 _CATEGORY = [(t, re.compile(rx, re.I)) for t, rx in CATEGORY_WORDS]
+FREE_TO_ENTER = re.compile(r"farmers?['’]?\s+market|street fair", re.I)
+FREE_TO_ENTER_SOURCES = {"culture"}  # the city's own calendar (Office of Cultural Affairs)
 
 
 def type_of(raw: Raw) -> tuple[EventType, Evidence | None]:
@@ -116,6 +119,13 @@ def _fallback(f: dict, raw: Raw, organizer_default: str) -> dict:
     if f["organizer_type"] == "unknown" and organizer_default != "unknown":
         f["organizer_type"] = organizer_default
         f["evidence"]["organizer_type"] = Evidence(quote=f"source: {raw.source_id}", from_="rule")
+    # Farmers markets and street fairs on the city's calendar are free to enter: the owner's rule, like the library's
+    # "library program" (#16). It decides only what nothing else did, and never for a listing that talks about money;
+    # the title words are the evidence.
+    if (f["price"] == "unknown" and raw.source_id in FREE_TO_ENTER_SOURCES and (m := FREE_TO_ENTER.search(raw.title))
+            and not MONEY.search(f"{raw.title}\n{raw.description}")):
+        f["price"] = "free"
+        f["evidence"]["price"] = Evidence(quote=m.group(0), from_="rule")
     return f
 
 
