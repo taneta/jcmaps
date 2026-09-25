@@ -42,7 +42,7 @@ python -m http.server -d site                                      # preview the
 pipeline/   sources/, geocode.py, enrich.py, llm.py, check.py, gate.py, publish.py, cli.py
 fixtures/   frozen inputs per source (4 library calendars, 2 API pages); labeled/enrich.json is the labeled set
 data/       library_branches.json (config)
-site/       index.html, about.html, app.js, search.js, icons.js, tokens.css; data/ is generated (events, enrich, geocode, report)
+site/       index.html, about.html, app.js, search.js, icons.js, visits.js, tokens.css; data/ is generated (events, enrich, geocode, report)
 docs/       brief.md, numbers.md, design.md, how-it-works.md, routine.md
 city.json   boundary polygon, time zone, source list, site_url
 

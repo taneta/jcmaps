@@ -1,4 +1,4 @@
-"""The About page lists the sources the map shows, and the map links to it."""
+"""The About page lists the sources the map shows, the map links to it, and every page counts visits."""
 import json
 import re
 from pathlib import Path
@@ -14,3 +14,8 @@ def test_about_lists_every_published_source():
 
 def test_the_map_links_to_about():
     assert (ROOT / "site" / "app.js").read_text().count('href="about.html"') == 2, "the map's credits and the list's footer"
+
+
+def test_every_page_counts_visits():
+    uncounted = [p.name for p in (ROOT / "site").glob("*.html") if 'src="visits.js"' not in p.read_text()]
+    assert not uncounted, f"{uncounted} do not load site/visits.js, so their visits go uncounted"
