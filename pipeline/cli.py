@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -66,8 +67,11 @@ def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client 
                 pages = ([json.loads(p.read_text()) for p in sorted((offline_root / "tribe").glob(f"{sid}.p*.json"))]
                          if offline else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
                 got += tribe.parse(pages, sid, src["organizer_type"])
-            stats[sid] = {"parsed": len(got)}
-            raws += got
+            # a venue's copy of another organizer's event, when that organizer's own site disagrees (docs/sources.md)
+            skip = re.compile(src["skip"], re.I) if src.get("skip") else None
+            kept = [r for r in got if not (skip and skip.search(r.title))]
+            stats[sid] = {"parsed": len(kept), **({"skipped": len(got) - len(kept)} if skip else {})}
+            raws += kept
         except Exception as e:  # a broken source yields no fresh events; build carries its last good ones
             stats[sid] = {"parsed": 0, "error": f"{type(e).__name__}: {str(e)[:200]}"}
             print(f"source {sid} failed: {e}", file=sys.stderr)
