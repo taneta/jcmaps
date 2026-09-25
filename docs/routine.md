@@ -9,7 +9,7 @@ The first row runs by itself; the rest is the owner's.
 
 | When | What |
 |---|---|
-| Twice a day (about 2am and 7am) and on every merge | The run rebuilds and redeploys the site. A failed run keeps the last good data live and opens an `auto:build` issue. So does a feed that cannot be reached, whose last good events stay for a day while the other sources update. |
+| Twice a day (about 2am and 7am) and on every merge | The run rebuilds and redeploys the site. A failed run keeps the last good data live and opens an `auto:build` issue. So does a feed that cannot be reached or that lists far fewer events than before, whose last good events stay for a day while the other sources update. |
 | Daily, 1 minute | Check that jcmaps.com's footer says *Updated* today and that no issue is new. |
 | An `auto:build` issue opens | Read it and the run log. If a feed was only down, the next run fetches it again (re-run the workflow to hurry it); otherwise open a Bug ticket. Fix it within a day: after that, visitors see the stale-data banner, or a feed that is still down drops off the site. |
 | A visitor report opens (*Wrong listing: …*) | Compare the event with its source. If our data is wrong, open a Bug ticket. |
