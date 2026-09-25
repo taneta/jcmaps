@@ -19,6 +19,14 @@ The done-when column in the brief's day-one table is the prediction; this file r
 | Tests | 24 (contract, search rules in node, checks, gate, enrichment, model-call glue) |
 | Time spent | about 35 minutes of agent time, against a ten-hour budget |
 
+## City prices, #16 (2026-09-24)
+
+| Number | Value |
+|---|---|
+| City events with `price: unknown`, before | 43 of 48 (90%) in the live snapshot of 19:24 UTC |
+| After the farmers market and street fair rule | 38 of 47 (81%) in a build from the feeds at 00:51 UTC on 25 September: the 4 Hamilton Park Farmers Market dates are free by rule |
+| Still unknown | 18 showings of RENT at Art House and 20 one-off events; the city's feed leaves their cost empty and states no price we can quote (findings in #16) |
+
 ## Notes
 
 - Kid-friendly before the model: yes 148, no 10, unknown 335; after: yes 309, no 58, unknown 121. Price after: free 406, paid 6, unknown 76. Registration: yes 72, no 21. Every event has a summary; 195 carry the listing's own age wording.

@@ -50,6 +50,7 @@ Source rules:
 - **Library audience** comes from categories: Storytime, Children and All-Ages mean kid-friendly yes; Adults (19+) means no.
 - **Library price** is free by adapter rule, with "library program" recorded as the evidence, unless the listing talks about money: a price, a fee, a cost, a fundraiser, or a ticket in a sentence about buying it (branches also hand out free entry tickets). Then the model decides, with a quote. The word "free" decides nothing on its own, because it is part of the library's name.
 - **An empty `cost` field in The Events Calendar means unknown, not free.** Only the word free or a zero means free.
+- **Farmers markets and street fairs on the city's calendar are free to enter**, by the owner's rule, like the library's. It applies only when nothing else decided the price and the listing does not talk about money; the title words ("Farmers Market") are the evidence, marked as a rule.
 - **Boundary:** occurrences outside the city polygon are dropped and counted in the run report.
 
 Not now: Eventbrite (per-organizer API only), Meetup (paid), Instagram and Facebook (terms forbid collection; v2 covers them through flyers), the city's own CivicLive calendar (meetings, no feed), Macaroni KID (blocks scripted requests; baseline by hand).
