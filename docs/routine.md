@@ -25,7 +25,7 @@ The first row runs by itself; the rest is the owner's.
 flowchart TD
     %% Mirrors the ticket and pull request rules in AGENTS.md. Update it when the process changes.
     intake["Where work comes from<br/>failed runs, visitor reports,<br/>suggestions, findings, the brief"]
-    intake --> ticket["Ticket<br/>Bug or Change,<br/>with Done when"]:::owner
+    intake --> ticket["Ticket<br/>Bug or Change,<br/>priority, Done when"]:::owner
     ticket --> work["Own worktree and branch<br/>code, tests, diagrams"]:::agent
     work --> pr["Pull request<br/>Done when ticked"]:::agent
     pr --> review{"Review"}:::owner
@@ -44,7 +44,8 @@ Yellow is the owner, who reviews, merges and is responsible for every change; vi
 itself.
 
 1. **Ticket.** Use the Bug or Change template; *Done when* lists checkable statements. One ticket per pull request.
-   Next up: a broken or stale site, then wrong data, then fixes that prevent a class of errors, then new features.
+   *Priority* says how soon: **high** for a broken or stale site, **medium** for wrong data or a fix that prevents a
+   class of errors, **low** for new features and polish. Next up: the highest priority, oldest first.
 2. **Branch.** Each ticket gets its own worktree from `origin/main`. Several sessions share the main folder, so
    never switch branches there.
 3. **Change.** Code with tests. A new source is a module in `pipeline/sources/`, fixtures and a `city.json` entry.
