@@ -15,7 +15,7 @@ from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
 from pipeline.sources import library, tribe
-from pipeline.util import ROOT, UA, env, now_utc, read_json, write_json
+from pipeline.util import ROOT, UA, env, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
 BRANCHES = ROOT / "data" / "library_branches.json"
@@ -44,9 +44,8 @@ def pull(site_url: str, client: httpx.Client) -> dict[str, str]:
     return got
 
 
-def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client | None,
-              offline_root: Path = FIXTURES) -> tuple[list[Raw], dict]:
-    """offline reads frozen feeds from offline_root (fixtures, or cache/ for the last fetched copies)."""
+def load_raws(city: dict, only: str | None, root: Path | None, client: httpx.Client | None) -> tuple[list[Raw], dict]:
+    """root: read the feeds saved there instead of fetching (FIXTURES, the frozen ones; CACHE, the last fetched)."""
     raws: list[Raw] = []
     stats: dict[str, dict] = {}
     branches = read_json(BRANCHES, {}) or {}
@@ -58,14 +57,16 @@ def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client 
             got: list[Raw] = []
             if src["kind"] == "ics":
                 for cid in src["calendars"]:
-                    frozen = offline_root / "library" / f"{cid}.ics"
-                    if offline and not frozen.exists():
+                    if root == FIXTURES and not (root / "library" / f"{cid}.ics").exists():
                         continue  # only a few calendars are frozen
-                    text = frozen.read_text() if offline else library.fetch(cid, CACHE / "library", client)
+                    text = ((root / "library" / f"{cid}.ics").read_text() if root
+                            else library.fetch(cid, CACHE / "library", client))
                     got += library.parse(text, cid, branches.get(cid))
             else:
-                pages = ([json.loads(p.read_text()) for p in sorted((offline_root / "tribe").glob(f"{sid}.p*.json"))]
-                         if offline else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
+                pages = ([json.loads(p.read_text()) for p in sorted((root / "tribe").glob(f"{sid}.p*.json"))]
+                         if root else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
+                if root and not pages:
+                    raise FileNotFoundError(root / "tribe" / f"{sid}.p1.json")
                 got += tribe.parse(pages, sid, src["organizer_type"])
             stats[sid] = {"parsed": len(got)}
             raws += got
@@ -75,14 +76,15 @@ def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client 
     return raws, stats
 
 
-def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None) -> int:
+def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None, cached: bool = False) -> int:
     t0 = time.monotonic()
     now = now_utc()
     city = json.loads(CITY.read_text())
-    client = httpx.Client(headers={"User-Agent": UA}, timeout=60, follow_redirects=True)
+    client = httpx.Client(headers={"User-Agent": UA}, timeout=60, follow_redirects=True,
+                          event_hooks={"request": [spaced(city.get("crawl_delay_s", {}))]})
     pulled = pull(pull_from, client) if pull_from else {}
 
-    raws, src_stats = load_raws(city, only, offline, client)
+    raws, src_stats = load_raws(city, only, FIXTURES if offline else CACHE if cached else None, client)
     raws, drops = check.prefilter(raws, now)
     # a partial or fixture build must not be judged against the full snapshot, nor carry from it
     previous = None if (only or offline) else read_json(publish.SNAPSHOT)
@@ -161,7 +163,7 @@ def eval_enrich(n: int = 30) -> int:
     inputs = {}
     root = CACHE if (CACHE / "library").exists() else FIXTURES  # the last fetched feeds, or the frozen ones
     for src in [s for s in json.loads(CITY.read_text())["sources"] if s.get("publish")]:
-        for raw in load_raws({"sources": [src]}, None, True, None, offline_root=root)[0]:
+        for raw in load_raws({"sources": [src]}, None, root, None)[0]:
             inputs[raw.id] = raw.enrich_text()
     rows = []
     for e in picked:
@@ -184,6 +186,8 @@ def main(argv: list[str] | None = None) -> None:
     b.add_argument("--source")
     b.add_argument("--offline", action="store_true", help="fixtures instead of feeds; no geocoding or model calls")
     b.add_argument("--no-model", action="store_true")
+    b.add_argument("--cached", action="store_true",
+                   help="the feeds the last fetching run left in cache/ instead of fetching; how a push to main builds")
     b.add_argument("--pull", nargs="?", const="", metavar="URL",
                    help="first fetch the previous snapshot and caches from the live site (default: site_url in city.json)")
     sub.add_parser("eval-enrich")
@@ -194,7 +198,7 @@ def main(argv: list[str] | None = None) -> None:
             site_url = a.pull or json.loads(CITY.read_text()).get("site_url")
             if not site_url:
                 p.error("--pull needs a URL or site_url in city.json")
-        sys.exit(build(a.source, a.offline, a.no_model, site_url))
+        sys.exit(build(a.source, a.offline, a.no_model, site_url, a.cached))
     sys.exit(eval_enrich())
 
 

@@ -11,7 +11,7 @@ flowchart TD
     %% Mirrors .github/workflows/build.yml. Update it when the run, a trigger or a service changes.
     feeds["Public feeds<br/>library, Cultural Affairs,<br/>Jersey City Connects"]
     repo["GitHub repo<br/>code, docs, fixtures"]
-    run["Build run<br/>GitHub Actions, twice a day<br/>and on every merge"]
+    run["Build run<br/>GitHub Actions: twice a day<br/>fetching, on every merge<br/>from the saved feeds"]
     openai["OpenAI<br/>labels and summaries"]
     nominatim["Nominatim<br/>addresses to map points"]
     site["jcmaps.com<br/>static page and data"]

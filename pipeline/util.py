@@ -1,18 +1,22 @@
-"""Small shared helpers: paths, time zone, text normalization, JSON files."""
+"""Small shared helpers: paths, time zone, requests, text normalization, JSON files."""
 from __future__ import annotations
 
 import hashlib
 import html
 import json
 import re
+import sys
+import time
 import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import httpx
+
 ROOT = Path(__file__).resolve().parent.parent
 TZ = ZoneInfo("America/New_York")
-UA = "JCMaps/0.1 (non-commercial Jersey City events map)"
+UA = "JCMaps/0.1 (+https://jcmaps.com; non-commercial Jersey City events map)"
 
 
 def env(name: str, default: str) -> str:
@@ -24,6 +28,21 @@ def env(name: str, default: str) -> str:
 
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def spaced(delay_s: dict[str, float]):
+    """An httpx request hook: a request to a host waits the Crawl-delay its robots.txt asks (seconds by host, from
+    city.json), and every request is logged with its time, so a run log shows the spacing."""
+    last: dict[str, float] = {}
+
+    def wait(request: httpx.Request) -> None:
+        host = request.url.host
+        if host in last and (due := last[host] + delay_s.get(host, 0)) > time.monotonic():
+            time.sleep(due - time.monotonic())
+        last[host] = time.monotonic()
+        print(f"{now_utc().isoformat(timespec='seconds')} {request.method} {request.url}", file=sys.stderr)
+
+    return wait
 
 
 def sha(text: str) -> str:

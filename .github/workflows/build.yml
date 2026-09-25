@@ -32,17 +32,33 @@ jobs:
       - run: uv sync --frozen
       - run: uv run pytest -q
 
-      - name: Build (pull the live data, fetch feeds, enrich, check, gate)
+      # Only scheduled and manual runs fetch the feeds. A push rebuilds from the feeds the last fetching run saved,
+      # so a merge sends no request to a source (docs/sources.md, rule 6).
+      - name: Restore the feeds the last fetching run saved
+        if: github.event_name == 'push'
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: feeds-${{ github.run_id }}
+          restore-keys: feeds-
+      - name: Build (pull the live data; fetch the feeds, or on a push read the saved ones; enrich, check, gate)
         id: build
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JCMAP_MODEL: ${{ vars.JCMAP_MODEL }}
           JCMAP_EFFORT: ${{ vars.JCMAP_EFFORT }}
           JCMAP_COST_CAP_USD: ${{ vars.JCMAP_COST_CAP_USD }}
+          CACHED: ${{ github.event_name == 'push' && '--cached' || '' }}
         run: |
           set +e
-          uv run jcmaps build --pull
+          uv run jcmaps build --pull $CACHED
           echo "exit=$?" >> "$GITHUB_OUTPUT"
+      - name: Save the feeds for the next push
+        if: github.event_name != 'push'
+        uses: actions/cache/save@v4
+        with:
+          path: cache
+          key: feeds-${{ github.run_id }}
 
       - name: Keep the run report and model log for 90 days
         if: always()

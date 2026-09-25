@@ -38,7 +38,7 @@ flowchart TD
 **How we visit**
 
 6. **On the schedule, at the site's pace.** Only scheduled and manual runs fetch: one request at a time, spaced as
-   robots.txt asks, under the name JCMaps with a link to jcmaps.com. Until #42 lands, merges fetch too, unspaced.
+   robots.txt asks, under the name JCMaps with a link to jcmaps.com.
 
 **What we keep**
 
