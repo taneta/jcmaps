@@ -9,7 +9,7 @@ import httpx
 from icalendar import Calendar
 
 from pipeline.model import Evidence, Raw
-from pipeline.util import TZ
+from pipeline.util import TZ, scrub
 
 SOURCE_ID = "library"
 FEED = "https://jclibrary.libcal.com/ical_subscribe.php?src=p&cid={cid}"
@@ -30,9 +30,10 @@ BOOKMOBILE_STOP = re.compile(r"^(?P<place>.+?)\s*-\s*[^-]*?,?\s*Bookmobile Stop\
 def fetch(cid: str, cache_dir: Path, client: httpx.Client) -> str:
     r = client.get(FEED.format(cid=cid))
     r.raise_for_status()
+    text = scrub(r.text)
     cache_dir.mkdir(parents=True, exist_ok=True)
-    (cache_dir / f"{cid}.ics").write_text(r.text)
-    return r.text
+    (cache_dir / f"{cid}.ics").write_text(text)
+    return text
 
 
 def _categories(ev) -> list[str]:
