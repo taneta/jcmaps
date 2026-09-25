@@ -29,9 +29,11 @@
   .lead { color: var(--ink-2); }
   a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
   a:hover { text-decoration-color: currentColor; }
-  .sources { margin: 0; padding: 0; list-style: none; }
-  .sources li { margin: 0 0 10px; }
-  .panel { margin: 20px 0 8px; padding: 16px 18px 18px; border-radius: var(--radius-md); background: var(--surface-2); color: var(--ink-2); }
+  .sources { margin: 0 0 12px; padding-left: 22px; }
+  .sources li { margin: 0 0 6px; }
+  .sources li::marker { color: var(--ink-3); }
+  .sign { margin-top: 16px; color: var(--ink-2); font-size: 14px; font-weight: 500; }
+  .panel { margin: 0 0 20px; padding: 16px 18px 18px; border-radius: var(--radius-md); background: var(--surface-2); color: var(--ink-2); }
   .panel p { margin: 0; }
   .panel b { color: var(--ink); }
   .button { display: inline-flex; align-items: center; height: 44px; margin-top: 14px; padding: 0 18px; border-radius: var(--radius-pill);
@@ -53,38 +55,36 @@
   </header>
   <p class="lead">What's on in Jersey City (today, tomorrow or this weekend) on one map. Free to use and non-commercial: no ads, no sign-up.</p>
 
-  <h2>Who makes it</h2>
-  <p>Hi, I'm Katerina, and I've lived in Jersey City since 2020. A lot happens in this city: story times, free concerts,
-    park cleanups, meetups. I'm always wondering where to take my kids or where to hang out with friends, and the answer
-    is usually spread across calendars few people check. JC Maps brings them together on one map.</p>
-  <p>I also want to move civic tech and community projects in Jersey City forward: small, open tools that make public
-    information easy to use and bring neighbors together. If you're working on a community or civic tech project here,
-    or have an idea for one, tell me about it:
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+community+or+civic+tech+project" target="_blank" rel="noopener">send me a message ↗</a>.</p>
-
   <h2>Where the events come from</h2>
-  <ul class="sources">
-    <li data-source="library"><a href="https://jclibrary.libcal.com/calendar" target="_blank" rel="noopener">Jersey City Free Public Library ↗</a>:
-      story times, classes, clubs and talks at the Main Library, its ten branches, the Bookmobile, the Creative Arts
-      Center and the Learning Center.</li>
-    <li data-source="culture"><a href="https://jerseycityculture.org/events/" target="_blank" rel="noopener">Jersey City Office of Cultural Affairs ↗</a>:
-      the City's festivals, concerts, exhibitions and community events, most of them free.</li>
-    <li data-source="connects"><a href="https://jerseycityconnects.com/events/" target="_blank" rel="noopener">Jersey City Connects ↗</a>:
-      a social club for adults, with mixers, game nights and outings.</li>
-  </ul>
   <div class="panel">
     <p><b>Know a calendar, website or newsletter that lists events?</b> That's the most helpful suggestion, because one
       source can bring dozens of events. Connecting a new source takes some work, so give it a few weeks.</p>
     <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+calendar,+website+or+newsletter+with+events" target="_blank" rel="noopener">Suggest a source ↗</a>
   </div>
+  <p>JC Maps collects events only from sources that share them openly, such as public calendars, and treats them with
+    respect: it keeps the facts (what, when and where), sums each event up in its own words, and always links back to
+    the original listing. The sources so far:</p>
+  <ul class="sources">
+    <li data-source="library"><a href="https://jclibrary.libcal.com/calendar" target="_blank" rel="noopener">Jersey City Free Public Library ↗</a></li>
+    <li data-source="culture"><a href="https://jerseycityculture.org/events/" target="_blank" rel="noopener">Jersey City Office of Cultural Affairs ↗</a></li>
+    <li data-source="connects"><a href="https://jerseycityconnects.com/events/" target="_blank" rel="noopener">Jersey City Connects ↗</a></li>
+  </ul>
 
   <h2>Add an event or a source</h2>
-  <p>Suggestions don't go on the map automatically; I read each one first. If you'd like a source added,
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+calendar,+website+or+newsletter+with+events" target="_blank" rel="noopener">send me a message ↗</a>.
-    If you're organizing something and want it on the map, for now please
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=An+event+I%27m+organizing" target="_blank" rel="noopener">send it through this form ↗</a>.
-    The next version of JC Maps will let every organizer put their own events on the map.</p>
+  <p>Send me <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=An+event+I%27m+organizing" target="_blank" rel="noopener">an event you're organizing ↗</a> or
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+calendar,+website+or+newsletter+with+events" target="_blank" rel="noopener">a calendar that lists events ↗</a>, and I'll read it before
+    anything goes on the map.</p>
   <p class="small">The form is a Google Form, and only I see your answers.</p>
+
+  <h2>Who makes it</h2>
+  <p>Hi, I'm Katerina, and I've lived in Jersey City since 2020. A lot happens in this city: story times, free concerts,
+    park cleanups, meetups. I'm always wondering where to take my kids or where to hang out with friends, and the answer
+    is usually spread across calendars and chats. Let's bring them together on one map!</p>
+  <p>I also want to move civic tech and community projects in Jersey City forward: small, open tools that make public
+    information easy to use and bring neighbors together. If you're working on a community or civic tech project here,
+    or have an idea for one, tell me about it:
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+community+or+civic+tech+project" target="_blank" rel="noopener">send me a message ↗</a>.</p>
+  <p class="sign">Katerina Samwell · <a href="https://www.linkedin.com/in/katerina-malakhova/" target="_blank" rel="noopener">LinkedIn ↗</a></p>
 
   <footer>
     Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors ·
