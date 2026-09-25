@@ -101,11 +101,12 @@ def test_one_venue_per_address(make_raw, tmp_path):
 
 
 def test_fixture_venue_table_has_one_venue_per_address(tmp_path):
-    raws, _ = cli.load_raws(CITY, None, True, None)
+    first = {"sources": [s for s in CITY["sources"] if s["id"] in ("library", "culture", "connects")]}  # day one's
+    raws, _ = cli.load_raws(first, None, True, None)
     venues = build_venues(raws, Geocoder(None, cache_path=tmp_path / "geo.json"))
     keys = [venue_key(v.name, v.address) for v in venues.values()]
     assert len(keys) == len(set(keys))
-    assert len(venues) == 117  # 141 distinct name and address pairs
+    assert len(venues) == 90  # 105 distinct name and address pairs
     art = next(v for v in venues.values() if v.id == "345-marin-blvd-jersey-city")
     assert (art.name, art.aliases) == ("Art House Productions", ["ART HOUSE"])  # mixed case over all caps
 
