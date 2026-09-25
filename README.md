@@ -1,8 +1,8 @@
 # JCMaps
 
 A map of Jersey City events by time window: what is on today, tomorrow, at the weekend or on the dates you pick,
-with a family view by default. Non-commercial. Data comes from the public feeds of the Jersey City Free Public
-Library, the Office of Cultural Affairs and Jersey City Connects, rebuilt twice a day by GitHub Actions and served
+with a family view by default. Non-commercial. Data comes from public calendars (the library, the city and community
+groups; the About page lists them all), rebuilt twice a day by GitHub Actions and served
 as a static page from GitHub Pages at https://jcmaps.com/.
 
 - `docs/brief.md` is the product brief; `AGENTS.md` holds the build rules for anyone (or any agent) working here.

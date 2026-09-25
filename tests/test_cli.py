@@ -12,7 +12,7 @@ import pytest
 
 from pipeline import cli, enrich, publish
 from pipeline.geocode import Geocoder
-from pipeline.sources import library, tribe
+from pipeline.sources import ical, library, tribe
 from pipeline.util import ROOT
 
 T0 = datetime(2026, 9, 24, 12, 0, tzinfo=timezone.utc)
@@ -63,6 +63,8 @@ def build(tmp_path, monkeypatch):
     monkeypatch.setattr(enrich, "enrich_all", partial(enrich.enrich_all, cache_path=tmp_path / "enrich.json"))
     monkeypatch.setattr(library, "fetch",
                         lambda cid, cache_dir, client: (cli.FIXTURES / "library" / f"{cid}.ics").read_text())
+    monkeypatch.setattr(ical, "fetch",
+                        lambda sid, url, cache_dir, client: (cli.FIXTURES / "ical" / f"{sid}.ics").read_text())
 
     def run(at: datetime, down=(), empty=()) -> tuple[int, dict, dict]:
         def fetch(sid, base, cache_dir, client):

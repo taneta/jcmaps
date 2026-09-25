@@ -1,0 +1,1447 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+NAME:Calendar
+X-WR-CALNAME:Calendar
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+PRODID:-//ddaysoftware.com//NONSGML DDay.iCal 1.0//EN
+BEGIN:VTIMEZONE
+TZID:US Eastern
+BEGIN:STANDARD
+DTSTART:20261102T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYHOUR=2;BYMINUTE=0;BYMONTH=11
+TZNAME:US Eastern Standard
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20260301T020000
+RRULE:FREQ=YEARLY;BYDAY=2SU;BYHOUR=2;BYMINUTE=0;BYMONTH=3
+TZNAME:US Eastern Daylight
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:
+DTEND:20260625T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260625T140000Z
+LAST-MODIFIED:20260615T221958Z
+LOCATION:North Hudson Community Action Corp\, 324 Palisades Ave.
+SEQUENCE:0
+SUMMARY:Court Outreach Team
+UID:21320103
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Health & Wellness
+DESCRIPTION:
+DTEND:20260626T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260626T160000Z
+LAST-MODIFIED:20260615T222319Z
+LOCATION:JC HHS HIV Testing & Resource Fair\, City Hall Annex\, 1 Jackson Sq
+SEQUENCE:0
+SUMMARY:Court Outreach Team
+UID:21320105
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm</span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">&nbsp\;</span><b style="text-align: justify\; font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Zoom link to join meeting:</span></b><span style="font-family: &quot\;Times New Roman&quot\;\, serif\; text-align: justify\;"></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Join from PC\, Mac\, iPad\, or Android:</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/j/83450838695___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6NzplZWVkOjQ5ZDhlOGM3ZGUzN2YzYTVlNWFkNzc5NjY5NzM5YmNhYzI0NDAxMWU2ODJlZWMwNmMyYmU5YTliMGQyMGJlZTY6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/j/83450838695</span></a><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">&nbsp\; &nbsp\; &nbsp\;</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><b style="font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Webinar ID: 834 5083 8695</span></b></p>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">International numbers available: </span><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/u/kd9Vkz6lYV___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6Nzo0ZWJkOjM0Y2M1YWMxZmY3ZmQxMWI2ZTUwMzhlZjAxYjZkNDBjMTNhY2QzYTU1MzhkNDg3MjQzMjlkYzA3ZGE2ZTdlZTU6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/u/kd9Vkz6lYV</span></a></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n        The Board Chair may change the order in which the agenda items are called.<br>\n        Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at <a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n        </div>\n        </li>\n    </ul>\n    </div>\n    </li>\n</ul>
+DTEND:20260701T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260630T213000Z
+LAST-MODIFIED:20260618T190458Z
+LOCATION:via Zoom 
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075654
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Items/Item/public.aspx?Id=457204" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/playlist?list=PL3ty7DQXb7TF_PqRk81QSI-sYsRGmhXIZ" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260702T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260701T220000Z
+LAST-MODIFIED:20260708T172200Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Special City Council Meeting
+UID:21343591
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260706T180000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260706T160000Z
+LAST-MODIFIED:20260708T230134Z
+LOCATION:Mercy for My Neighbor\, 145 Linden Ave.\, Jersey City\, NJ 07305
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ Mercy for My Neighbor
+UID:21332627
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.
+DTEND:20260708T230000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260708T210000Z
+LAST-MODIFIED:20260708T214045Z
+LOCATION:JCFPL Miller Branch\, 489 Bergen Ave.\, Jersey City\, NJ 07304
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ JCFPL
+UID:21339791
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260709T173000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260709T143000Z
+LAST-MODIFIED:20260708T223526Z
+LOCATION:Leaders Without Limits\, 63 Martin Luther King Jr. Dr.\, Jersey City\, NJ 07305
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ Leaders Without Limits
+UID:21332640
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\n(ID: 834 5083 8695): </span><a href="https://us02web.zoom.us/j/83450838695" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="0" title="https://us02web.zoom.us/j/83450838695" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/83450838695</a>
+DTEND:20260710T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260709T220000Z
+LAST-MODIFIED:20260707T205617Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Zoning Board Meeting
+UID:21343065
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:Register Here:&nbsp\;<a href="https://www.eventbrite.com/e/1993486883933" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="0" title="https://www.eventbrite.com/e/1993486883933" data-olk-copy-source="MessageBody" style="font: inherit\; border: 0px\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://www.eventbrite.com/e/1993486883933</a>
+DTEND:20260711T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260711T150000Z
+LAST-MODIFIED:20260707T211234Z
+LOCATION:St. John's Lutheran Church 
+SEQUENCE:0
+SUMMARY:Budget Town Hall #4
+UID:21343097
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Items/Item/public.aspx?Id=457204" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/playlist?list=PL3ty7DQXb7TF_PqRk81QSI-sYsRGmhXIZ" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260713T180000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260713T160000Z
+LAST-MODIFIED:20260709T203213Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343429
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\nHistoric Preservation (ID: 816 9008 6910): </span><a href="https://us02web.zoom.us/j/81690086910" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="1" title="https://us02web.zoom.us/j/81690086910" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/81690086910</a>
+DTEND:20260714T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260713T223000Z
+LAST-MODIFIED:20260711T155734Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Historic Preservation Commission
+UID:21343075
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260714T173000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260714T150000Z
+LAST-MODIFIED:20260708T224019Z
+LOCATION:CSPNJ-Hudson\, 422 Martin Luther King Jr. Dr.\, Jersey City\, NJ 07304
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach at CSPNJ
+UID:21332678
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm</span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">&nbsp\;</span><b style="text-align: justify\; font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Zoom link to join meeting:</span></b><span style="font-family: &quot\;Times New Roman&quot\;\, serif\; text-align: justify\;"></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Join from PC\, Mac\, iPad\, or Android:</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/j/83450838695___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6NzplZWVkOjQ5ZDhlOGM3ZGUzN2YzYTVlNWFkNzc5NjY5NzM5YmNhYzI0NDAxMWU2ODJlZWMwNmMyYmU5YTliMGQyMGJlZTY6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/j/83450838695</span></a><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">&nbsp\; &nbsp\; &nbsp\;</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><b style="font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Webinar ID: 834 5083 8695</span></b></p>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">International numbers available: </span><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/u/kd9Vkz6lYV___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6Nzo0ZWJkOjM0Y2M1YWMxZmY3ZmQxMWI2ZTUwMzhlZjAxYjZkNDBjMTNhY2QzYTU1MzhkNDg3MjQzMjlkYzA3ZGE2ZTdlZTU6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/u/kd9Vkz6lYV</span></a></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n        The Board Chair may change the order in which the agenda items are called.<br>\n        Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at <a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n        </div>\n        </li>\n    </ul>\n    </div>\n    </li>\n</ul>
+DTEND:20260715T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260714T213000Z
+LAST-MODIFIED:20260709T145540Z
+LOCATION:via Zoom
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075657
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Items/Item/public.aspx?Id=457204" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260716T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260715T220000Z
+LAST-MODIFIED:20260708T173621Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343531
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<p style="color: black\; font-size: 12pt\; margin-top: 0px\; margin-bottom: 0px\;">Register Here:&nbsp\;<a href="https://www.eventbrite.com/e/1993463724663" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="0" title="https://www.eventbrite.com/e/1993463724663" data-olk-copy-source="MessageBody" style="font-size: inherit\; font-style: inherit\; font-variant: inherit\; font-weight: inherit\; font-stretch: inherit\; line-height: inherit\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; border: 0px\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://www.eventbrite.com/e/1993463724663</a></p>
+DTEND:20260717T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260716T223000Z
+LAST-MODIFIED:20260707T211525Z
+LOCATION:A Better Life Ministry  
+SEQUENCE:0
+SUMMARY:Budget Town Hall #5
+UID:21343104
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20260721T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260720T223000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059930
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NjZmMjE1MjEtMjU4OC00YTNmLWJjNmItMGQyNThmMTYxNTBi%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Budget Meeting">Join Virtually Via Teams</a><br>\n<br>\nMeeting ID: 287 775 863 390 97<br>\nPasscode: cY3t2Yw6<br>\n<br>\n<br>\n<p style="color: rgb(36\, 36\, 36)\; font-size: 12pt\; font-family: Aptos\, sans-serif\;"><span style="color: inherit\; font-family: inherit\; font-size: 11pt\; font-style: inherit\; font-variant-ligatures: inherit\; font-variant-caps: inherit\; font-weight: inherit\;"></span></p>
+DTEND:20260721T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260721T140000Z
+LAST-MODIFIED:20260721T125922Z
+LOCATION:
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Public Safety
+UID:21351558
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NjZmMjE1MjEtMjU4OC00YTNmLWJjNmItMGQyNThmMTYxNTBi%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Budget Meeting">Join Virtually Via Teams</a><br>\n<p><span style="font-size: 14px\;">Meeting ID: 287 775 863 390 97</span><br style="font-size: 14px\;">\n<span style="font-size: 14px\;">Passcode: cY3t2Yw6</span></p>
+DTEND:20260721T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260721T170000Z
+LAST-MODIFIED:20260721T131601Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Law Department
+UID:21353064
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Join Mayor Solomon and the Van Vorst Neighborhood Association for open discussions and community updates.<br>\n<br>\nDate: Tuesday\, July 21<br>\nTime: 6:30 PM to 8:30 PM<br>\n6:30 PM to 7:00 PM: Meet your neighbors<br>\n7:00 PM: Meeting begins<br>\nLocation: Barrow Mansion\, 83 Wayne Street\, Jersey City\, NJ<br>\n<br>\n<a href="https://www.eventbrite.com/e/1994150254091" title="Register Here">Register Here</a><br>\n<br>\nAttend Virtually Via Zoom: <a href="https://zoom.us/j/85170770500" title="Attend Virtually Via Zoom">https://zoom.us/j/85170770500</a><br>\nMeeting ID: 851 7077 0500<br>\nPasscode: VVPA
+DTEND:20260722T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260721T223000Z
+LAST-MODIFIED:20260716T175211Z
+LOCATION:Barrow Mansion\, 83 Wayne Street\, Jersey City\, NJ
+SEQUENCE:0
+SUMMARY:Community Meeting with VVNA
+UID:21350133
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20260722T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260721T223000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245777
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND;TZID=US Eastern:20271019T203000
+DTSTAMP:20260925T222323Z
+DTSTART;TZID=US Eastern:20271019T183000
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+RRULE:FREQ=MONTHLY;BYDAY=TU;BYSETPOS=3
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245777-0
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260722T130000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260722T110000Z
+LAST-MODIFIED:20260708T224328Z
+LOCATION:Grace Community Services\, 39 Erie St.\, Jersey City\, NJ 07302
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ Grace Comm. Services
+UID:21339796
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MGQ2NjBlOTctMDlkNC00MTUzLWIyYzUtOGY3OTY4NzA2NWUx%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join virtually via Microsoft Teams">Join virtually via Microsoft Teams</a><br>\n<br>\nMeeting ID: 258 101 491 906 693<br>\nPasscode: W3LR79KT
+DTEND:20260722T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260722T140000Z
+LAST-MODIFIED:20260721T125904Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: City Clerk/Municipal Council
+UID:21352300
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MGQ2NjBlOTctMDlkNC00MTUzLWIyYzUtOGY3OTY4NzA2NWUx%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d   " title="Budget Meeting">Join Virtually Via Teams</a><br>\n<br>\nMeeting ID: 258 101 491 906 693<br>\nPasscode: W3LR79KT
+DTEND:20260722T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260722T170000Z
+LAST-MODIFIED:20260722T142643Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Tax Assessor's Office
+UID:21353067
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTdmYjRiNmMtMGM2OC00NDcxLTlkYmItYzc2NWJjZmMyMjBm%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a><br>\n<br>\nMeeting ID: 241 675 828 497 271<br>\nPasscode: eW9Md78E
+DTEND:20260723T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260723T140000Z
+LAST-MODIFIED:20260721T130819Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Mayor's Office/Cultural Affairs
+UID:21352312
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTdmYjRiNmMtMGM2OC00NDcxLTlkYmItYzc2NWJjZmMyMjBm%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a><br>\n<br>\n<span style="font-size: 14px\;">Meeting ID: 241 675 828 497 271</span><br style="font-size: 14px\;">\n<span style="font-size: 14px\;">Passcode: eW9Md78E</span>
+DTEND:20260723T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260723T170000Z
+LAST-MODIFIED:20260721T131033Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Public Works
+UID:21353076
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2I4NDljYjAtNDc2MC00ZDM5LTkwZmYtOTNmOTgyOGEwOGVj%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a><br>\n<br>\nMeeting ID: 267 445 813 643 229<br>\nPasscode: 86d5sj2V
+DTEND:20260724T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260724T140000Z
+LAST-MODIFIED:20260724T125941Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Health and Human Services
+UID:21353090
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2I4NDljYjAtNDc2MC00ZDM5LTkwZmYtOTNmOTgyOGEwOGVj%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a><br>\n<br>\nMeeting ID: 267 445 813 643 229<br>\nPasscode: 86d5sj2V
+DTEND:20260724T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260724T170000Z
+LAST-MODIFIED:20260724T130005Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Public Library
+UID:21352327
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:The session will provide information and application assistance for programs such as Senior Freeze\, ANCHOR\, and Stay NJ. Light refreshments will be provided.<br>\n<br>\n<a href="https://www.eventbrite.com/e/senior-freeze-information-application-assistance-tickets-1994579423749?aff=ebdsoporgprofile" title="Register Here">Register Here</a>
+DTEND:20260724T200000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260724T180000Z
+LAST-MODIFIED:20260723T145330Z
+LOCATION:Bethune Center: 140 Martin Luther King Drive
+SEQUENCE:0
+SUMMARY:Senior Freeze Property Tax Relief Application
+UID:21355186
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_OGFhMDU5OWQtMGYxNC00ZmYxLTk0YWItMDkzNDUxZTVmODE4%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d      " title="Join Virtually Via Microsoft Teams">Join via Microsoft Teams</a><br>\n<br>\nMeeting ID: 293 492 287 049 971<br>\nPasscode: PT3Rd3pn
+DTEND:20260727T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260727T140000Z
+LAST-MODIFIED:20260727T132422Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Dept. of Administration/Human Resources
+UID:21355533
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_OGFhMDU5OWQtMGYxNC00ZmYxLTk0YWItMDkzNDUxZTVmODE4%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join via Microsoft Teams</a><br>\n<br>\nMeeting ID: 293 492 287 049 971<br>\nPasscode: PT3Rd3pn
+DTEND:20260727T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260727T170000Z
+LAST-MODIFIED:20260727T140340Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Housing\, Economic Development\, and Commerce
+UID:21355539
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/meet/299425142240480?p=sq1oCQtUnJUxsPToIO. " title="Join Via Microsoft Teams">Join Via Microsoft Teams</a>
+DTEND:20260727T220000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260727T200000Z
+LAST-MODIFIED:20260723T173620Z
+LOCATION:Virtual
+SEQUENCE:0
+SUMMARY:JCRA Special Meeting
+UID:21355523
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:
+DTEND:20260727T230000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260727T210000Z
+LAST-MODIFIED:20260724T211858Z
+LOCATION:Council Chambers 280 Grove Street\, Jersey City\, NJ
+SEQUENCE:0
+SUMMARY:Rent Protection Special Investigation Committee
+UID:21356342
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<h3 class="EventTitle-module-scss-module__Jsqjma__wrapper" data-testid="event-title" style="font-size: 22px\; color: rgb(38\, 27\, 54)\; margin: 0px\; line-height: 35.2px\; padding: 0px\;">VAN VORST NEIGHBORHOOD ASSOCIATION GENERAL MEETING WITH MAYOR SOLOMON</h3>\n<p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; font-size: 16px\;"><span style="font-weight: 600\;">Date: Monday\, July 27<br>\nTime: Doors Open 6:30 PM<br>\nLocation: Barrow Mansion\, 83 Wayne Street\, Jersey City\, NJ<br>\n<a href="https://www.eventbrite.com/e/1994908398722" title="Register Here">Register Here</a><br>\n<br>\n<a href="https://zoom.us/j/85170770500" title="Join Virtually Via Zoom">Attend Virtually Via Zoom</a><br>\nMeeting ID: 851 7077 0500<br>\nPasscode: VVPA</span></p>
+DTEND:20260728T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260727T230000Z
+LAST-MODIFIED:20260723T130212Z
+LOCATION:Barrow Mansion\, 83 Wayne Street\, Jersey City\, NJ
+SEQUENCE:0
+SUMMARY:VVNA Community Meeting with the Mayor 
+UID:21354329
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MTI1OGExZDUtYWE4MS00MzI5LTk3ZmItMDY5ODQ4MjkyZjRi%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Stream via Microsoft Teams</a>
+DTEND:20260728T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260728T140000Z
+LAST-MODIFIED:20260728T162533Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Finance
+UID:21355548
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MTI1OGExZDUtYWE4MS00MzI5LTk3ZmItMDY5ODQ4MjkyZjRi%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Via Microsoft Teams</a><br>\n<br>\nMeeting ID: 218 068 922 424 044<br>\nPasscode: FE6jt2mG<br>
+DTEND:20260728T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260728T170000Z
+LAST-MODIFIED:20260728T161727Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Recreation and Youth Development
+UID:21355552
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm</span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">&nbsp\;</span><b style="text-align: justify\; font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Zoom link to join meeting:</span></b><span style="font-family: &quot\;Times New Roman&quot\;\, serif\; text-align: justify\;"></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Join from PC\, Mac\, iPad\, or Android:</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/j/83450838695___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6NzplZWVkOjQ5ZDhlOGM3ZGUzN2YzYTVlNWFkNzc5NjY5NzM5YmNhYzI0NDAxMWU2ODJlZWMwNmMyYmU5YTliMGQyMGJlZTY6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/j/83450838695</span></a><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">&nbsp\; &nbsp\; &nbsp\;</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><b style="font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Webinar ID: 834 5083 8695</span></b></p>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">International numbers available: </span><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/u/kd9Vkz6lYV___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6Nzo0ZWJkOjM0Y2M1YWMxZmY3ZmQxMWI2ZTUwMzhlZjAxYjZkNDBjMTNhY2QzYTU1MzhkNDg3MjQzMjlkYzA3ZGE2ZTdlZTU6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/u/kd9Vkz6lYV</span></a></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n        The Board Chair may change the order in which the agenda items are called.<br>\n        Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at <a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n        </div>\n        </li>\n    </ul>\n    </div>\n    </li>\n</ul>
+DTEND:20260729T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260728T213000Z
+LAST-MODIFIED:20260723T160211Z
+LOCATION:via Zoom 
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075661
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;"><span style="text-decoration: underline\;"><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MTlkN2M3NDktZmVhZi00Y2E5LTlmM2MtNjJhNTVlNTJjNTk2%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a></span></p>\n<p class="p2" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; min-height: 15px\; color: rgb(0\, 0\, 0)\;">&nbsp\;</p>\n<p class="p2" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; min-height: 15px\; color: rgb(0\, 0\, 0)\;">&nbsp\;</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; color: rgb(0\, 0\, 0)\;">Meeting ID: 241 168 099 995 246</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; color: rgb(0\, 0\, 0)\;">Passcode: U5M6SM6o</p>
+DTEND:20260729T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260729T140000Z
+LAST-MODIFIED:20260728T195208Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Municipal Court
+UID:21355555
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260729T170000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260729T150000Z
+LAST-MODIFIED:20260708T224600Z
+LOCATION:Garden State Community Development Corp\, 514 Newark Ave.\, Jersey City\, NJ 07306
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ GSCDC
+UID:21332764
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<p class="p1" style="font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: Montserrat\, sans-serif\; margin: 0px\; color: rgb(0\, 0\, 0)\;"><span style="text-decoration: underline\;"><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MTlkN2M3NDktZmVhZi00Y2E5LTlmM2MtNjJhNTVlNTJjNTk2%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a></span></p>\n<p class="p2" style="font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; margin: 0px\; min-height: 15px\; color: rgb(0\, 0\, 0)\;">&nbsp\;</p>\n<p class="p2" style="font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; margin: 0px\; min-height: 15px\; color: rgb(0\, 0\, 0)\;">&nbsp\;</p>\n<p class="p1" style="font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; margin: 0px\; color: rgb(0\, 0\, 0)\;">Meeting ID: 241 168 099 995 246</p>\n<p class="p1" style="font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; font-family: &quot\;Helvetica Neue&quot\;\; margin: 0px\; color: rgb(0\, 0\, 0)\;">Passcode: U5M6SM6o</p>
+DTEND:20260729T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260729T170000Z
+LAST-MODIFIED:20260728T195220Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Infrastructure
+UID:21355567
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Join Leslie Ogoe\, Sasha Sano\, and Mayor James Solomon for a community conversation on culture\, nightlife\, events\, and Jersey City’s future<br>\n<a href="https://www.eventbrite.com/e/use-your-voice-for-jersey-city-town-hall-meeting-with-mayor-james-solomon-tickets-1994826737471" title="Register Here"><br>\nRegister Here</a>
+DTEND:20260804T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260803T233000Z
+LAST-MODIFIED:20260723T145054Z
+LOCATION:Pet Shop: 192 Newark Ave. 
+SEQUENCE:0
+SUMMARY:Town Hall Meeting with Mayor James Solomon
+UID:21355261
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260804T170000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260804T150000Z
+LAST-MODIFIED:20260721T154717Z
+LOCATION:Metropolitan Family Health Network\, 935 Garfield Ave.\, Jersey City\, NJ 07304
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ MFHN Fair
+UID:21353317
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/vcm" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a>
+DTEND:20260806T150000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260806T130000Z
+LAST-MODIFIED:20260731T175202Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Public Safety - Part 2
+UID:21364417
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/vcm" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a>
+DTEND:20260806T160000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260806T150000Z
+LAST-MODIFIED:20260731T175335Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Health and Human Services - Part 2
+UID:21364420
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/vcm" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a>
+DTEND:20260806T180000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260806T170000Z
+LAST-MODIFIED:20260731T175424Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: HEDC - Part 2
+UID:21364422
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/vcm" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a>
+DTEND:20260806T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260806T180000Z
+LAST-MODIFIED:20260731T175723Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Budget Hearing: Department of Finance - Part 2
+UID:21364426
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:
+DTEND:20260807T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260806T220000Z
+LAST-MODIFIED:20260707T192452Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Zoning Board Meeting
+UID:21342925
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:
+DTEND:20260807T170000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260807T150000Z
+LAST-MODIFIED:20260826T142814Z
+LOCATION:Post 2294 98 Oak Street\, JC NJ 07304
+SEQUENCE:0
+SUMMARY:National Purple Heart Day Honoring Recipients
+UID:21383757
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MmU1NWZhMDAtMGZmOS00YmYzLWEzYzgtZTdjZGZkYzQzODE5%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Join Virtually Via Microsoft Teams">Join Virtually Via Microsoft Teams</a>
+DTEND:20260811T030000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260810T223000Z
+LAST-MODIFIED:20260807T152250Z
+LOCATION:Melissa Holloway Building\, 4 Jackson Square\, Jersey City\, NJ
+SEQUENCE:0
+SUMMARY:Rent Protection Special Investigation Committee Meeting
+UID:21364589
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\nHistoric Preservation (ID: 816 9008 6910): </span><a href="https://us02web.zoom.us/j/81690086910" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="1" title="https://us02web.zoom.us/j/81690086910" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/81690086910</a>
+DTEND:20260811T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260810T223000Z
+LAST-MODIFIED:20260723T131310Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Historic Preservation Commission
+UID:21345755
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260811T173000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260811T150000Z
+LAST-MODIFIED:20260721T155912Z
+LOCATION:CSPNJ\, 422 Martin Luther King Dr.\, Jersey City\, NJ 07304
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ CSPNJ
+UID:21353329
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm</span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">&nbsp\;</span><b style="text-align: justify\; font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Zoom link to join meeting:</span></b><span style="font-family: &quot\;Times New Roman&quot\;\, serif\; text-align: justify\;"></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Join from PC\, Mac\, iPad\, or Android:</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/j/83450838695___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6NzplZWVkOjQ5ZDhlOGM3ZGUzN2YzYTVlNWFkNzc5NjY5NzM5YmNhYzI0NDAxMWU2ODJlZWMwNmMyYmU5YTliMGQyMGJlZTY6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/j/83450838695</span></a><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">&nbsp\; &nbsp\; &nbsp\;</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><b style="font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Webinar ID: 834 5083 8695</span></b></p>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">International numbers available: </span><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/u/kd9Vkz6lYV___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6Nzo0ZWJkOjM0Y2M1YWMxZmY3ZmQxMWI2ZTUwMzhlZjAxYjZkNDBjMTNhY2QzYTU1MzhkNDg3MjQzMjlkYzA3ZGE2ZTdlZTU6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/u/kd9Vkz6lYV</span></a></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n        The Board Chair may change the order in which the agenda items are called.<br>\n        Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at <a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n        </div>\n        </li>\n    </ul>\n    </div>\n    </li>\n</ul>
+DTEND:20260812T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260811T213000Z
+LAST-MODIFIED:20260810T144621Z
+LOCATION:via Zoom 
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075665
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260814T200000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260814T150000Z
+LAST-MODIFIED:20260721T162215Z
+LOCATION:Lincoln Park (West Side Entrance)\, Jersey City\, NJ 07304
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ International Overdose Awareness Day Fair
+UID:21353369
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n&nbsp\;<br>\n<a href="https://www.youtube.com/playlist?list=PL3ty7DQXb7TF_PqRk81QSI-sYsRGmhXIZ" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260817T220000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260817T140000Z
+LAST-MODIFIED:20260817T130848Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343747
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20260818T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260817T223000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059932
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:The session will provide information and assistance with applications for programs such as Senior Freeze\, ANCHOR\, and Stay NJ.<br>\n<br>\n<a href="http://jcnj.org/seniorfreeze2" title="Register Here">Register Here</a>
+DTEND:20260819T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260818T220000Z
+LAST-MODIFIED:20260814T131802Z
+LOCATION:Temple Beth-El\, 2419 JFK Boulevard
+SEQUENCE:0
+SUMMARY:Senior Freeze Property Tax Relief Session
+UID:21373393
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260820T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260819T220000Z
+LAST-MODIFIED:20260820T134651Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343789
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260820T150000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260820T130000Z
+LAST-MODIFIED:20260730T223253Z
+LOCATION:St. Lucy’s Emergency Shelter\, 619 Grove St.\, Jersey City\, NJ 07310
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ St. Lucy's Shelter
+UID:21353380
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:For the Lottery Viewing of the "829 Garfield"\, located at 829 Garfield Ave.\, Jersey City\, NJ 07305. Please click this zoom link: <a href="https://us02web.zoom.us/j/81880542693?pwd=hN065BWxqcyvfkAGrdMehsKy9gLB6i.1&amp\;_gl=1*1lhat5m*_gcl_au*NTM3NTM2ODUuMTc4NTQ0NTE5NQ..*_ga*MTI0MDk1MjM1OC4xNzg1MTY2NzU4*_ga_L8TBF28DDX*czE3ODU0NDUxOTckbzQkZzEkdDE3ODU0NDUyNjMkajU2JGwwJGgw" title="This is an external link to &quot\;829 Garfield&quot\; - 829 Garfield Ave property website. ">https://us02web.zoom.us/j/81880542693?pwd=hN065BWxqcyvfkAGrdMehsKy9gLB6i.1&amp\;_gl=1*1lhat5m*_gcl_au*NTM3NTM2ODUuMTc4NTQ0NTE5NQ..*_ga*MTI0MDk1MjM1OC4xNzg1MTY2NzU4*_ga_L8TBF28DDX*czE3ODU0NDUxOTckbzQkZzEkdDE3ODU0NDUyNjMkajU2JGwwJGgw</a>. Lottery date and time subject to change. Please check back regularly to view updated lottery scheduling and zoom link information.
+DTEND:20260824T191000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260824T190000Z
+LAST-MODIFIED:20260819T134829Z
+LOCATION:
+SEQUENCE:0
+SUMMARY:829 Garfield Affordable Housing Lottery
+UID:21378279
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm</span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">&nbsp\;</span><b style="text-align: justify\; font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Zoom link to join meeting:</span></b><span style="font-family: &quot\;Times New Roman&quot\;\, serif\; text-align: justify\;"></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Join from PC\, Mac\, iPad\, or Android:</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/j/83450838695___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6NzplZWVkOjQ5ZDhlOGM3ZGUzN2YzYTVlNWFkNzc5NjY5NzM5YmNhYzI0NDAxMWU2ODJlZWMwNmMyYmU5YTliMGQyMGJlZTY6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/j/83450838695</span></a><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">&nbsp\; &nbsp\; &nbsp\;</span></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;"></span></p>\n        <div>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><b style="font-weight: bold !important\; font-family: Arial !important\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">Webinar ID: 834 5083 8695</span></b></p>\n        <p style="line-height: normal\; letter-spacing: 0.3px\; margin: 0px 0px 15px\; text-align: justify\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">International numbers available: </span><a href="https://protect.checkpoint.com/v2/r01/___https:/us02web.zoom.us/u/kd9Vkz6lYV___.YXAzOmFsYW1waS1sYXc6YzpvZmZpY2UzNjVfZW1haWxzX2F0dGFjaG1lbnQ6NjM5NmY0ZDZhNGFiY2NlYTZlNGE1MGQ5ZmNhMzkxMTU6Nzo0ZWJkOjM0Y2M1YWMxZmY3ZmQxMWI2ZTUwMzhlZjAxYjZkNDBjMTNhY2QzYTU1MzhkNDg3MjQzMjlkYzA3ZGE2ZTdlZTU6cDpUOk4" target="_blank" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"><span style="font-family: &quot\;Times New Roman&quot\;\, serif\;">https://us02web.zoom.us/u/kd9Vkz6lYV</span></a></p>\n        </div>\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n        The Board Chair may change the order in which the agenda items are called.<br>\n        Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at <a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n        </div>\n        </li>\n        <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n        <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n        <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n        </div>\n        </li>\n    </ul>\n    </div>\n    </li>\n</ul>
+DTEND:20260826T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260825T213000Z
+LAST-MODIFIED:20260820T160225Z
+LOCATION:via Zoom 
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075667
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<p><a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams" style="color: rgb(134\, 0\, 0)\; font-size: 14px\;">Stream Live via Microsoft Teams</a><br style="font-size: 14px\;">\n<br style="font-size: 14px\;">\n<a href="https://cityofjerseycity.civicweb.net/Items/Item/public.aspx?Id=457204" title="Register to Speak" style="color: rgb(134\, 0\, 0)\; font-size: 14px\;">Register to Speak</a><br style="font-size: 14px\;">\n<br style="font-size: 14px\;">\n<a href="https://www.youtube.com/playlist?list=PL3ty7DQXb7TF_PqRk81QSI-sYsRGmhXIZ" title="View Meeting Archive" style="color: rgb(134\, 0\, 0)\; font-size: 14px\;">View Meeting Archive</a></p>
+DTEND:20260827T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260826T210000Z
+LAST-MODIFIED:20260826T175948Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:Special City Council Meeting
+UID:21383738
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260828T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260828T160000Z
+LAST-MODIFIED:20260721T163700Z
+LOCATION:City Hall Annex\, One Jackson Square\, Jersey City\, NJ 07305
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ JC HHS Fall for Health Community Fair
+UID:21353393
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260908T173000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260908T150000Z
+LAST-MODIFIED:20260901T163656Z
+LOCATION:CSPNJ\, 422 MLK Drive\, Jersey City\, NJ 07305
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ CSPNJ
+UID:21389038
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260909T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260908T200000Z
+LAST-MODIFIED:20260820T134714Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21379172
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at&nbsp\;<a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n</ul>
+DTEND:20260909T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260908T213000Z
+LAST-MODIFIED:20260903T172536Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075697
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260909T150000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260909T133000Z
+LAST-MODIFIED:20260901T181829Z
+LOCATION:Twin Rivers Recovery\, 78 MLK Dr.\, Jersey City\, NJ 07305
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ Twin Rivers Recovery
+UID:21389052
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;"><a href="https://www.eventbrite.com/e/senior-freeze-information-application-assistance-tickets-1995499159704?aff=erelpanelorg" title="Register Here:">Register Here:</a> <br>\n<br>\nJoin Mayor James Solomon for an info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n</div>\n</div>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;"><strong>What is Senior Freeze?</strong></span><br style="margin: 0px\; padding: 0px\;">\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing the taxes paid in a qualifying base year with the taxes paid in the current year.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>ANCHOR</strong></span> — Provides property tax relief to eligible New Jersey homeowners and renters.<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>Stay NJ</strong></span> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br style="margin: 0px\; padding: 0px\;">\n- <span style="margin: 0px\; padding: 0px\;">P</span><span style="margin: 0px\; padding: 0px\;">roof of age or disability</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Recent property tax bills</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Income documentation</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Social Security information</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Prior Senior Freeze applications or determination letters.</span></p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;">Have Questions? Contact Resident Response Center - </span><span style="margin: 0px\; padding: 0px\;">(</span><span style="margin: 0px\; padding: 0px\;">000-000-0000.</span></p>\n</div>\n</div>
+DTEND:20260911T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260910T220000Z
+LAST-MODIFIED:20260902T105511Z
+LOCATION:354 Forrest Street
+SEQUENCE:0
+SUMMARY:Senior Freeze: Mt. Pisgah
+UID:21390130
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTZhNjQ1MWEtMWM5MC00MThkLTkwNGEtMWRjZDNlOGVlZmU3%40thread.v2/0?context=%7b%22Tid%22%3a%22ebc80704-6464-458c-82bb-8b116133a6d5%22%2c%22Oid%22%3a%220d1f3e92-a23a-466f-b2b2-034ee5a713ea%22%7d" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Items/Item/public.aspx?Id=457204" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/playlist?list=PL3ty7DQXb7TF_PqRk81QSI-sYsRGmhXIZ" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260911T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260910T220000Z
+LAST-MODIFIED:20260909T154630Z
+LOCATION:
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21379175
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\nHistoric Preservation (ID: 816 9008 6910): </span><a href="https://us02web.zoom.us/j/81690086910" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="1" title="https://us02web.zoom.us/j/81690086910" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/81690086910</a>
+DTEND:20260915T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260914T223000Z
+LAST-MODIFIED:20260723T131310Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Historic Preservation Commission
+UID:21355176
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20260916T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260915T223000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245781
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/seniorfreeze5" title="Register Here">Register Here</a><br>\n<br>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">Join Mayor James Solomon for a info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n</div>\n</div>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;"><strong>What is Senior Freeze?</strong></span><br style="margin: 0px\; padding: 0px\;">\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing the taxes paid in a qualifying base year with the taxes paid in the current year.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>ANCHOR</strong></span> — Provides property tax relief to eligible New Jersey homeowners and renters.<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>Stay NJ</strong></span> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br style="margin: 0px\; padding: 0px\;">\n- <span style="margin: 0px\; padding: 0px\;">P</span><span style="margin: 0px\; padding: 0px\;">roof of age or disability</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Recent property tax bills</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Income documentation</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Social Security information</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Prior Senior Freeze applications or determination letters.</span></p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;"><strong>Have Questions? Contact Resident Response Center - </strong></span><strong><span style="margin: 0px\; padding: 0px\;">(</span><span style="margin: 0px\; padding: 0px\;">000-000-0000.</span></strong></p>\n</div>\n</div>
+DTEND:20260916T113000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260916T100000Z
+LAST-MODIFIED:20260902T145149Z
+LOCATION:Moose Lodge - 60 West Side Ave.
+SEQUENCE:0
+SUMMARY:Senior Freeze Property Tax Relief Application
+UID:21355190
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260916T130000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260916T110000Z
+LAST-MODIFIED:20260901T164625Z
+LOCATION:Grace Community Services\, 39 Erie St.\, Jersey City\, NJ 07302
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ Grace Community Services
+UID:21389055
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/seniorfreeze4" title="Register Here">Register Here</a><br>\n<br>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">Join Mayor James Solomon for a info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n</div>\n</div>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\; font-weight: 600\;">What is Senior Freeze?</span><br style="margin: 0px\; padding: 0px\;">\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing the taxes paid in a qualifying base year with the taxes paid in the current year.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\; font-weight: 600\;">ANCHOR</span> — Provides property tax relief to eligible New Jersey homeowners and renters.<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\; font-weight: 600\;">Stay NJ</span> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br style="margin: 0px\; padding: 0px\;">\n- <span style="margin: 0px\; padding: 0px\;">P</span><span style="margin: 0px\; padding: 0px\;">roof of age or disability</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Recent property tax bills</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Income documentation</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Social Security information</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Prior Senior Freeze applications or determination letters.</span></p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\; font-weight: 600\;">Have Questions? Contact Resident Response Center - </span><span style="font-weight: 600\;"><span style="margin: 0px\; padding: 0px\;">(</span><span style="margin: 0px\; padding: 0px\;">000-000-0000.</span></span></p>\n</div>\n</div>
+DTEND:20260921T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260920T220000Z
+LAST-MODIFIED:20260902T145245Z
+LOCATION:Mt. Pisgah AME Church\, 354 Forrest Street
+SEQUENCE:0
+SUMMARY:Senior Freeze Property Tax Relief Application
+UID:21373399
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Items/Item/public.aspx?Id=457204" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/playlist?list=PL3ty7DQXb7TF_PqRk81QSI-sYsRGmhXIZ" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20260922T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260921T200000Z
+LAST-MODIFIED:20260820T133923Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343751
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20260922T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260921T223000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059934
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;"><a href="https://www.eventbrite.com/e/senior-freeze-information-application-assistance-tickets-1999417089337?aff=oddtdtcreator" title="Register Here">Register Here</a><br>\n<br>\nJoin Mayor James Solomon for an info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n</div>\n</div>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;"><strong>What is Senior Freeze?</strong></span><br style="margin: 0px\; padding: 0px\;">\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing the taxes paid in a qualifying base year with the taxes paid in the current year.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>ANCHOR</strong></span> — Provides property tax relief to eligible New Jersey homeowners and renters.<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>Stay NJ</strong></span> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br style="margin: 0px\; padding: 0px\;">\n- <span style="margin: 0px\; padding: 0px\;">P</span><span style="margin: 0px\; padding: 0px\;">roof of age or disability</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Recent property tax bills</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Income documentation</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Social Security information</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Prior Senior Freeze applications or determination letters.</span></p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;">Have Questions? Contact Resident Response Center - </span><span style="margin: 0px\; padding: 0px\;">(</span><span style="margin: 0px\; padding: 0px\;">000-000-0000.</span></p>\n</div>\n</div>
+DTEND:20260925T170000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260925T140000Z
+LAST-MODIFIED:20260902T145611Z
+LOCATION:Joseph Connors Senior Center\, 394 Central Ave.
+SEQUENCE:0
+SUMMARY:Senior Freeze: Joseph Connors
+UID:21390132
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>\n<br>\nRegistration for this event is required.&nbsp\;<br>\n<span style="color: black\; font-size: 12pt\; font-family: Aptos\;"><a href="https://form.jotform.com/250077211182043">https://form.jotform.com/250077211182043</a>&nbsp\;or 1-000-000-0000</span>
+DTEND:20260925T190000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260925T150000Z
+LAST-MODIFIED:20260901T200725Z
+LOCATION:Mary McLeod Bethune Center\, 140 MLK Dr.\, Jersey City\, NJ 07305
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ JC Warrant Clinic
+UID:21389321
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:For the Lottery Viewing of the "55 Jordan"\, located at 55 Jordan Ave.\, Jersey City\, NJ 07306. Please click this zoom link: <a href="https://us06web.zoom.us/j/83049855788" title="This is an external link to &quot\;55 Jordan Ave.&quot\; Zoom Lottery. ">https://us06web.zoom.us/j/83049855788</a>. Lottery date and time subject to change. Please check back regularly to view updated lottery scheduling and zoom link information.
+DTEND:20260925T171500Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260925T170000Z
+LAST-MODIFIED:20260909T151433Z
+LOCATION:
+SEQUENCE:0
+SUMMARY:"55 Jordan" Affordable Housing Lottery
+UID:21394407
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:For the Lottery Viewing of the "The Haven"\, located at 337 Johnston Ave.\, Jersey City\, NJ 07306\, please click this zoom link: <a href="https://us06web.zoom.us/j/84662454835" title="This is an external link to &quot\;The Haven&quot\; Zoom Lottery. ">https://us06web.zoom.us/j/84662454835</a>. Lottery date and time subject to change. Please check back regularly to view updated lottery scheduling and zoom link information.
+DTEND:20260925T181500Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260925T180000Z
+LAST-MODIFIED:20260923T200917Z
+LOCATION:
+SEQUENCE:0
+SUMMARY:"The Haven" (337 Johnston) Affordable Housing Lottery
+UID:21394250
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://www.eventbrite.com/e/senior-freeze-information-application-assistance-tickets-1999419252808?aff=oddtdtcreator" title="Register Here">Register Here</a><br>\n<br>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">Join Mayor James Solomon for an info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n</div>\n</div>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;"><strong>What is Senior Freeze?</strong></span><br style="margin: 0px\; padding: 0px\;">\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing taxes paid in a qualifying base year with those paid in the current year.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br>\n<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>ANCHOR</strong></span> — Provides property tax relief to eligible New Jersey homeowners and renters.<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;"><strong>Stay NJ</strong></span> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br style="margin: 0px\; padding: 0px\;">\n- <span style="margin: 0px\; padding: 0px\;">P</span><span style="margin: 0px\; padding: 0px\;">roof of age or disability</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Recent property tax bills</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Income documentation</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Social Security information</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Prior Senior Freeze applications or determination letters.</span></p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\;">Have Questions? Contact Resident Response Center - </span><span style="margin: 0px\; padding: 0px\;">(</span><span style="margin: 0px\; padding: 0px\;">000-000-0000.</span></p>\n</div>\n</div>
+DTEND:20260929T170000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260929T140000Z
+LAST-MODIFIED:20260902T145627Z
+LOCATION:Maureen Collier Senior Center\, 335 Bergen Ave.
+SEQUENCE:0
+SUMMARY:Senior Freeze Maureen Collier
+UID:21390134
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at&nbsp\;<a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;">&nbsp\;</p>\n    </div>\n    </li>\n</ul>
+DTEND:20260930T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260929T213000Z
+LAST-MODIFIED:20260922T191053Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075702
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Outreach
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">JCCS Court Outreach Team expands access to court services by offering community events in partnership with local organizations. Individuals may receive assistance finding information about outstanding court cases and fines. Referrals to support services are available on request\, including access to peer support.</div>\n    </li>\n</ul>
+DTEND:20260930T170000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260930T150000Z
+LAST-MODIFIED:20260901T201119Z
+LOCATION:Garden State Comm. Dev. Corp.\, 514 Newark Ave.\, Jersey City\, 07306
+SEQUENCE:0
+SUMMARY:JCCS Court Outreach @ GSCDC
+UID:21389363
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="http://jcnj.org/seniorfreeze6" title="Register Here">Register Here</a><br>\n<br>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">Join Mayor James Solomon for a info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n</div>\n</div>\n<div class="StructuredModuleRenderer-module-scss-module__Qv95HW__structuredContent StructuredModuleRenderer-module-scss-module__Qv95HW__text" data-testid="text-content" style="margin: 0px\; padding: 0px\; color: rgb(88\, 81\, 99)\; text-overflow: ellipsis\; letter-spacing: 0.1px\; align-self: stretch\; line-height: 23.94px\; overflow: hidden\;">\n<div style="margin: 0px\; padding: 0px\;">\n<p style="margin: 0px\; padding: 0px 0px 12px\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\; font-weight: 600\;">What is Senior Freeze?</span><br style="margin: 0px\; padding: 0px\;">\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing the taxes paid in a qualifying base year with the taxes paid in the current year.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\; font-weight: 600\;">ANCHOR</span> — Provides property tax relief to eligible New Jersey homeowners and renters.<br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\; font-weight: 600\;">Stay NJ</span> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br style="margin: 0px\; padding: 0px\;">\n- <span style="margin: 0px\; padding: 0px\;">P</span><span style="margin: 0px\; padding: 0px\;">roof of age or disability</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Recent property tax bills</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Income documentation</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Social Security information</span><br style="margin: 0px\; padding: 0px\;">\n<span style="margin: 0px\; padding: 0px\;">- Prior Senior Freeze applications or determination letters.</span></p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p style="margin: 12px 0px 0px\; padding: 0px 0px 12px\;"><span style="margin: 0px\; padding: 0px\; font-weight: 600\;">Have Questions? Contact Resident Response Center - </span><span style="font-weight: 600\;"><span style="margin: 0px\; padding: 0px\;">(</span><span style="margin: 0px\; padding: 0px\;">000-000-0000.</span></span></p>\n</div>\n</div>
+DTEND:20261001T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20260930T220000Z
+LAST-MODIFIED:20260902T145320Z
+LOCATION:Islamic Center of Jersey City 17 Park Street
+SEQUENCE:0
+SUMMARY:Senior Freeze Property Tax Relief Application
+UID:21373405
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join via Zoom:<br>\n(ID: 834 5083 8695): </span><a href="https://us02web.zoom.us/j/83450838695" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="0" title="https://us02web.zoom.us/j/83450838695" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/83450838695</a>
+DTEND:20261002T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261001T220000Z
+LAST-MODIFIED:20260707T194034Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Zoning Board Meeting
+UID:21342927
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;"><a href="https://www.eventbrite.com/e/senior-freeze-information-application-assistance-tickets-1999691164102?aff=oddtdtcreator" title="Register Here" style="">Register Here</a></p>\n<p class="p2" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; min-height: 15px\; color: rgb(0\, 0\, 0)\;">&nbsp\;</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;">Join Mayor James Solomon for a info-session focused on available property tax relief programs\, including Senior Freeze\, ANCHOR\, and Stay NJ.</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;">City representatives will be available to explain the Senior Freeze Program\, answer questions\, review eligibility requirements\, and help eligible residents complete and submit their applications.</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;"><b>What is Senior Freeze?</b><br>\nThe Senior Freeze Program reimburses eligible homeowners for certain increases in their property taxes by comparing the taxes paid in a qualifying base year with the taxes paid in the current year.</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;">Residents can also learn more about other available New Jersey property tax relief programs\, including:<br>\n<br>\n<b>ANCHOR</b> — Provides property tax relief to eligible New Jersey homeowners and renters.<br>\n<b>Stay NJ</b> — Provides additional property tax relief for eligible New Jersey seniors.</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;">Residents seeking application assistance are encouraged to bring relevant documents\, including<br>\n- Proof of age or disability<br>\n- Recent property tax bills<br>\n- Income documentation<br>\n- Social Security information<br>\n- Prior Senior Freeze applications or determination letters.</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;">This session is free and open to Jersey City residents. Registration is encouraged.</p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;"><b style="">Have Questions? Contact Resident Response Center - 000-000-0000.</b></p>\n<p class="p1" style="margin: 0px\; font-style: normal\; font-variant: normal\; font-size-adjust: none\; font-language-override: normal\; font-kerning: auto\; font-optical-sizing: auto\; font-feature-settings: normal\; font-variation-settings: normal\; font-stretch: normal\; font-size: 13px\; line-height: normal\; color: rgb(0\, 0\, 0)\;"><font face="Helvetica Neue"><b></b></font></p>
+DTEND:20261005T210000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261005T193000Z
+LAST-MODIFIED:20260924T203220Z
+LOCATION:181 Cottonwood St
+SEQUENCE:0
+SUMMARY:Senior Freeze: Society Hill 1 Club House
+UID:21407150
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261005T220000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261005T200000Z
+LAST-MODIFIED:20260708T150232Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343472
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at <a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n</ul>
+DTEND:20261006T030000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261005T213000Z
+LAST-MODIFIED:20260922T125004Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Special Planning Board Meeting 
+UID:21404661
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261008T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261007T220000Z
+LAST-MODIFIED:20260708T151359Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343556
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\nHistoric Preservation (ID: 816 9008 6910): </span><a href="https://us02web.zoom.us/j/81690086910" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="1" title="https://us02web.zoom.us/j/81690086910" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/81690086910</a>
+DTEND:20261013T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261012T223000Z
+LAST-MODIFIED:20260723T131310Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Historic Preservation Commission
+UID:21355178
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at&nbsp\;<a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n</ul>
+DTEND:20261014T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261013T213000Z
+LAST-MODIFIED:20251202T205341Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075705
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261019T220000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261019T200000Z
+LAST-MODIFIED:20260708T150232Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343493
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20261020T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261019T223000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059936
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20261021T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261020T223000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245783
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261022T000000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261021T220000Z
+LAST-MODIFIED:20260708T151359Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343558
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at&nbsp\;<a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n</ul>
+DTEND:20261028T035900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261027T215900Z
+LAST-MODIFIED:20251202T205426Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075708
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join via Zoom:<br>\n(ID: 834 5083 8695): </span><a href="https://us02web.zoom.us/j/83450838695" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="0" title="https://us02web.zoom.us/j/83450838695" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/83450838695</a>
+DTEND:20261106T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261105T230000Z
+LAST-MODIFIED:20260707T194034Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Zoning Board Meeting
+UID:21342963
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261109T230000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261109T210000Z
+LAST-MODIFIED:20260708T150638Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343495
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\nHistoric Preservation (ID: 816 9008 6910): </span><a href="https://us02web.zoom.us/j/81690086910" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="1" title="https://us02web.zoom.us/j/81690086910" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/81690086910</a>
+DTEND:20261110T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261109T233000Z
+LAST-MODIFIED:20260723T131310Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Historic Preservation Commission
+UID:21355180
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at&nbsp\;<a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n</ul>
+DTEND:20261111T045900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261110T223000Z
+LAST-MODIFIED:20251202T205515Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075713
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261113T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261112T230000Z
+LAST-MODIFIED:20260708T151553Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343562
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20261117T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261116T233000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059938
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND;TZID=US Eastern:20271018T200000
+DTSTAMP:20260925T222323Z
+DTSTART;TZID=US Eastern:20271018T183000
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+RRULE:FREQ=MONTHLY;UNTIL=20271019T000000Z;COUNT=0;BYDAY=MO;BYSETPOS=3
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059938-0
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20261118T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261117T233000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245785
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261123T230000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261123T210000Z
+LAST-MODIFIED:20260708T150712Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343499
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261126T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261125T230000Z
+LAST-MODIFIED:20260708T151533Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343564
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join via Zoom:<br>\n(ID: 834 5083 8695): </span><a href="https://us02web.zoom.us/j/83450838695" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="0" title="https://us02web.zoom.us/j/83450838695" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/83450838695</a>
+DTEND:20261204T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261203T230000Z
+LAST-MODIFIED:20260707T194034Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Zoning Board Meeting
+UID:21342965
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams">Stream Live via Microsoft Teams</a><br>\n<br>\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak">Register to Speak</a><br>\n<br>\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive">View Meeting Archive</a>
+DTEND:20261207T230000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261207T090000Z
+LAST-MODIFIED:20260708T150843Z
+LOCATION:
+SEQUENCE:0
+SUMMARY:City Caucus Meeting
+UID:21343522
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<ul style="list-style: none\; margin: 0px\; padding: 0px\; font-size: 14px\;">\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access the 2026 Planning Board Agendas\, click on this link and download a pdf of today’s meeting:<a href="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" title="https://data.jerseycitynj.gov/explore/dataset/pb-agendas-2023/information/" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;"></a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;"><a href="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/" title="https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/">https://data.jerseycitynj.gov/explore/dataset/planning-board-agendas-2026/information/&nbsp\;</a></li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span style="font-family: Arial\, sans-serif\; color: rgb(40\, 40\, 40)\; letter-spacing: 0.25pt\;">In accordance with N.J.S.A 10:4-12\, the “Open Public Meetings Act\,” be advised the following items will be heard at a meeting of the Jersey City Planning Board\, scheduled for Tuesday at 5:30 pm in the Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305. The building is also known as 39 Kearney Avenue\, Jersey City\, NJ 07305.</span></p>\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">ADVISORIES<br>\n    No new matter involving an applicant will be started after 10PM. At 10PM the Board Chair will decide and advise applicants whether they will be heard. If an applicant cannot be heard because of the lateness of the hour\, the matter will be carried over to the next regularly scheduled meeting with preservation of notice.<br>\n    The Board Chair may change the order in which the agenda items are called.<br>\n    Any questions can be directed to the City Planning main line during business hours at 000-000-0000 or via email at name@example.org. Staff will not be available by phone or in the office during the meeting. You can find more information available at&nbsp\;<a href="https://www.jerseycitynj.gov/cityhall/housinganddevelopment/cityplanning" title="jerseycitynj.gov/planning" style="background-color: transparent\; color: rgb(134\, 0\, 0)\;">jerseycitynj.gov/planning.</a></span></p>\n    </div>\n    </li>\n    <li class="CAL-EVENT-cRow" style="border-bottom: 1px solid rgb(238\, 238\, 238)\; padding-bottom: 15px\; margin-bottom: 15px\;">\n    <div class="CAL-EVENT-cR-content" style="padding-left: 15px\;">\n    <p style="line-height: 1.7em\; letter-spacing: 0.3px\; margin: 0px 0px 15px\;"><span class="s1" style="font-family: Arial\, sans-serif\; letter-spacing: 0.25pt\; color: rgb(40\, 40\, 40)\;">To access and download digital plans\, this agenda has hyperlinks below to where you can find digital plans\, reports and other materials for all applications to be presented. Within the agenda\, click on a link for the case you wish to review. Alternatively\, you can search by address or case number to review digital plans at the Jersey City Data Portal.</span></p>\n    </div>\n    </li>\n</ul>
+DTEND:20261209T045900Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261208T223000Z
+LAST-MODIFIED:20251202T205602Z
+LOCATION:Boardroom at the Holloway Building\, City Hall Annex\, 4 Jackson Square\, Jersey City\, NJ 07305.
+SEQUENCE:0
+SUMMARY:Planning Board Meeting 
+UID:21075715
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:<a href="https://jcnj.org/vcm" title="Stream Live via Microsoft Teams" style="color: rgb(134\, 0\, 0)\; outline: 0px\; font-size: 14px\;">Stream Live via Microsoft Teams</a><br style="font-size: 14px\;">\n<br style="font-size: 14px\;">\n<a href="https://cityofjerseycity.civicweb.net/Portal/CitizenEngagement.aspx" title="Register to Speak" style="color: rgb(134\, 0\, 0)\; font-size: 14px\;">Register to Speak</a><br style="font-size: 14px\;">\n<br style="font-size: 14px\;">\n<a href="https://www.youtube.com/@JerseyCityTV" title="View Meeting Archive" style="color: rgb(134\, 0\, 0)\; font-size: 14px\;">View Meeting Archive</a>
+DTEND:20261210T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261209T230000Z
+LAST-MODIFIED:20260708T151754Z
+LOCATION:Council Chambers 280 Grove St. Jersey City NJ 07302
+SEQUENCE:0
+SUMMARY:City Council Meeting
+UID:21343573
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:<span style="color: rgb(0\, 0\, 0)\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-size: 16px\;">Join Via Zoom:<br>\nHistoric Preservation (ID: 816 9008 6910): </span><a href="https://us02web.zoom.us/j/81690086910" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="1" title="https://us02web.zoom.us/j/81690086910" style="border: 0px\; font-variant-numeric: inherit\; font-variant-east-asian: inherit\; font-variant-alternates: inherit\; font-variant-position: inherit\; font-variant-emoji: inherit\; font-stretch: inherit\; font-size: 16px\; line-height: inherit\; font-family: Aptos\, Aptos_EmbeddedFont\, Aptos_MSFontService\, Calibri\, Helvetica\, sans-serif\; font-optical-sizing: inherit\; font-size-adjust: inherit\; font-kerning: inherit\; font-feature-settings: inherit\; font-variation-settings: inherit\; font-language-override: inherit\; margin: 0px\; padding: 0px\; vertical-align: baseline\;">https://us02web.zoom.us/j/81690086910</a>
+DTEND:20261215T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261214T233000Z
+LAST-MODIFIED:20260723T131310Z
+LOCATION:1st floor Board Room of the Holloway Building\, 4 Jackson Square  Jersey City \, NJ 0730
+SEQUENCE:0
+SUMMARY:Historic Preservation Commission
+UID:21355182
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20261216T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261215T233000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245787
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20261222T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20261221T233000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059940
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Sustainability 
+DESCRIPTION:<p><span style="font-size: 16px\; letter-spacing: 0.3px\;">Third Monday of each month\, 6:30PM (except for holidays) and are open to the public.&nbsp\;</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">June and December Meetings will be held in-person</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">Council Caucus Room\, Ground floor\, City Hall\, 280 Grove Street</span><br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<br style="font-size: 16px\; letter-spacing: 0.3px\;">\n<span style="font-size: 16px\; letter-spacing: 0.3px\;">January-May and July-November meetings will be held virtually on Teams&nbsp\;<br>\n<span style="font-size:12.0pt\;font-family:&quot\;TimesNewRomanPSMT&quot\;\,serif\;\nmso-fareast-font-family:Calibri\;mso-fareast-theme-font:minor-latin\;mso-bidi-font-family:\n&quot\;Times New Roman&quot\;\;mso-bidi-theme-font:minor-bidi\;mso-ansi-language:EN-US\;\nmso-fareast-language:EN-US\;mso-bidi-language:AR-SA"><a href="https://jcnj.org/vstc">https://jcnj.org/vstc</a></span></span></p>
+DTEND:20270119T010000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270118T233000Z
+LAST-MODIFIED:20251118T144102Z
+LOCATION:City Hall/ Virtually
+SEQUENCE:0
+SUMMARY:Shade Tree Committee
+UID:21059942
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270120T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270119T233000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245789
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270217T013000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270216T233000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245791
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270317T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270316T223000Z
+LAST-MODIFIED:20260402T152123Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21245793
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270421T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270420T223000Z
+LAST-MODIFIED:20260403T162206Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21247628
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270519T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270518T223000Z
+LAST-MODIFIED:20260403T162207Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21247630
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270616T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270615T223000Z
+LAST-MODIFIED:20260403T162208Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21247632
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270721T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270720T223000Z
+LAST-MODIFIED:20260413T213335Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21257234
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270818T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270817T223000Z
+LAST-MODIFIED:20260413T213336Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21257236
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Community
+DESCRIPTION:The Environmental Commission meets every third Tuesday of the month at 6:30PM. Meetings are generally on Zoom\, but if in person the information will be posted on the Environmental Commission page of the website.<br>\n<br>\n<a href="www.jerseycitynj.gov/cms/one.aspx?pageId=11808642" title="link to Environmental Commission page">jcnj.org/environment</a>
+DTEND:20270922T003000Z
+DTSTAMP:20260925T222323Z
+DTSTART:20270921T223000Z
+LAST-MODIFIED:20260413T213343Z
+LOCATION:Zoom
+SEQUENCE:0
+SUMMARY:Environmental Commission Meeting
+UID:21257238
+END:VEVENT
+X-COMMENT: Data was retrieved at 9/25/2026 6:23:23 PM
+END:VCALENDAR

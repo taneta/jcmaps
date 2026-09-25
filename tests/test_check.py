@@ -105,7 +105,7 @@ def test_fixture_venue_table_has_one_venue_per_address(tmp_path):
     venues = build_venues(raws, Geocoder(None, cache_path=tmp_path / "geo.json"))
     keys = [venue_key(v.name, v.address) for v in venues.values()]
     assert len(keys) == len(set(keys))
-    assert len(venues) == 90  # 103 distinct name and address pairs
+    assert len(venues) == 117  # 141 distinct name and address pairs
     art = next(v for v in venues.values() if v.id == "345-marin-blvd-jersey-city")
     assert (art.name, art.aliases) == ("Art House Productions", ["ART HOUSE"])  # mixed case over all caps
 

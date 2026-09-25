@@ -13,7 +13,7 @@ import httpx
 from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
-from pipeline.sources import library, tribe
+from pipeline.sources import ical, library, tribe
 from pipeline.util import ROOT, UA, env, now_utc, read_json, write_json
 
 CITY = ROOT / "city.json"
@@ -62,6 +62,10 @@ def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client 
                         continue  # only a few calendars are frozen
                     text = frozen.read_text() if offline else library.fetch(cid, CACHE / "library", client)
                     got += library.parse(text, cid, branches.get(cid))
+            elif src["kind"] == "ical":
+                text = ((offline_root / "ical" / f"{sid}.ics").read_text() if offline
+                        else ical.fetch(sid, src["url"], CACHE / "ical", client))
+                got += ical.parse(text, src)
             else:
                 pages = ([json.loads(p.read_text()) for p in sorted((offline_root / "tribe").glob(f"{sid}.p*.json"))]
                          if offline else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
