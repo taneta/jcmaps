@@ -19,14 +19,15 @@ def carry(previous: dict, failed: set[str],
     """A source whose fetch failed keeps its last good events until CARRY after its last successful fetch.
     Returns when that fetch was, per carried source, and its events from the previous snapshot as records with the
     fields and venues they were published with, so the checks and the gate judge them like fresh ones. The records
-    carry no evidence, so a fresh listing of the same event wins the duplicate check."""
+    carry no evidence, so a fresh listing of the same event wins the duplicate check. The events are read through
+    the Event model, so a field added since that snapshot takes its default."""
     since: dict[str, str] = {}
     for sid in failed:
         src = previous.get("sources", {}).get(sid)
         fetched = src and src.get("carried_from", previous["generated_at"])
         if fetched and now - datetime.fromisoformat(fetched) <= CARRY:
             since[sid] = fetched
-    events = {e["id"]: e for e in previous.get("events", []) if e["source_id"] in since}
+    events = {e["id"]: Event(**e).model_dump() for e in previous.get("events", []) if e["source_id"] in since}
     raws = [Raw(source_id=e["source_id"], source_uid=e["source_uid"], title=e["title"], url=e["url"],
                 organizer_name=e["organizer_name"], alt_urls=e["alt_urls"], venue_id=o["venue_id"],
                 start_utc=o["start_utc"], end_utc=o["end_utc"], all_day=o["all_day"], date=o["date"])

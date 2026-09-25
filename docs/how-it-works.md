@@ -24,7 +24,7 @@ flowchart TD
     run <-->|new addresses only| nominatim
     run -->|deploys| site
     site -->|page and data| visitor
-    run -->|failed run| issues
+    run -->|failed run<br/>or feed| issues
     visitor -->|Report a problem| issues
     site -.->|last data and caches,<br/>pulled by the next run| run
     issues -.->|ticket, pull request, merge| repo
@@ -41,7 +41,7 @@ flowchart TB
     %% Mirrors build() in pipeline/cli.py. Update it when a stage is added, removed or reordered.
     subgraph collect ["Collect"]
         direction LR
-        pull["1 Pull<br/>last data and caches"] --> fetch["2 Fetch and parse<br/>one adapter per feed type"]
+        pull["1 Pull<br/>last data and caches"] --> fetch["2 Fetch and parse<br/>one adapter per feed type,<br/>or a failed feed's last<br/>good events for a day"]
         fetch --> prefilter["3 Prefilter<br/>past, closures, over 31 days"]
     end
     subgraph enrichplace ["Label and place"]
@@ -66,6 +66,9 @@ flowchart TB
   Answers are cached by the listing's text, so only new listings cost a call.
 - **The gate** refuses new data with past events, pins outside the city, no events at all, a source that lost over
   30% of its events, or anything shaped like a key. The site then keeps the last good data, and an issue opens.
+- **A feed that cannot be reached** keeps its last good events, from the pulled data, for a day after its last
+  successful fetch. They go through the same checks and gate, and a fresh listing of the same event wins. After a
+  day the source is left out, without failing the gate, until it answers again. Either way an issue opens.
 
 ## The page
 
