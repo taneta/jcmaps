@@ -1,0 +1,15 @@
+/* Design tokens, loaded by every page: docs/design.md says what each is for. No color appears anywhere else. */
+:root {
+  color-scheme: light; /* light even on a dark system: dark maps are hard to read */
+  --surface: #FFFFFF; --surface-2: #F4F1EC;
+  --ink: #1E1B17; --ink-2: #534D45; --ink-3: #736B61;
+  --line: #EAE6E0; --line-strong: #958C81;
+  --accent: #FFB627; --accent-edge: #B27200; --accent-tint: #FFF3D6; --on-accent: #1E1B17;
+  --free-bg: #E3F0DA; --free-text: #2D6526;
+  --kids-bg: #EDE7FA; --kids-text: #5A3DA6;
+  --map-land: #F3F0EA; --map-water: #C9DAE3; --map-park: #DDE6D2; --map-building: #E8E3DA;
+  --shadow-float: 0 0 0 1px rgb(30 27 23 / .06), 0 2px 4px rgb(30 27 23 / .12);
+  --shadow-sheet: 0 0 0 1px var(--line), 0 -4px 24px rgb(30 27 23 / .10);
+  --radius-md: 12px; --radius-lg: 20px; --radius-pill: 999px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}

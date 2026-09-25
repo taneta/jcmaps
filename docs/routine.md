@@ -13,6 +13,7 @@ The first row runs by itself; the rest is the owner's.
 | Daily, 1 minute | Check that jcmaps.com's footer says *Updated* today and that no issue is new. |
 | An `auto:build` issue opens | Read it and the run log. If a feed was only down, the next run fetches it again (re-run the workflow to hurry it); otherwise open a Bug ticket. Fix it within a day: after that, visitors see the stale-data banner, or a feed that is still down drops off the site. |
 | A visitor report opens (*Wrong listing: …*) | Compare the event with its source. If our data is wrong, open a Bug ticket. |
+| A suggestion arrives in the Google Form | Read it within a week. A source with a public calendar becomes a Change ticket. Until the map can take approved events, point an organizer to a calendar the map reads, such as the Office of Cultural Affairs' community calendar. Reply if they left an email. Their email stays in the form's responses, never in the repo. |
 | Weekly, 10 minutes | Read [the run report](https://jcmaps.com/data/report.json): events per source, drops, venues without a pin, cost. Until 24 October 2026, also compare the Weekend list with JC Families and Macaroni KID. |
 | Monthly | Check OpenAI spend against the budget. |
 | At least every 60 days | Make a commit. GitHub switches off a public repo's schedule after 60 quiet days; turn it back on under Actions. |
@@ -23,7 +24,7 @@ The first row runs by itself; the rest is the owner's.
 ```mermaid
 flowchart TD
     %% Mirrors the ticket and pull request rules in AGENTS.md. Update it when the process changes.
-    intake["Where work comes from<br/>failed runs, visitor reports,<br/>findings, the brief"]
+    intake["Where work comes from<br/>failed runs, visitor reports,<br/>suggestions, findings, the brief"]
     intake --> ticket["Ticket<br/>Bug or Change,<br/>with Done when"]:::owner
     ticket --> work["Own worktree and branch<br/>code, tests, diagrams"]:::agent
     work --> pr["Pull request<br/>Done when ticked"]:::agent

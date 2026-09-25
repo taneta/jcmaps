@@ -9,6 +9,8 @@ as a static page from GitHub Pages at https://jcmaps.com/.
 - New here? Read `docs/how-it-works.md` (the pieces, in two diagrams) and `docs/routine.md` (who does what, and when).
 - `uv run jcmaps build --pull` runs the pipeline; `uv run pytest` runs the offline tests; `python -m http.server -d site` previews the page.
 - Events show a "Report a problem" link that opens a prefilled issue.
+- The About page (https://jcmaps.com/about.html) says who makes JC Maps and where the events come from, and links
+  to a form for suggesting an event or a source. A person reads every suggestion.
 - Built with AI assistance; every change is reviewed by a person, who is responsible for it.
 
 ## How it runs

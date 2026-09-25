@@ -9,24 +9,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css">
 <style>
-  /* Design tokens: docs/design.md says what each is for. No color appears outside this block. */
-  :root {
-    color-scheme: light; /* light even on a dark system: dark maps are hard to read */
-    --surface: #FFFFFF; --surface-2: #F4F1EC;
-    --ink: #1E1B17; --ink-2: #534D45; --ink-3: #736B61;
-    --line: #EAE6E0; --line-strong: #958C81;
-    --accent: #FFB627; --accent-edge: #B27200; --accent-tint: #FFF3D6; --on-accent: #1E1B17;
-    --free-bg: #E3F0DA; --free-text: #2D6526;
-    --kids-bg: #EDE7FA; --kids-text: #5A3DA6;
-    --map-land: #F3F0EA; --map-water: #C9DAE3; --map-park: #DDE6D2; --map-building: #E8E3DA;
-    --shadow-float: 0 0 0 1px rgb(30 27 23 / .06), 0 2px 4px rgb(30 27 23 / .12);
-    --shadow-sheet: 0 0 0 1px var(--line), 0 -4px 24px rgb(30 27 23 / .10);
-    --radius-md: 12px; --radius-lg: 20px; --radius-pill: 999px;
-    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  }
-
+  /* Colors, radii, shadows and the font are the tokens in tokens.css (docs/design.md); nothing here names a color. */
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--map-land); color: var(--ink); font: 14px/1.45 var(--font);
     -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
@@ -91,6 +77,8 @@
   .empty { padding: 32px 24px; color: var(--ink-3); text-align: center; }
   .note { padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--surface-2); color: var(--ink-3); font-size: 13px; } /* what Free left out */
   .foot { padding: 16px 16px 24px; color: var(--ink-3); font-size: 12px; }
+  .foot a { position: relative; color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  .foot a::before { content: ""; position: absolute; inset: -14px -4px; }
 
   /* MapLibre's controls in the palette; on a phone they sit above the sheet, in thumb reach. */
   .maplibregl-ctrl-bottom-left, .maplibregl-ctrl-bottom-right { bottom: 42vh; }
@@ -98,8 +86,17 @@
   .maplibregl-ctrl-group button { width: 44px; height: 44px; border-radius: inherit; }
   .maplibregl-ctrl-group button + button { border-top: 0; }
   .maplibregl-ctrl-group button:focus:focus-visible { box-shadow: 0 0 0 2px var(--ink); }
-  .maplibregl-ctrl-attrib.maplibregl-compact { background: var(--surface); color: var(--ink-3); box-shadow: var(--shadow-float); }
-  .maplibregl-ctrl-attrib a { color: inherit; }
+  /* The credits: the way to the About page, then what the map's licenses ask for, which fold behind ⓘ once the map is used. */
+  .credits { display: flex; align-items: center; max-width: calc(100vw - 20px); padding: 3px 4px 3px 10px; border-radius: var(--radius-md);
+    background: var(--surface); box-shadow: var(--shadow-float); color: var(--ink-3); font-size: 12px; line-height: 18px; }
+  .credits a { color: inherit; text-decoration: none; }
+  .credits a:hover { color: var(--ink); text-decoration: underline; }
+  .credits a:first-child { position: relative; flex: none; color: var(--ink-2); font-weight: 500; }
+  .credits a:first-child::before { content: ""; position: absolute; inset: -13px -6px; }
+  .credits.folded .licenses { display: none; }
+  .credits button { position: relative; flex: none; width: 22px; margin-left: 4px; padding: 0; border: 0; background: none; color: var(--ink-3);
+    font-size: 14px; line-height: 18px; cursor: pointer; }
+  .credits button::before { content: ""; position: absolute; inset: -13px -8px; }
 
   @media (min-width: 900px) {
     .bar { right: 452px; }

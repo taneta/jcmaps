@@ -1,7 +1,7 @@
 # Design guide
 
 The look of JC Maps: a quiet map, warm neutral surfaces and one sunny color, marigold, for events. The values live in
-the `:root` block at the top of `site/index.html`; this file says what each is for and how to use it.
+the `:root` block of `site/tokens.css`, which both pages load; this file says what each is for and how to use it.
 `tests/test_design.py` checks what a machine can check. Read this before changing anything under `site/`.
 
 ## Principles
@@ -62,13 +62,14 @@ nothing to download and it looks native.
 
 | Size | Weight | Used for |
 |---|---|---|
-| 16px | 500, 600 | card title and sheet count (600); inputs (500) |
+| 20px | 600 | the About page's title |
+| 16px | 400 to 600 | card title and sheet count (600); inputs (500); the About page's text (400) |
 | 14px | 400, 500 | venue, summary, banner (400); chips and segments (500) |
 | 13px | 400 to 600 | type and time on a card (600), links (500), hints and the Free note (400) |
 | 12px | 400 to 600 | footer (400), tags (500), section headings (600, uppercase, 0.06em tracking) |
 
-Line height is 1.45 for text and 1.3 for titles. There are no other sizes and nothing heavier than 600. Times and
-counts use tabular numerals, so they line up.
+Line height is 1.45 for text (1.5 for the About page's paragraphs) and 1.3 for titles. There are no other sizes and
+nothing heavier than 600. Times and counts use tabular numerals, so they line up.
 
 ## Space, shape, depth
 
@@ -76,9 +77,10 @@ counts use tabular numerals, so they line up.
   between tags, 20px between links. A card has 14px top and bottom and 16px at the sides, with 2px between time,
   title and venue, 6px before the summary and 10px before tags and links.
 - **Radius.** `--radius-pill` for chips, tags, fields and the grip; `--radius-md` (12px) for map controls and the
-  banner; `--radius-lg` (20px) for the sheet.
-- **Depth.** Two shadows: `--shadow-float` for everything over the map (chips, banner, map controls, attribution)
-  and `--shadow-sheet` for the sheet. Both include a 1px ring, so edges hold on any part of the map.
+  banner; `--radius-lg` (20px) for the sheet and for the About page on a wide screen.
+- **Depth.** Two shadows: `--shadow-float` for everything over the map (chips, banner, map controls, credits)
+  and for the About page's column, and `--shadow-sheet` for the sheet. Both include a 1px ring, so edges hold on any
+  part of the map.
 
 ## Components
 
@@ -109,7 +111,18 @@ counts use tabular numerals, so they line up.
   not listing a price ("9 more don't list a price"), counted where the list counts events. 13px `--ink-3` on
   `--surface-2`, full width, with a `--line` below. Free stays strict and says so, rather than hiding quietly.
 - **Section heading** (Ongoing, No map pin): 12px/600 uppercase in `--ink-3` on `--surface-2`.
-- **Empty state and footer**: `--ink-3`; the empty state is centered, the footer 12px.
+- **Empty state and footer**: `--ink-3`; the empty state is centered, the footer 12px. The footer ends with a link
+  to the About page in `--ink-2`.
+- **Credits** (`.credits`): one line under "locate me", "About JC Maps · © OpenMapTiles · © OpenStreetMap ⓘ", 12px
+  `--ink-3` on `--surface` with the float shadow and a 12px radius. About JC Maps comes first, in `--ink-2` at 500:
+  it is the way to the About page, and it never folds. The two credits show when the map opens and fold behind ⓘ at
+  the first pan, zoom or tap; ⓘ brings them back.
+- **About page** (`site/about.html`): one column of reading text, 640px at most: 16px/400 `--ink` at 1.5 line height,
+  20px from the screen's edges on a phone, headings styled as section headings, links underlined in `--line-strong`.
+  On a phone the column is the whole page in `--surface`; from 700px wide it floats on `--map-land` with a 20px radius
+  and the float shadow. "Back to the map" is a text button. The source suggestion is a `--surface-2` panel holding the
+  page's one button: an ink pill, 44px tall, with `--surface` text, like a pressed chip. Never marigold, because a
+  suggestion is not an event.
 - **App icon** (`site/icon.svg`, also the favicon): Jersey City's strip of land (`--map-land`) between the
   Hackensack and the Hudson (`--map-water`), with the pin on it glowing, drawn as a selected pin on the map. It has
   no teardrop pin, and it never puts ink on yellow: yellow and black read as a taxi brand. Its colors are pale,
@@ -130,9 +143,14 @@ counts use tabular numerals, so they line up.
   2.5px, and a soft marigold glow (80%, blurred, 16px beyond the pin) lies beneath it. On the map, a glow means
   "selected" and nothing else.
 - **Controls.** MapLibre's own controls, restyled: 44px buttons in a 12px-radius group with the float shadow. A phone
-  shows only "locate me", above the sheet on the right, within reach of a thumb; a mouse also gets zoom buttons. On
-  desktop, the controls and the attribution sit left of the sheet. The OpenStreetMap attribution stays visible: the
-  license requires it.
+  shows only "locate me", above the sheet on the right, within reach of a thumb, with the credits under it; a mouse
+  also gets zoom buttons. On desktop, the controls and the credits sit left of the sheet.
+- **Credits.** Our credits line (Components) replaces MapLibre's attribution control, whose default line named three
+  "Open" projects. OpenStreetMap's guidelines want their credit in a corner of the map, linked to its copyright page
+  and visible when the map opens; it may fold on the first pan, zoom or tap if an info button brings it back.
+  OpenMapTiles also wants its credit in the map's corner. Neither may move to another page. OpenFreeMap asks for no
+  credit on the map, so the About page thanks it instead. The text is written in `app.js`, not read from the style:
+  a new basemap source needs its credit added there.
 - **No pin styles by organizer type** (open decision 2 in the brief, closed by Icons): one mark per pin is enough,
   and what is on matters more than who runs it.
 
@@ -189,12 +207,12 @@ license notice: nothing to download, painted with `--on-accent`, never a new col
 
 | Place | Holds | Kept in step by |
 |---|---|---|
-| `site/index.html`, the `:root` block | every token | this file |
-| `site/index.html`, everything else in `<style>` | `var()` references only | `test_colors_are_tokens` |
+| `site/tokens.css`, the `:root` block | every token; both pages load it | this file |
+| `site/index.html` and `site/about.html`, in `<style>` | `var()` references only | `test_colors_are_tokens` |
 | `site/app.js` | token names, read at load for the map and its icons | `test_colors_are_tokens` |
 | `site/icons.js` | icon paths, type names, place icons; no colors | `test_every_type_has_an_icon_and_a_name` |
 | `pipeline/enrich.py`, `TITLE_WORDS` and `CATEGORY_WORDS` | the words that decide a type | `tests/test_enrich.py` |
-| `<meta name="theme-color">` | `--map-land` | `test_copies_match_tokens` |
+| `<meta name="theme-color">`, in both pages | `--map-land` | `test_copies_match_tokens` |
 | `site/manifest.webmanifest` | `--map-land` | `test_copies_match_tokens` |
 | `site/icon.svg` | palette colors only, `--accent` among them | `test_copies_match_tokens` |
 
