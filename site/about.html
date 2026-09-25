@@ -91,7 +91,7 @@
     Map tiles © <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a>, served free by
     <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> ·
     The code is open on <a href="https://github.com/taneta/jcmaps" target="_blank" rel="noopener">GitHub</a> ·
-    No ads, no accounts, no analytics.
+    No ads, no accounts, no cookies.
   </footer>
 </main>
 <script>
@@ -99,5 +99,6 @@
   const back = document.getElementById("back");
   if (document.referrer.startsWith(location.origin)) back.addEventListener("click", (e) => { e.preventDefault(); history.back(); });
 </script>
+<script type="module" src="visits.js"></script>
 </body>
 </html>

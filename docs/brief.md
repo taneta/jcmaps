@@ -115,6 +115,8 @@ Static, no framework: one HTML file and one module. MapLibre GL JS with a vector
 
 Basemap: OpenFreeMap's hosted `positron` style, tinted with the palette in `docs/design.md`; no key, no file. Day one used `liberty`. In v1.x, a PMTiles extract of the city from Protomaps' daily build (`pmtiles extract https://build.protomaps.com/<date>.pmtiles jc.pmtiles --bbox=-74.13,40.65,-74.01,40.78`), one static file on Pages, for independence.
 
+Visits: GoatCounter, without cookies. Once a day each browser also reports "new" or "returning", from the date of its last visit, which only the browser keeps. Cloudflare Web Analytics keeps nothing in the browser, but it cannot count returning visitors and takes no custom events.
+
 ## Security
 
 Untrusted text from any feed reaches the enrichment model. The defenses are structural: the call has no tools, its output must match the schema, it can only fill fields on events that code created, and code alone writes and publishes. No secret is ever in a model's context; the repair agent edits code and opens pull requests, while CI, not the agent, runs anything that needs the API key. v2 adds submissions and with them a checker on a different model that sees only extracted JSON and evidence, EXIF stripped on upload, a required poster identity, and enrichment fetches limited to the event's own domain.
