@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-DOCS = [ROOT / "docs" / "how-it-works.md", ROOT / "docs" / "routine.md"]
+DOCS = [ROOT / "docs" / n for n in ("how-it-works.md", "routine.md", "sources.md")]
 CODE = ["pipeline/**/*.py", "site/*.js", "site/*.html", ".github/workflows/*.yml"]
 HELPERS = {"__init__.py", "model.py", "util.py", "geo.py", "search.test.js"}  # shared by stages, no flow of their own
 PATH = re.compile(r"`((?:\.github|pipeline|site|docs|fixtures|data|tests)/[^`<>\s]*)`")

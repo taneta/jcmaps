@@ -17,6 +17,8 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
   pull-request runs. The gate refuses to publish if anything under site/ looks like a key.
 - Log every model call to logs/llm.jsonl (input hash, output, model, tokens, cost, latency).
 - One module per source in pipeline/sources/<name>.py with fixtures/<name>/.
+- Sources follow docs/sources.md: the organizer's own feed first, robots.txt and terms decide, no personal data,
+  and some events never reach the map.
 - Publishing goes through pipeline/gate.py; a failed gate keeps the last good snapshot and opens an issue.
 - A prompt or model change is scored on fixtures/labeled/enrich.json before it replaces cached values.
 - Search rules live once, in site/search.js (pure functions, no DOM); the browser runs them
