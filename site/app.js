@@ -4,7 +4,7 @@ import { ICONS, PLACES, TYPES } from "./icons.js";
 const REPO = "taneta/jcmaps"; // "Report a problem" opens a prefilled issue here
 const DATA = "data/events.json";
 const $ = (s) => document.querySelector(s);
-// Colors are the CSS tokens in index.html (docs/design.md); the map reads them, so it follows the theme.
+// Colors are the CSS tokens in tokens.css (docs/design.md); the map reads them, so it follows the theme.
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim();
 
 const state = { window: "today", view: "family", freeOnly: false, venue: null, custom: null };
@@ -99,7 +99,7 @@ function render() {
   if (ongoing.length) html += `<div class="section">Ongoing (${ongoing.length})</div>` + ongoing.map(card).join("");
   if (unpinned.length) html += `<div class="section">No map pin (${unpinned.length})</div>` + unpinned.map(card).join("");
   const gen = new Date(snapshot.generated_at);
-  html += `<div class="foot">Updated ${fmtDay(gen)} ${fmtTime(gen)} · ${snapshot.events.length} events from ${Object.keys(snapshot.sources).length} sources · Times in Jersey City time.</div>`;
+  html += `<div class="foot">Updated ${fmtDay(gen)} ${fmtTime(gen)} · ${snapshot.events.length} events from ${Object.keys(snapshot.sources).length} sources · Times in Jersey City time. <a href="about.html">About JC Maps</a></div>`;
   $("#list").innerHTML = html;
   updatePins(counts, icons);
   writeHash();
@@ -190,10 +190,21 @@ function addIcons() {
 function initMap() {
   const c = snapshot.city;
   map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/positron", center: c.center, zoom: 12.4,
-    maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: { compact: true },
+    maxBounds: [[c.bbox[0] - 0.12, c.bbox[1] - 0.08], [c.bbox[2] + 0.12, c.bbox[3] + 0.08]], attributionControl: false,
     dragRotate: false, maxPitch: 0 }); // north-up and flat: nothing to undo, and "in view" is what the screen shows
   map.touchZoomRotate.disableRotation();
   map.keyboard.disableRotation();
+  // Our own credits line (docs/design.md), added first so it sits under the other controls: the two credits the map's
+  // licenses ask for, written here rather than taken from the style, so a new basemap source needs its credit added.
+  // They show when the map opens and fold behind ⓘ at the first pan, zoom or tap, as OpenStreetMap's guidelines allow.
+  const credits = Object.assign(document.createElement("div"), { className: "maplibregl-ctrl credits", innerHTML:
+    '<a href="about.html">About JC Maps</a><span class="licenses"> · <a href="https://openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · ' +
+    '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a></span>' +
+    '<button type="button" aria-label="Map credits" aria-expanded="true">ⓘ</button>' });
+  const fold = (folded) => { credits.classList.toggle("folded", folded); credits.querySelector("button").setAttribute("aria-expanded", String(!folded)); };
+  credits.querySelector("button").addEventListener("click", () => fold(!credits.classList.contains("folded")));
+  for (const first of ["movestart", "click"]) map.once(first, () => fold(true));
+  map.addControl({ onAdd: () => credits, onRemove: () => credits.remove() }, "bottom-right");
   if (matchMedia("(pointer: fine)").matches) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right"); // phones pinch
   map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), "bottom-right");
   map.on("load", () => {

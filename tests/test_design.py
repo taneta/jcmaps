@@ -5,9 +5,10 @@ import re
 from pathlib import Path
 
 SITE = Path(__file__).parent.parent / "site"
-HTML = (SITE / "index.html").read_text()
-CSS = re.search(r"<style>(.*?)</style>", HTML, re.S).group(1)
-ROOT = re.search(r":root\s*\{(.*?)\}", CSS, re.S)
+TOKEN_CSS = (SITE / "tokens.css").read_text()
+ROOT = re.search(r":root\s*\{(.*?)\}", TOKEN_CSS, re.S)
+PAGES = {name: (SITE / name).read_text() for name in ("index.html", "about.html")}
+STYLES = {name: re.search(r"<style>(.*?)</style>", html, re.S).group(1) for name, html in PAGES.items()}
 COLOR = re.compile(r"#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b|\b(?:rgba?|hsla?|oklch|color-mix)\(")
 TOKENS = {name: value.strip() for name, value in re.findall(r"--([\w-]+):([^;]+);", ROOT.group(1))}
 
@@ -15,7 +16,7 @@ TOKENS = {name: value.strip() for name, value in re.findall(r"--([\w-]+):([^;]+)
 PAIRS = [("ink", "surface", 4.5), ("ink-2", "surface", 4.5), ("ink-3", "surface", 4.5), ("ink-3", "surface-2", 4.5),
          ("surface", "ink", 4.5), ("ink-2", "accent-tint", 4.5), ("ink-3", "accent-tint", 4.5),
          ("on-accent", "accent", 4.5), ("free-text", "free-bg", 4.5), ("kids-text", "kids-bg", 4.5),
-         ("ink-3", "map-land", 4.5), ("line-strong", "surface", 3)]
+         ("ink-3", "map-land", 4.5), ("ink", "surface-2", 4.5), ("ink-2", "surface-2", 4.5), ("line-strong", "surface", 3)]
 
 
 def luminance(color):
@@ -44,20 +45,32 @@ def test_pins_stand_out_on_the_map():
 
 
 def test_colors_are_tokens():
-    assert not COLOR.findall(CSS.replace(ROOT.group(0), "")), "a color outside :root in index.html"
+    assert not COLOR.findall(TOKEN_CSS.replace(ROOT.group(0), "")), "a color outside :root in tokens.css"
+    for name, css in STYLES.items():
+        assert '<link rel="stylesheet" href="tokens.css">' in PAGES[name], f"{name} does not load tokens.css"
+        assert not COLOR.findall(css), f"a color in {name}; use a token from tokens.css"
+        assert set(re.findall(r"var\(--([\w-]+)", css)) <= set(TOKENS), f"{name}: var() names a token that does not exist"
     for js in ("app.js", "icons.js"):
         assert not COLOR.findall((SITE / js).read_text()), f"a color in {js}; read a token instead"
-    assert set(re.findall(r"var\(--([\w-]+)", CSS)) <= set(TOKENS), "var() names a token that does not exist"
 
 
 def test_light_only():
     # Dark maps were hard to read; bringing a dark theme back is a decision for docs/design.md first.
-    assert "prefers-color-scheme" not in HTML + (SITE / "app.js").read_text()
-    assert "color-scheme: light;" in CSS
+    assert "prefers-color-scheme" not in TOKEN_CSS + "".join(PAGES.values()) + (SITE / "app.js").read_text()
+    assert "color-scheme: light;" in ROOT.group(1)
+
+
+def test_the_map_credits_its_data():
+    # OpenStreetMap's license needs a credit linked to its copyright page, shown when the map opens; OpenMapTiles' needs
+    # its own, in the map's corner. The credits line in app.js does both, so MapLibre's own control stays off.
+    js = (SITE / "app.js").read_text()
+    assert "attributionControl: false" in js and "© OpenMapTiles" in js
+    assert '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a>' in js
 
 
 def test_copies_match_tokens():
-    assert re.findall(r'"theme-color" content="([^"]+)"', HTML) == [TOKENS["map-land"]]
+    for name, html in PAGES.items():
+        assert re.findall(r'"theme-color" content="([^"]+)"', html) == [TOKENS["map-land"]], name
     manifest = json.loads((SITE / "manifest.webmanifest").read_text())
     assert manifest["theme_color"] == manifest["background_color"] == TOKENS["map-land"]
     icon = re.findall(r'(?:fill|stroke)="([^"]+)"', (SITE / "icon.svg").read_text())

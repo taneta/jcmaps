@@ -11,7 +11,8 @@ A map-first web app for Jersey City that answers one question: what is happening
 The data is general: city, business and community events, for adults and children alike. The view is family by default: events marked not kid-friendly are hidden until the user switches to Everyone. Reason: the open sources are mostly adult events, the data model already carries both, and a family default is what makes the app shareable among parents.
 
 - **v1, one day:** feeds from the library and the city, refreshed twice a day, on a static map. No accounts, no database, no user input.
-- **v1.x:** more sources, a weekly coverage check against the baseline.
+- **v1.x:** more sources, a weekly coverage check against the baseline, and an About page with a suggestion form: a
+  Google Form that only the owner reads, so nothing a visitor sends reaches the pipeline.
 - **v2:** organizers add events from a flyer photo or text; a checker screens them.
 - **v3:** plain-language search and an MCP server over the same filter.
 

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About JC Maps</title>
+<meta name="description" content="Who makes JC Maps, how it works, where its Jersey City events come from, and how to suggest an event or a source.">
+<meta name="theme-color" content="#F3F0EA">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Colors, radii, shadows and the font are the tokens in tokens.css (docs/design.md); nothing here names a color.
+     A reading page: one column in the map page's type, with ink for its one button. */
+  * { box-sizing: border-box; }
+  html { background: var(--map-land); }
+  body { margin: 0; color: var(--ink); font: 16px/1.5 var(--font); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  main { max-width: 640px; min-height: 100vh; margin: 0 auto; padding: max(8px, env(safe-area-inset-top)) 20px 32px; background: var(--surface); }
+  .back { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink-2); font-size: 14px; font-weight: 600; text-decoration: none; }
+  .back:hover { color: var(--ink); }
+  header { display: flex; align-items: center; gap: 12px; margin: 12px 0 8px; }
+  header img { width: 40px; height: 40px; border-radius: var(--radius-md); }
+  h1 { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.3; }
+  h2 { margin: 36px 0 10px; color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  p { margin: 0 0 12px; }
+  b { font-weight: 600; }
+  .lead { color: var(--ink-2); }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: currentColor; }
+  .sources { margin: 0; padding: 0; list-style: none; }
+  .sources li { margin: 0 0 10px; }
+  .panel { margin: 20px 0 8px; padding: 16px 18px 18px; border-radius: var(--radius-md); background: var(--surface-2); color: var(--ink-2); }
+  .panel p { margin: 0; }
+  .panel b { color: var(--ink); }
+  .button { display: inline-flex; align-items: center; height: 44px; margin-top: 14px; padding: 0 18px; border-radius: var(--radius-pill);
+    background: var(--ink); color: var(--surface); font-size: 14px; font-weight: 500; text-decoration: none; }
+  .small { color: var(--ink-3); font-size: 13px; }
+  footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 12px; }
+  footer a { color: inherit; }
+  @media (min-width: 700px) {
+    main { min-height: 0; margin: 24px auto; padding: 16px 40px 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-float); }
+  }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" id="back" href="./">← Back to the map</a>
+  <header>
+    <img src="icon.svg" alt="">
+    <h1>About JC Maps</h1>
+  </header>
+  <p class="lead">What's on in Jersey City (today, tomorrow or this weekend) on one map. Free to use and non-commercial: no ads, no sign-up.</p>
+
+  <h2>Who makes it</h2>
+  <p>Hi, I'm Katerina, and I've lived in Jersey City since 2020. A lot happens in this city: story times, free concerts,
+    park cleanups, meetups. I'm always wondering where to take my kids or where to hang out with friends, and the answer
+    is usually spread across calendars few people check. JC Maps brings them together on one map.</p>
+  <p>I also want to move civic tech and community projects in Jersey City forward: small, open tools that make public
+    information easy to use and bring neighbors together. If you're working on a community or civic tech project here,
+    or have an idea for one, tell me about it:
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+community+or+civic+tech+project" target="_blank" rel="noopener">send me a message ↗</a>.</p>
+
+  <h2>Where the events come from</h2>
+  <ul class="sources">
+    <li data-source="library"><a href="https://jclibrary.libcal.com/calendar" target="_blank" rel="noopener">Jersey City Free Public Library ↗</a>:
+      story times, classes, clubs and talks at the Main Library, its ten branches, the Bookmobile, the Creative Arts
+      Center and the Learning Center.</li>
+    <li data-source="culture"><a href="https://jerseycityculture.org/events/" target="_blank" rel="noopener">Jersey City Office of Cultural Affairs ↗</a>:
+      the City's festivals, concerts, exhibitions and community events, most of them free.</li>
+    <li data-source="connects"><a href="https://jerseycityconnects.com/events/" target="_blank" rel="noopener">Jersey City Connects ↗</a>:
+      a social club for adults, with mixers, game nights and outings.</li>
+  </ul>
+  <div class="panel">
+    <p><b>Know a calendar, website or newsletter that lists events?</b> That's the most helpful suggestion, because one
+      source can bring dozens of events. Connecting a new source takes some work, so give it a few weeks.</p>
+    <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+calendar,+website+or+newsletter+with+events" target="_blank" rel="noopener">Suggest a source ↗</a>
+  </div>
+
+  <h2>Add an event or a source</h2>
+  <p>Suggestions don't go on the map automatically; I read each one first. If you'd like a source added,
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=A+calendar,+website+or+newsletter+with+events" target="_blank" rel="noopener">send me a message ↗</a>.
+    If you're organizing something and want it on the map, for now please
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSev83XHCLFJqY4C67JepyEjCTY9HWF7nAWrn6r3MZzT7d_9WA/viewform?usp=pp_url&amp;entry.1476616944=An+event+I%27m+organizing" target="_blank" rel="noopener">send it through this form ↗</a>.
+    The next version of JC Maps will let every organizer put their own events on the map.</p>
+  <p class="small">The form is a Google Form, and only I see your answers.</p>
+
+  <footer>
+    Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors ·
+    Map tiles © <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a>, served free by
+    <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> ·
+    The code is open on <a href="https://github.com/taneta/jcmaps" target="_blank" rel="noopener">GitHub</a> ·
+    No ads, no accounts, no analytics.
+  </footer>
+</main>
+<script>
+  // Coming from the map, "Back to the map" goes back, so the map keeps its filters; otherwise it opens the map.
+  const back = document.getElementById("back");
+  if (document.referrer.startsWith(location.origin)) back.addEventListener("click", (e) => { e.preventDefault(); history.back(); });
+</script>
+</body>
+</html>

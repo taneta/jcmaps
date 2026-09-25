@@ -17,6 +17,7 @@ flowchart TD
     site["jcmaps.com<br/>static page and data"]
     visitor["Visitor's browser"]
     issues["GitHub issues"]
+    form["Suggestion form<br/>a Google Form<br/>only the owner reads"]
 
     feeds -->|listings| run
     repo -->|code| run
@@ -26,6 +27,8 @@ flowchart TD
     site -->|page and data| visitor
     run -->|failed run<br/>or feed| issues
     visitor -->|Report a problem| issues
+    visitor -->|About page:<br/>suggest an event or a source| form
+    form -.->|accepted: a ticket| issues
     site -.->|last data and caches,<br/>pulled by the next run| run
     issues -.->|ticket, pull request, merge| repo
 ```
@@ -75,7 +78,9 @@ flowchart TB
 Pick a time window (today, the default; tomorrow, weekend or dates), Family or Everyone, and Free. Each pin shows
 what kind of event is on and how many, and the list shows the events in view. Family hides only events marked not
 for kids; unknowns show with a label. Free shows only events that say they are free, and the list says how many it
-left out for not listing a price. Data more than a day old shows a banner.
+left out for not listing a price. Data more than a day old shows a banner. "About JC Maps", in the map's credits and
+at the end of the list, opens the About page: who makes JC Maps, where the events come from, and a form for
+suggesting more.
 
 ## Where the code is
 
@@ -85,7 +90,7 @@ left out for not listing a price. Data more than a day old shows a banner.
 | Collect | `pipeline/sources/library.py` (library iCal), `pipeline/sources/tribe.py` (the two city sites), `pipeline/check.py` (prefilter) |
 | Label and place | `pipeline/enrich.py` (rules, event types), `pipeline/llm.py` (the one model call), `pipeline/geocode.py` |
 | Decide and write | `pipeline/check.py` (city boundary, duplicates), `pipeline/gate.py`, `pipeline/publish.py` |
-| The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`; the look is in `docs/design.md` |
+| The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`, `site/about.html` (the About page), `site/tokens.css` (colors and shapes, for both pages); the look is in `docs/design.md` |
 | Settings | `city.json` (sources, city boundary), `data/library_branches.json` |
 
 When a pull request changes one of these flows, it updates the diagram too (AGENTS.md).
