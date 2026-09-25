@@ -6,6 +6,7 @@ import json
 import os
 import sys
 import time
+from collections import Counter
 from pathlib import Path
 
 import httpx
@@ -69,7 +70,7 @@ def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client 
             stats[sid] = {"parsed": len(got)}
             raws += got
         except Exception as e:  # a broken source yields no fresh events; build carries its last good ones
-            stats[sid] = {"parsed": 0, "error": f"{type(e).__name__}: {str(e)[:200]}"}
+            stats[sid] = {"parsed": 0, "error": f"could not be fetched ({type(e).__name__}: {str(e)[:200]})"}
             print(f"source {sid} failed: {e}", file=sys.stderr)
     return raws, stats
 
@@ -85,8 +86,13 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
     raws, drops = check.prefilter(raws, now)
     # a partial or fixture build must not be judged against the full snapshot, nor carry from it
     previous = None if (only or offline) else read_json(publish.SNAPSHOT)
+    fresh = Counter(r.source_id for r in raws)
+    for sid, s in src_stats.items():  # a feed that lists far fewer events than last time is judged like a failed fetch
+        if "error" not in s and (why := publish.shrank(previous or {}, sid, fresh[sid])):
+            s["error"] = why
     failed = {sid for sid, s in src_stats.items() if "error" in s}
     since, old, old_fields, old_venues = publish.carry(previous or {}, failed, now)
+    raws = [r for r in raws if r.source_id not in since]  # a carried source's smaller feed waits its day out
     old, _ = check.prefilter(old, now)  # carried occurrences that are over are not reused
 
     model_client = None if (offline or no_model) else llm.make_client()
@@ -106,15 +112,15 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
     drops += drops2
 
     snapshot = publish.compose(raws, fields | old_fields, venues, city, now, previous, since)
-    reasons = gate.gate(snapshot, previous, city["boundary"], now, failed)
+    reasons = gate.gate(snapshot, city["boundary"], now)
     candidate = json.dumps(snapshot.model_dump(mode="json", by_alias=True), ensure_ascii=False, default=str)
     public = {str(f.relative_to(ROOT)): f.read_text(errors="replace")
               for f in (ROOT / "site").rglob("*") if f.is_file() and f != publish.SNAPSHOT and "node_modules" not in f.parts}
     reasons += gate.secret_scan({"candidate events.json": candidate, **public})
-    for sid, s in src_stats.items():  # a failed source is degraded while it has carried events, then down
+    for sid, s in src_stats.items():  # degraded while its last good events are carried, down with nothing to show
         s["published"] = snapshot.sources.get(sid, {}).get("count", 0)
-        s["state"] = "active" if sid not in failed else ("degraded" if s["published"] else "down")
-        if s["state"] == "degraded":
+        s["state"] = "degraded" if sid in since else "down" if sid in failed and not s["published"] else "active"
+        if sid in since:
             s["carried_from"] = since[sid]
 
     rep = publish.report(now, src_stats, drops, venues, geocoder.calls, enrich_stats, reasons,

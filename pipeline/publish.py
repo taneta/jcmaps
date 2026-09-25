@@ -1,4 +1,4 @@
-"""Compose the snapshot the site reads and the run report; carry a failed source's last good events forward."""
+"""Compose the snapshot the site reads and the run report; carry a failed or shrunken source's last good events."""
 from __future__ import annotations
 
 from datetime import datetime, timedelta
@@ -11,12 +11,24 @@ SNAPSHOT = SITE_DATA / "events.json"
 REPORT = SITE_DATA / "report.json"  # the latest report, published with the site
 REPORTS = ROOT / "reports"  # one file per run, uploaded as a workflow artifact, never committed
 VOLATILE = {"first_seen", "last_seen", "updated_at"}
-CARRY = timedelta(hours=24)  # how long after its last successful fetch a failed source keeps its events
+CARRY = timedelta(hours=24)  # how long after its last successful fetch a failed or shrunken source keeps its events
+SHRINK = 0.30  # a feed listing this much fewer events than the source published is judged like a failed fetch
+MIN_BASE = 10  # unless the source published too few to judge
+
+
+def shrank(previous: dict, sid: str, fresh: int) -> str | None:
+    """Why a source whose fetch worked is still judged like a failed one: its feed lists far fewer events than the
+    source published last time. A feed that quietly broke looks like this, and so does a real drop; both are carried
+    for a day (see carry), then the smaller feed is published, which settles the comparison."""
+    before = previous.get("sources", {}).get(sid, {}).get("count", 0)
+    if before >= MIN_BASE and fresh < before * (1 - SHRINK):
+        return f"shrank from {before} to {fresh}"
+    return None
 
 
 def carry(previous: dict, failed: set[str],
           now: datetime) -> tuple[dict[str, str], list[Raw], dict[str, dict], dict[str, Venue]]:
-    """A source whose fetch failed keeps its last good events until CARRY after its last successful fetch.
+    """A source whose fetch failed or shrank keeps its last good events until CARRY after its last successful fetch.
     Returns when that fetch was, per carried source, and its events from the previous snapshot as records with the
     fields and venues they were published with, so the checks and the gate judge them like fresh ones. The records
     carry no evidence, so a fresh listing of the same event wins the duplicate check. The events are read through
