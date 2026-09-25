@@ -30,7 +30,7 @@ BOOKMOBILE_STOP = re.compile(r"^(?P<place>.+?)\s*-\s*[^-]*?,?\s*Bookmobile Stop\
 def fetch(cid: str, cache_dir: Path, client: httpx.Client) -> str:
     r = client.get(FEED.format(cid=cid))
     r.raise_for_status()
-    text = scrub(r.text)
+    text = scrub(re.sub(r"\r?\n[ \t]", "", r.text))  # unfolded first, so a contact split across lines is caught too
     cache_dir.mkdir(parents=True, exist_ok=True)
     (cache_dir / f"{cid}.ics").write_text(text)
     return text

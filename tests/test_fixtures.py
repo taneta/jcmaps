@@ -20,3 +20,13 @@ def test_every_fixture_is_scrubbed():
     dirty = [str(p.relative_to(FIXTURES)) for p in FIXTURES.rglob("*")
              if p.is_file() and scrub(p.read_text()) != p.read_text()]
     assert not dirty, f"contact details in {dirty}: refreeze through pipeline.util.scrub"
+
+
+def test_a_library_feed_is_unfolded_and_scrubbed_as_it_is_read(tmp_path):
+    import httpx
+    from pipeline.sources import library
+    feed = "BEGIN:VCALENDAR\r\nDESCRIPTION:Email criolla@jclibr\r\n ary.org or call 201-\r\n 547-4541.\r\nEND:VCALENDAR\r\n"
+    client = httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(200, text=feed)))
+    text = library.fetch("17419", tmp_path, client)
+    assert text == (tmp_path / "17419.ics").read_bytes().decode()
+    assert text == "BEGIN:VCALENDAR\r\nDESCRIPTION:Email name@example.org or call 000-000-0000.\r\nEND:VCALENDAR\r\n"
