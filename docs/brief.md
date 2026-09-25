@@ -54,11 +54,13 @@ Source rules:
 - **Farmers markets and street fairs on the city's calendar are free to enter**, by the owner's rule, like the library's. It applies only when nothing else decided the price and the listing does not talk about money; the title words ("Farmers Market") are the evidence, marked as a rule.
 - **Boundary:** occurrences outside the city polygon are dropped and counted in the run report.
 
-Not now: Eventbrite (per-organizer API only), Meetup (paid), Instagram and Facebook (terms forbid collection; v2 covers them through flyers), the city's own CivicLive calendar (meetings, no feed), Macaroni KID (blocks scripted requests; baseline by hand).
+Not now: Instagram, Facebook and the other social platforms (their terms forbid collection; v2 covers them through flyers), Macaroni KID (blocks scripted requests; baseline by hand).
 
-Candidates for v1.x, unverified: Liberty Science Center, Liberty State Park, Hudson County parks, the city's Recreation department, Jersey City Parks Coalition, Art House Productions, Mana Contemporary, the farmers markets, neighborhood associations. Probe each for a feed first, page extraction second.
+Promising, later: Eventbrite's API, read by venue with a free token. It would bring the Landmarks Conservancy's walking tours, Sustainable JC, JCAST tickets and Liberty Science Center's special events, but the token is a second secret, and Eventbrite's terms allow storing only future events, each with a direct link.
 
-Respect `robots.txt` and each site's terms. Store facts plus a link and an own-words summary, never copied descriptions or images.
+Candidates, checked 2026-09-24 in a sweep of about 120 sources: the ones with a usable feed are tickets #41 and #43 to #50, and most of the rest need the organizer's permission first. The city's own calendar has an iCal feed after all, and Meetup groups have free ones. Mana Contemporary has a feed with about one event a month.
+
+The rules for collecting, and what never goes on the map, are in `docs/sources.md`.
 
 ## Pipeline
 
