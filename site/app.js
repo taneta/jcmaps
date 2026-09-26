@@ -53,7 +53,8 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 function reportUrl(ev) {
   const title = `Wrong listing: ${ev.title}`.slice(0, 120);
   const body = `**Where:** data · **Seen:** live site, ${new Date().toISOString().slice(0, 10)}\n\nEvent: ${ev.title}\nId: ${ev.id}\nSource: ${ev.url}\n\n## What happens\n(What is wrong: the time, the place, it is cancelled, not for kids, the price, something else?)\n\n## What should happen\n\n`;
-  return `https://github.com/${REPO}/issues/new?labels=report&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+  // the template carries the label, since the labels parameter only works for people allowed to label issues (#32)
+  return `https://github.com/${REPO}/issues/new?template=report.md&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 }
 
 // ---- rendering ----
@@ -77,7 +78,7 @@ function card(item) {
     <div class="where">${esc(where)}${ev.organizer_name && ev.source_id !== "library" ? " · " + esc(ev.organizer_name) : ""}</div>
     ${ev.summary ? `<div class="sum">${esc(ev.summary)}</div>` : ""}
     <div class="tags">${tags.join("")}</div>
-    <div class="links"><a href="${esc(ev.url)}" target="_blank" rel="noopener">Source ↗</a><a href="${reportUrl(ev)}" target="_blank" rel="noopener">Report a problem</a></div>
+    <div class="links"><a href="${esc(ev.url)}" target="_blank" rel="noopener">Source ↗</a><a href="${reportUrl(ev)}" target="_blank" rel="noopener">Report on GitHub</a></div>
   </div>`;
 }
 

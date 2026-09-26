@@ -106,7 +106,7 @@ nothing heavier than 600. Times and counts use tabular numerals, so they line up
 - **Tags**: 12px/500 pills. A fact (price text, ages, Registration) is `--surface-2` with `--ink-2`; Free and Kids
   use their own colors. An unknown (kids: not stated, price not listed) is a dashed
   `--line-strong` outline with `--ink-3` text.
-- **Links**: 13px/500, underlined in `--line-strong`; "Source ↗" in `--ink-2`, "Report a problem" in `--ink-3`,
+- **Links**: 13px/500, underlined in `--line-strong`; "Source ↗" in `--ink-2`, "Report on GitHub" in `--ink-3`,
   both full ink on hover.
 - **Note** (what Free left out): while Free is on, the first row of the list says how many events it left out for
   not listing a price ("9 more don't list a price"), counted where the list counts events. 13px `--ink-3` on
