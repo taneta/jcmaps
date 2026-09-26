@@ -35,9 +35,13 @@ const fmtDay = (d) => new Intl.DateTimeFormat("en-US", { timeZone: tz(), weekday
 const fmtTime = (d) => new Intl.DateTimeFormat("en-US", { timeZone: tz(), hour: "numeric", minute: "2-digit" }).format(d).replace(":00", "");
 function when(occ) {
   const s = new Date(occ.start_utc);
-  if (occ.all_day) return `${fmtDay(s)} · all day`;
-  const t = fmtTime(s) + (occ.end_utc ? "–" + fmtTime(new Date(occ.end_utc)) : "");
-  return `${fmtDay(s)} · ${t}`;
+  if (occ.all_day) return [fmtDay(s), "all day"];
+  let t = fmtTime(s);
+  if (occ.end_utc) {
+    const e = fmtTime(new Date(occ.end_utc));
+    t = t.slice(-2) === e.slice(-2) ? `${t.slice(0, -3)}–${e}` : `${t}–${e}`; // "3:30–4:15 PM", but "11:30 AM–12:45 PM"
+  }
+  return [fmtDay(s), t]; // the day and the time, each kept whole on the card
 }
 function customWindow() {
   const { from, to } = state.custom;
@@ -66,8 +70,9 @@ function card(item) {
   if (ev.registration === "yes") tags.push('<span class="tag">Registration</span>');
   for (const l of labels) tags.push(`<span class="tag unknown">${esc(l)}</span>`);
   const where = venue ? venue.name : "Location not stated";
+  const [day, time] = when(occ);
   return `<div class="card${selected === ev.id ? " sel" : ""}" data-id="${esc(ev.id)}" data-venue="${esc(occ.venue_id || "")}">
-    <div class="when"><span class="mark">${type ? glyph(ev.type) : ""}</span><span>${type ? esc(type) + " · " : ""}${esc(when(occ))}</span></div>
+    <div class="when"><span class="mark">${type ? glyph(ev.type) : ""}</span><span>${type ? `<span>${esc(type)}</span> · ` : ""}<span>${esc(day)}</span> · <span>${esc(time)}</span></span></div>
     <h3>${esc(ev.title)}</h3>
     <div class="where">${esc(where)}${ev.organizer_name && ev.source_id !== "library" ? " · " + esc(ev.organizer_name) : ""}</div>
     ${ev.summary ? `<div class="sum">${esc(ev.summary)}</div>` : ""}

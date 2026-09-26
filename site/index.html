@@ -56,6 +56,7 @@
   .card.sel { background: var(--accent-tint); }
   .card .when { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 13px; font-weight: 600;
     font-variant-numeric: tabular-nums; }
+  .card .when span span { white-space: nowrap; } /* the type, the day and the time each stay whole; a break falls between them */
   .card .mark { flex: none; display: grid; place-items: center; width: 20px; height: 20px; border-radius: var(--radius-pill);
     background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent-edge); } /* the pin, in small, with the event's icon */
   .card .mark svg { width: 12px; height: 12px; fill: var(--on-accent); }
