@@ -46,13 +46,15 @@ The done-when column in the brief's day-one table is the prediction; this file r
 
 ## Metrics
 
-Events without a map pin, tracked after every rebuild that changes pins and in the weekly report read
-(`geocode.unpinned_events` in the run report; docs/routine.md).
+Events at a venue the geocoder could not place, tracked after every rebuild that changes pins and in the weekly
+report read (`geocode.unpinned_events` in the run report; docs/routine.md). Events with no place at all (online,
+or none given) are counted apart: nothing can pin them.
 
-| Date | Events published | Without a pin | Pinned | What the unpinned are |
+| Date | Events published | Venue without a pin | No place at all | What the unpinned are |
 |---|---|---|---|---|
-| 2026-09-24 | 488 | about 29 | 94% | day one: Bookmobile stops given as cross streets |
-| 2026-09-26 | 522 | 42 | 92% | after #5: 19 with no place at all (online), 16 at 13 Bookmobile stops written as corners or descriptions (#83), 5 at the City Hall Annex boardroom, 2 outside the city or misspelled |
+| 2026-09-24 | 488 | about 29, both kinds | | day one: Bookmobile stops given as cross streets |
+| 2026-09-26 | 522 | 23 | 19 | after #5, local rebuild: 16 at 13 Bookmobile stops written as corners or descriptions (#83), 5 at the City Hall Annex boardroom, 2 outside the city or misspelled |
+| 2026-09-26 | 492 | 16 | | the live run after #5 |
 
 ## Notes
 

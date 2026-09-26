@@ -38,6 +38,8 @@ def test_city_locations_become_one_venue_per_address_or_none():
     keys = {venue_key(raws[u].venue_name, raws[u].venue_address) for u in ("21059936", "21343556")}
     assert keys == {"280 grove st, jersey city"}  # City Hall and Council Chambers share one pin
     assert ical.place("Zoom (link in description)", {}) == (None, None)
+    assert ical.place("Boardroom at the Holloway Building, City Hall Annex", CITY["places"]) == (
+        "Holloway Building", "4 Jackson Square, Jersey City, NJ")  # the annex's other spelling names no street
     assert ical.place("Islamic Center of Jersey City 17 Park Street", {}) == ("Islamic Center of Jersey City", "17 Park Street")
 
 

@@ -488,7 +488,7 @@
    "kind": "ical",
    "url": "https://www.jerseycitynj.gov/ICalendarHandler?calendarId=12409811",
    "link": "https://www.jerseycitynj.gov/workspaces/one.aspx?objectId={uid}&contextId=12409811",
-   "places": {"City Hall": "280 Grove St, Jersey City, NJ"},
+   "places": {"City Hall": "280 Grove St, Jersey City, NJ", "Holloway Building": "4 Jackson Square, Jersey City, NJ"},
    "organizer_type": "city",
    "publish": true
   },

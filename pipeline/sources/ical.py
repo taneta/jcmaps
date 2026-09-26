@@ -71,7 +71,8 @@ def place(location: str, places: dict[str, str]) -> tuple[str | None, str | None
     m = HOUSE.search(text)
     if m:
         return text[:m.start()].strip(" ,") or None, address(text[m.start():])
-    known = next((name for name in places if name.lower() in text.lower()), None)
+    # the longest name that appears wins: "City Hall Annex" names the annex's building, not City Hall
+    known = max((name for name in places if name.lower() in text.lower()), key=len, default=None)
     return (known, places[known]) if known else (text, None)
 
 
