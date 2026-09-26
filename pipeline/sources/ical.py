@@ -14,7 +14,7 @@ from pipeline.model import Raw
 from pipeline.util import TZ, now_utc, scrub, strip_html
 
 # A location that is only a video call, or nothing at all, has no place: the event is listed without a pin.
-ONLINE = re.compile(r"(?:(?:via |on )?(?:zoom|online|virtual(?:ly)?|webinar|livestream|teams|google meet)\b[^0-9]*)?",
+ONLINE = re.compile(r"(?:(?:via |on )?(?:zoom|webex|online|virtual(?:ly)?|webinar|livestream|teams|google meet)\b[^0-9]*)?",
                     re.I)
 HOUSE = re.compile(r"\b\d{1,5}[A-Za-z]?(?:-\d{1,5})?\s+(?=[A-Za-z])")  # where a street address starts: "280 Grove"
 
