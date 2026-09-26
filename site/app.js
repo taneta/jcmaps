@@ -1,7 +1,7 @@
 import { search, fromLocal, localParts, listFor, pinCounts, pinIcons, WINDOWS } from "./search.js";
 import { ICONS, PLACES, TYPES } from "./icons.js";
 
-const REPO = "taneta/jcmaps"; // "Report a problem" opens a prefilled issue here
+const REPO = "taneta/jcmaps"; // "Report on GitHub" opens a prefilled issue here
 const DATA = "data/events.json";
 const $ = (s) => document.querySelector(s);
 // Colors are the CSS tokens in tokens.css (docs/design.md); the map reads them, so it follows the theme.
