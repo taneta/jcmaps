@@ -90,7 +90,9 @@ nothing heavier than 600. Times and counts use tabular numerals, so they line up
 - **Segmented control** (`.seg`, Family | Everyone): one pill holding two buttons; the chosen one is ink. Use it for
   a choice between two named states, never a single button whose label flips.
 - **Toggle chip** (Free): a chip with `aria-pressed`, looking like a time chip.
-- **Field chip** (From, To, under Dates): a `label.chip` around its date input, so the label text names it. The
+- **Field chip** (From, To, under Dates): a `label.chip` around its date input, so the label text names it. Its
+  calendar is the browser's own: `accent-color` turns the chosen day ink, and the frame, the font and the Clear and
+  Today links stay the browser's, since a calendar of our own would be the site's first widget with its own code. The
   input has no border of its own, because the chip is its frame.
 - **Text button** (for example, clearing a selected pin): 14px/600 in `--ink-2`, no fill, 44px tall. Never `--accent`.
 - **Banner** (`#banner`): inverted, `--surface` text on `--ink`, with a 12px radius and the float shadow, inside the
