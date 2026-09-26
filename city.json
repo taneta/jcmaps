@@ -483,6 +483,18 @@
    "publish": true
   },
   {
+   "id": "arthouse",
+   "name": "Art House Productions",
+   "kind": "arthouse",
+   "url": "https://www.arthouseproductions.org/collections/upcomingevents/products.json",
+   "link": "https://www.arthouseproductions.org/products/{handle}",
+   "venue": {"name": "Art House Productions", "address": "345 Marin Blvd, Jersey City, NJ 07302"},
+   "places": {"Lincoln Park": "Lincoln Park, Jersey City, NJ"},
+   "organizer_type": "community",
+   "publish": true,
+   "note": "a Shopify collection; the $0 price is a placeholder, tickets are sold on Ludus, which blocks scripts"
+  },
+  {
    "id": "city",
    "name": "City of Jersey City",
    "kind": "ical",

@@ -80,6 +80,20 @@ def test_three_listings_of_one_event_become_one(make_raw, tmp_path):
     assert [(d["id"], d["of"]) for d in drops] == [("connects:19964", "library:17233848"), ("culture:44071", "library:17233848")]
 
 
+def test_a_run_listed_as_one_span_gives_way_to_its_dated_showings(make_raw):
+    """Art House lists RENT as September 24 to October 18; Cultural Affairs lists each showing. The showings win."""
+    at = lambda d, h: datetime(2026, 10, d, h, tzinfo=timezone.utc)
+    run = make_raw(source_id="arthouse", source_uid="1", title="RENT: The Musical", url="https://ah/rent", venue_id="art",
+                   start_utc=datetime(2026, 9, 24, 4, tzinfo=timezone.utc), end_utc=at(19, 4), all_day=True, date="2026-09-24")
+    showing = make_raw(source_id="culture", source_uid="2", title="RENT: The Musical", url="https://cul/rent-oct-3", venue_id="art",
+                       start_utc=at(3, 23), end_utc=at(4, 2), date="2026-10-03")
+    exhibition = make_raw(source_id="arthouse", source_uid="3", title="Creation from Destruction", url="https://ah/cfd", venue_id="art",
+                          start_utc=datetime(2026, 9, 11, 4, tzinfo=timezone.utc), end_utc=at(26, 4), all_day=True, date="2026-09-11")
+    kept, drops = check.dedupe([run, showing, exhibition])
+    assert [r.source_uid for r in kept] == ["2", "3"] and showing.alt_urls == ["https://ah/rent"]
+    assert drops == [{"id": "arthouse:1", "title": "RENT: The Musical", "reason": "duplicate", "of": "culture:2"}]
+
+
 def test_one_venue_per_address(make_raw, tmp_path):
     raws = [make_raw(source_id=s, source_uid=s, venue_name=n, venue_address=a) for s, n, a in COMMUNIPAW]
     raws += [make_raw(source_uid="park", venue_name="Mary McLeod Bethune Park", venue_address="43 Martin Luther King Drive, Jersey City, 07305"),
