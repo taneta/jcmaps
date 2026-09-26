@@ -5,6 +5,12 @@ import pytest
 from pipeline.model import Raw
 
 
+@pytest.fixture(autouse=True)
+def no_preview_images(monkeypatch):
+    """Builds in tests write share pages without drawing preview images, which take a while (pipeline/share.py)."""
+    monkeypatch.setenv("JCMAP_PREVIEWS", "off")
+
+
 @pytest.fixture
 def make_raw():
     def _make(**kw) -> Raw:

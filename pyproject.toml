@@ -9,6 +9,8 @@ dependencies = [
     "pydantic>=2.9",
     "openai>=1.100",
     "python-dateutil>=2.9",
+    "pillow>=11",
+    "websockets>=13",
 ]
 
 [project.scripts]

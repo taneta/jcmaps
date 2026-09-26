@@ -17,7 +17,7 @@ from pathlib import Path
 
 import httpx
 
-from pipeline import check, enrich, gate, llm, publish
+from pipeline import check, enrich, gate, llm, publish, share
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
 from pipeline.sources import arthouse, ical, library, moderncampus, njdoh, tribe
@@ -148,10 +148,13 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
     rep = publish.report(now, src_stats, drops, venues, dict(unpinned.most_common(40)), geocoder.calls, enrich_stats,
                          reasons, len(snapshot.events), time.monotonic() - t0)
     rep["pulled"] = pulled
+    # share links for whichever snapshot is live after this run: the new one, or the last good one the gate kept
+    live = json.loads(candidate) if not reasons else (read_json(publish.SNAPSHOT) or {})
+    rep["share"] = share.publish(live, city, publish.SNAPSHOT.parent.parent, CACHE / "maps", env("JCMAP_PREVIEWS", "text"))
     stamp = now.strftime("%Y-%m-%dT%H%M")
     write_json(publish.REPORTS / f"{stamp}.json", rep)
     write_json(publish.REPORT, rep)
-    print(json.dumps({k: rep[k] for k in ("sources", "published", "drops", "geocode", "enrich", "gate", "duration_s")},
+    print(json.dumps({k: rep[k] for k in ("sources", "published", "drops", "geocode", "enrich", "gate", "share", "duration_s")},
                      indent=1, default=str))
     if reasons:
         print("GATE FAILED; last good snapshot kept:", "; ".join(reasons), file=sys.stderr)

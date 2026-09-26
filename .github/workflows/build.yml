@@ -41,9 +41,17 @@ jobs:
           path: cache
           key: feeds-${{ github.run_id }}
           restore-keys: feeds-
+      # Map pictures for the share previews, drawn once per place and kept across every kind of run (pipeline/share.py).
+      - name: Restore the preview maps
+        uses: actions/cache/restore@v4
+        with:
+          path: cache/maps
+          key: maps-${{ github.run_id }}
+          restore-keys: maps-
       - name: Build (pull the live data; fetch the feeds, or on a push read the saved ones; enrich, check, gate)
         id: build
         env:
+          JCMAP_PREVIEWS: maps
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JCMAP_MODEL: ${{ vars.JCMAP_MODEL }}
           JCMAP_EFFORT: ${{ vars.JCMAP_EFFORT }}
@@ -59,6 +67,12 @@ jobs:
         with:
           path: cache
           key: feeds-${{ github.run_id }}
+      - name: Save the preview maps
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: cache/maps
+          key: maps-${{ github.run_id }}
 
       - name: Keep the run report and model log for 90 days
         if: always()

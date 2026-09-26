@@ -7,10 +7,10 @@ const $ = (s) => document.querySelector(s);
 // Colors are the CSS tokens in tokens.css (docs/design.md); the map reads them, so it follows the theme.
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim();
 
-const state = { window: "today", view: "family", freeOnly: false, venue: null, custom: null };
+const state = { window: "today", view: "family", freeOnly: false, venue: null, custom: null, open: null, notice: null };
 let snapshot = null, map = null, current = null, selected = null;
 
-// ---- URL state, so a link can carry a filter ("tomorrow, free") ----
+// ---- URL state, so a link can carry a filter ("tomorrow, free") or, from a share link, an event (#e=<slug>) ----
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   if (p.get("v") === "everyone") state.view = "everyone";
@@ -19,6 +19,7 @@ function readHash() {
   // An old link (w=now, afternoon, evening) or a window without dates opens on Today; age= is ignored.
   const w = p.get("w");
   state.window = WINDOWS.includes(w) || (w === "custom" && state.custom) ? w : "today";
+  state.open = p.get("e"); // opened once the map is ready (openShared), then dropped from the address
 }
 function writeHash() {
   const p = new URLSearchParams();
@@ -78,7 +79,7 @@ function card(item) {
     <div class="where">${esc(where)}${ev.organizer_name && ev.source_id !== "library" ? " · " + esc(ev.organizer_name) : ""}</div>
     ${ev.summary ? `<div class="sum">${esc(ev.summary)}</div>` : ""}
     <div class="tags">${tags.join("")}</div>
-    <div class="links"><a href="${esc(ev.url)}" target="_blank" rel="noopener">Source ↗</a><a href="${reportUrl(ev)}" target="_blank" rel="noopener">Report on GitHub</a></div>
+    <div class="links"><a href="${esc(ev.url)}" target="_blank" rel="noopener">Source ↗</a>${ev.slug ? `<button type="button" class="share" data-slug="${esc(ev.slug)}">Share</button>` : ""}<a href="${reportUrl(ev)}" target="_blank" rel="noopener">Report on GitHub</a></div>
   </div>`;
 }
 
@@ -102,6 +103,7 @@ function render() {
   let html = inView.filter((i) => !i.event.ongoing).map(card).join("");
   if (!inView.length) html = `<div class="empty">Nothing on the map here for this window. Try another time, zoom out, or switch to Everyone.</div>`;
   if (leftOut) html = `<div class="note">${leftOut} more ${leftOut === 1 ? "doesn't" : "don't"} list a price</div>` + html;
+  if (state.notice) { html = `<div class="note">${esc(state.notice)}</div>` + html; state.notice = null; } // shown once
   if (ongoing.length) html += `<div class="section">Ongoing (${ongoing.length})</div>` + ongoing.map(card).join("");
   if (unpinned.length) html += `<div class="section">No map pin (${unpinned.length})</div>` + unpinned.map(card).join("");
   const gen = new Date(snapshot.generated_at);
@@ -176,6 +178,8 @@ function wire() {
   handle.addEventListener("pointercancel", () => { sheet.classList.remove("dragging"); sheet.style.height = ""; drag = null; });
   $("#clear").addEventListener("click", (e) => { e.stopPropagation(); state.venue = null; render(); });
   $("#list").addEventListener("click", (e) => {
+    const share = e.target.closest(".share");
+    if (share) { shareEvent(share.dataset.slug, share); return; }
     if (e.target.closest("a")) return;
     const c = e.target.closest(".card"); if (!c) return;
     selected = c.dataset.id;
@@ -184,6 +188,52 @@ function wire() {
     if (!state.venue && v && v.lat != null && map) map.flyTo({ center: [v.lon, v.lat], zoom: Math.max(map.getZoom(), 14.5) });
     for (const el of document.querySelectorAll(".card")) el.classList.toggle("sel", el.dataset.id === selected);
   });
+}
+
+// ---- share links ----
+// A share link names one event (site/e/<slug>/, written by pipeline/share.py): a chat shows its preview, and opening
+// it brings the visitor here with #e=<slug>. On a phone Share opens the share sheet; elsewhere it copies the link.
+async function shareEvent(slug, button) {
+  const ev = snapshot.events.find((e) => e.slug === slug);
+  const url = new URL(`e/${slug}/`, document.baseURI).href;
+  if (navigator.share) { try { await navigator.share({ title: ev?.title, url }); } catch {} return; } // closing the sheet is fine
+  try { await navigator.clipboard.writeText(url); button.textContent = "Link copied"; }
+  catch { window.prompt("Copy this link", url); }
+}
+
+// Opens a shared event whatever the filters were: its day, its pin (as if tapped) and its card, scrolled into view.
+function openShared() {
+  const slug = state.open;
+  state.open = null;
+  if (!slug) return;
+  const ev = snapshot.events.find((e) => e.slug === slug);
+  const occ = ev && snapshot.occurrences.find((o) => o.event_id === ev.id);
+  if (!occ || ev.status === "cancelled") {
+    state.notice = occ ? `“${ev.title}” was cancelled.` : "That event has ended or is no longer listed. Here is what's on today.";
+    render();
+    return;
+  }
+  const { y, m, d } = localParts(new Date());
+  const today = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+  const day = occ.date < today ? today : occ.date; // an exhibition that opened earlier shows from today
+  state.window = "custom";
+  state.custom = { from: day, to: day };
+  state.freeOnly = false;
+  if (ev.kid_friendly === "no") state.view = "everyone";
+  syncControls();
+  selected = ev.id;
+  $("#sheet").classList.remove("peek");
+  const v = snapshot.venues.find((x) => x.id === occ.venue_id);
+  const pinned = map && v && v.lat != null;
+  const show = () => {
+    state.venue = pinned ? v.id : null;
+    render();
+    const card = document.querySelector(`.card[data-id="${CSS.escape(ev.id)}"]`);
+    if (card) card.scrollIntoView({ block: "nearest" });
+    else { state.notice = "That event has ended or is no longer listed. Here is what's on that day."; render(); }
+  };
+  if (pinned) { map.once("moveend", show); map.jumpTo({ center: [v.lon, v.lat], zoom: Math.max(map.getZoom(), 15) }); }
+  else show();
 }
 
 // ---- map ----
@@ -278,6 +328,7 @@ function initMap() {
     map.on("movestart", () => { state.venue = null; });
     map.on("moveend", render);
     render();
+    openShared();
   });
 }
 
@@ -299,7 +350,7 @@ async function main() {
   }
   const age = (Date.now() - Date.parse(snapshot.generated_at)) / 36e5;
   if (age > 24) { $("#banner").textContent = `This data is ${Math.round(age / 24)} day${age >= 48 ? "s" : ""} old; the update did not run. Check the source links before you go.`; $("#banner").classList.add("on"); }
-  if (typeof maplibregl === "undefined") { $("#list").innerHTML = ""; render(); return; }
+  if (typeof maplibregl === "undefined") { $("#list").innerHTML = ""; render(); openShared(); return; }
   initMap();
 }
 main();

@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 
 from pipeline.model import Event, Occurrence, Raw, Snapshot, Venue
+from pipeline.share import slugs
 from pipeline.util import ROOT
 
 SITE_DATA = ROOT / "site" / "data"
@@ -54,6 +55,7 @@ def compose(raws: list[Raw], fields: dict[str, dict], venues: dict[str, Venue], 
     carried = carried or {}
     ts = now.isoformat(timespec="seconds")
     prev = {e["id"]: e for e in (previous or {}).get("events", [])}
+    slug_of = slugs([(r.id, r.date, r.title) for r in raws], prev)
     events: list[Event] = []
     occurrences: list[Occurrence] = []
     for r in raws:
@@ -65,7 +67,7 @@ def compose(raws: list[Raw], fields: dict[str, dict], venues: dict[str, Venue], 
             kid_friendly=f["kid_friendly"], age_min=f["age_min"], age_max=f["age_max"], age_text=f["age_text"],
             price=f["price"], price_text=f["price_text"], registration=f["registration"], summary=f["summary"],
             ongoing=span > timedelta(hours=24) and not (r.all_day and span <= timedelta(days=1)),
-            status=f["status"], evidence=f["evidence"], alt_urls=r.alt_urls,
+            status=f["status"], evidence=f["evidence"], alt_urls=r.alt_urls, slug=slug_of[r.id],
             first_seen=ts, last_seen=ts, updated_at=ts,
         )
         old = prev.get(r.id)
