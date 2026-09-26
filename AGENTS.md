@@ -36,6 +36,7 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
 uv run jcmaps eval-enrich                                          # 30 enriched events with quotes for a hand-check
 uv run jcmaps score-enrich                                         # the prompt and model on the labeled set: agreement per field, misses, cost
+uv run jcmaps kpi [--sample CSV]                                   # the week's numbers from the live snapshot; with a sample, coverage and its misses
 uv run pytest                                                      # contract, search-rule and design tests, offline (needs node)
 python -m http.server -d site                                      # preview the frontend
 
