@@ -96,8 +96,9 @@ nothing heavier than 600. Times and counts use tabular numerals, so they line up
 - **Banner** (`#banner`): inverted, `--surface` text on `--ink`, with a 12px radius and the float shadow, inside the
   12px margins. It is for stale data only; a failed load says so in the list.
 - **Sheet**: surface, 20px top corners, a grip (phones only), and a handle row with the count (16px/600), a hint
-  (13px, `--ink-3`) and, while a pin is selected, the Clear text button. On a phone it covers 42% of the height, or
-  88% expanded. From 900px wide it is a 420px panel floating on the right, 16px from the edges.
+  (13px, `--ink-3`) and, while a pin is selected, the Clear text button. On a phone it covers 42% of the height, 88%
+  expanded, or the handle row alone: it follows a finger on the handle and settles at the nearest of the three, and a
+  tap toggles the first two. From 900px wide it is a 420px panel floating on the right, 16px from the edges.
 - **Event card**: a 20px marigold pin with the event's icon (12px, `--on-accent`), 8px before the type's name and the
   time (13px/600, `--ink-2`): "Art and crafts · Sat, Sep 26 · 9:30–11 AM". A card of unknown type has the pin without
   an icon and no name. Then the title (16px/600), venue and organizer (`--ink-3`), summary (`--ink-2`), tags and

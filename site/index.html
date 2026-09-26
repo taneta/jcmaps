@@ -43,11 +43,11 @@
   /* The sheet: the list that follows the map. */
   .sheet { position: fixed; left: 0; right: 0; bottom: 0; height: 42vh; display: flex; flex-direction: column; background: var(--surface);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: var(--shadow-sheet); transition: height .2s ease; }
-  .sheet.peek { height: 64px; } .sheet.full { height: 88vh; }
+  .sheet.peek { height: 64px; } .sheet.full { height: 88vh; } .sheet.dragging { transition: none; }
   .grip { position: absolute; top: 8px; left: 50%; width: 36px; height: 4px; margin-left: -18px; border-radius: var(--radius-pill);
-    background: var(--line-strong); opacity: .5; }
+    background: var(--line-strong); opacity: .5; pointer-events: none; } /* a tap on it is a tap on the handle */
   .handle { min-height: 56px; padding: 12px 16px 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    border-bottom: 1px solid var(--line); cursor: pointer; }
+    border-bottom: 1px solid var(--line); cursor: pointer; touch-action: none; user-select: none; }
   .handle b { font-size: 16px; font-weight: 600; } .handle span { color: var(--ink-3); font-size: 13px; }
   .clear { flex: none; min-height: 44px; margin-right: -8px; padding: 0 8px; border: 0; background: none; color: var(--ink-2); font-size: 14px;
     font-weight: 600; cursor: pointer; } /* a text button: ink, never the event color */
