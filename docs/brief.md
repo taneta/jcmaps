@@ -40,6 +40,7 @@ Verified 2026-09-24. Three adapters cover the five feeds: LibCal, The Events Cal
 | Source | Access | What is there |
 |---|---|---|
 | Jersey City Free Public Library | LibCal iCal feed per calendar: `https://jclibrary.libcal.com/ical_subscribe.php?src=p&cid=<cid>` | 15 calendars. Main library 210 entries, Pavonia 150, Spotlight 31, reaching about three months ahead. Fields: SUMMARY, DTSTART, DTEND, LOCATION, DESCRIPTION, URL, CATEGORIES. Categories include Storytime Events, Children Events, All-Ages Events |
+| Approved from the suggestion form | `data/approved_events.json` in the repo, read like a feed | Events the owner approved by hand: facts only, never who suggested them. Usually empty |
 | Barrow Mansion | Same API as Cultural Affairs: `https://barrowmansion.org/wp-json/tribe/events/v1/events` | 64 upcoming, to September 2027, all at 83 Wayne St: weekly meditation, fundraisers and the Van Vorst Neighborhood Association's meetings, which are skipped because the association lists them a week later |
 | JC Office of Cultural Affairs | The Events Calendar API: `https://jerseycityculture.org/wp-json/tribe/events/v1/events` | 68 upcoming, mostly free community events, venue addresses, no coordinates |
 | New Jersey Department of Health | A statewide CSV: `https://www.nj.gov/health/assets/documents/community-calendar.csv` | 103 rows on 2026-09-26, 6 at a Jersey City venue: free flu and COVID clinics at library branches and a farmers market. Four columns name people and are dropped on download |

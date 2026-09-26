@@ -18,7 +18,7 @@ import httpx
 from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
-from pipeline.sources import ical, library, moderncampus, njdoh, tribe
+from pipeline.sources import approved, ical, library, moderncampus, njdoh, tribe
 from pipeline.util import ROOT, UA, env, normalize, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
@@ -27,7 +27,7 @@ FIXTURES = ROOT / "fixtures"
 CACHE = ROOT / "cache"
 PULLED = ("events.json", "enrich.json", "geocode.json")
 # Sources read from one URL into one file, by kind: any module with fetch(sid, url, cache_dir, client) and parse(text, src).
-SINGLE = {"ical": (ical, "ics"), "njdoh": (njdoh, "csv"), "moderncampus": (moderncampus, "json")}
+SINGLE = {"ical": (ical, "ics"), "njdoh": (njdoh, "csv"), "moderncampus": (moderncampus, "json"), "approved": (approved, "json")}
 
 
 def pull(site_url: str, client: httpx.Client) -> dict[str, str]:
@@ -137,11 +137,14 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
     public = {str(f.relative_to(ROOT)): f.read_text(errors="replace")
               for f in (ROOT / "site").rglob("*") if f.is_file() and f != publish.SNAPSHOT and "node_modules" not in f.parts}
     reasons += gate.secret_scan({"candidate events.json": candidate, **public})
+    quiet = {s["id"] for s in city["sources"] if s.get("may_be_empty")}  # a hand-kept list with nothing coming up is fine
     for sid, s in src_stats.items():  # degraded while its last good events are carried, down with nothing to show
         s["published"] = snapshot.sources.get(sid, {}).get("count", 0)
         s["state"] = "degraded" if sid in since else "down" if sid in failed and not s["published"] else "active"
         if sid in since:
             s["carried_from"] = since[sid]
+        if sid in quiet:
+            s["may_be_empty"] = True
 
     rep = publish.report(now, src_stats, drops, venues, dict(unpinned.most_common(40)), geocoder.calls, enrich_stats,
                          reasons, len(snapshot.events), time.monotonic() - t0)

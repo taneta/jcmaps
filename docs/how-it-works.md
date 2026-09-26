@@ -29,7 +29,7 @@ flowchart TD
     run -->|failed run<br/>or feed| issues
     visitor -->|Report on GitHub| issues
     visitor -->|About page:<br/>suggest an event or a source| form
-    form -.->|accepted: a ticket| issues
+    form -.->|an approved event: a line in<br/>data/approved_events.json;<br/>a source: a ticket| repo
     visitor -->|page views; once a day,<br/>new or returning| counter
     site -.->|last data and caches,<br/>pulled by the next run| run
     issues -.->|ticket, pull request, merge| repo
@@ -94,7 +94,7 @@ before, from the date of its last visit, which only the browser keeps.
 | Part | Files |
 |---|---|
 | The run | `.github/workflows/build.yml` runs `pipeline/cli.py`, which calls the stages in order; `.github/workflows/test.yml` runs the tests on a pull request |
-| Collect | `pipeline/sources/library.py` (library iCal), `pipeline/sources/ical.py` (any other iCal feed, such as the city's), `pipeline/sources/tribe.py` (sites on The Events Calendar), `pipeline/sources/njdoh.py` (the state health calendar's CSV), `pipeline/sources/moderncampus.py` (a college's JSON calendar), `pipeline/check.py` (prefilter) |
+| Collect | `pipeline/sources/library.py` (library iCal), `pipeline/sources/ical.py` (any other iCal feed, such as the city's), `pipeline/sources/tribe.py` (sites on The Events Calendar), `pipeline/sources/njdoh.py` (the state health calendar's CSV), `pipeline/sources/approved.py` (the hand-kept list), `pipeline/sources/moderncampus.py` (a college's JSON calendar), `pipeline/check.py` (prefilter) |
 | Label and place | `pipeline/enrich.py` (rules, event types), `pipeline/llm.py` (the one model call), `pipeline/geocode.py` |
 | Decide and write | `pipeline/check.py` (city boundary, duplicates), `pipeline/gate.py`, `pipeline/publish.py` |
 | The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`, `site/about.html` (the About page), `site/visits.js` (visit counts), `site/tokens.css` (colors and shapes, for both pages); the look is in `docs/design.md` |

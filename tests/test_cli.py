@@ -245,7 +245,7 @@ def test_a_push_builds_from_the_saved_feeds_without_a_request(build):
 
     shutil.rmtree(cli.CACHE)  # nothing saved yet: every source is carried, and the report says what is missing
     code, rep, snap = build(T0 + timedelta(hours=2), cached=True)
-    assert code == 0 and {s["state"] for s in rep["sources"].values()} == {"degraded"}
+    assert code == 0 and {s["state"] for sid, s in rep["sources"].items() if sid in first["sources"]} == {"degraded"}
     assert rep["sources"]["culture"]["error"].startswith("could not be fetched (FileNotFoundError")
     assert {e["id"] for e in snap["events"]} <= {e["id"] for e in first["events"]}
 
