@@ -483,10 +483,28 @@
    "publish": true
   },
   {
+   "id": "city",
+   "name": "City of Jersey City",
+   "kind": "ical",
+   "url": "https://www.jerseycitynj.gov/ICalendarHandler?calendarId=12409811",
+   "link": "https://www.jerseycitynj.gov/workspaces/one.aspx?objectId={uid}&contextId=12409811",
+   "places": {"City Hall": "280 Grove St, Jersey City, NJ"},
+   "organizer_type": "city",
+   "publish": true
+  },
+  {
    "id": "connects",
    "name": "Jersey City Connects",
    "kind": "tribe",
    "url": "https://jerseycityconnects.com",
+   "organizer_type": "community",
+   "publish": true
+  },
+  {
+   "id": "riverview",
+   "name": "Riverview Farmers Market",
+   "kind": "tribe",
+   "url": "https://riverviewfarmersmarket.org",
    "organizer_type": "community",
    "publish": true
   },
@@ -498,6 +516,16 @@
    "organizer_type": "community",
    "publish": false,
    "note": "baseline only until asked; their curation is their product"
+  },
+  {
+   "id": "barrow",
+   "name": "Barrow Mansion",
+   "kind": "tribe",
+   "url": "https://barrowmansion.org",
+   "organizer_type": "community",
+   "publish": true,
+   "skip": "Van Vorst Neighborhood Association Meeting",
+   "note": "the association's own site lists its meetings on third Tuesdays, Barrow's calendar on second; the organizer's own listing wins"
   }
  ]
 }

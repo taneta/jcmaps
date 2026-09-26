@@ -9,7 +9,7 @@ live site holds. [routine.md](routine.md) says who does what, and when.
 ```mermaid
 flowchart TD
     %% Mirrors .github/workflows/build.yml. Update it when the run, a trigger or a service changes.
-    feeds["Public feeds<br/>library, Cultural Affairs,<br/>Jersey City Connects"]
+    feeds["Public calendars<br/>the library, the city and<br/>community groups (city.json)"]
     repo["GitHub repo<br/>code, docs, fixtures"]
     run["Build run<br/>GitHub Actions: twice a day<br/>fetching, on every merge<br/>from the saved feeds"]
     openai["OpenAI<br/>labels and summaries"]
@@ -94,7 +94,7 @@ before, from the date of its last visit, which only the browser keeps.
 | Part | Files |
 |---|---|
 | The run | `.github/workflows/build.yml` runs `pipeline/cli.py`, which calls the stages in order; `.github/workflows/test.yml` runs the tests on a pull request |
-| Collect | `pipeline/sources/library.py` (library iCal), `pipeline/sources/tribe.py` (the two city sites), `pipeline/check.py` (prefilter) |
+| Collect | `pipeline/sources/library.py` (library iCal), `pipeline/sources/ical.py` (any other iCal feed, such as the city's), `pipeline/sources/tribe.py` (sites on The Events Calendar), `pipeline/check.py` (prefilter) |
 | Label and place | `pipeline/enrich.py` (rules, event types), `pipeline/llm.py` (the one model call), `pipeline/geocode.py` |
 | Decide and write | `pipeline/check.py` (city boundary, duplicates), `pipeline/gate.py`, `pipeline/publish.py` |
 | The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`, `site/about.html` (the About page), `site/visits.js` (visit counts), `site/tokens.css` (colors and shapes, for both pages); the look is in `docs/design.md` |

@@ -26,6 +26,16 @@ def test_culture_contract():
     assert len(kids) == 2 and kids[0].evidence["kid_friendly"].quote == "kids activities"
 
 
+def test_riverview_contract():
+    raws = tribe.parse(load("riverview.p1.json"), "riverview", "community")
+    assert len(raws) == 14
+    assert {r.venue_address for r in raws} == {"498 Palisade Ave, Jersey City, 07307", None}  # 2 list no venue
+    yoga = next(r for r in raws if r.title == "Yoga in the Park")
+    assert yoga.start_utc == datetime(2026, 9, 27, 13, 0, tzinfo=timezone.utc) and yoga.price == "free"
+    crafts = next(r for r in raws if r.title == "Free Arts & Crafts with Kelsey")
+    assert crafts.price == "unknown"  # an empty cost field; the model can still quote "Free" from the title
+
+
 def test_connects_times_are_local_despite_utc_flag():
     raws = tribe.parse(load("connects.p1.json"), "connects", "community")
     assert len(raws) == 38
@@ -45,3 +55,16 @@ def test_city_markets_are_free_to_enter_and_other_empty_costs_stay_unknown():
                for r in markets)
     rent = [r for r in raws if r.title == "RENT: The Musical"]
     assert rent and all(fields[r.source_uid]["price"] == "unknown" for r in rent)  # no quote, no default
+
+
+def test_barrow_mansion_contract_and_its_copies_of_van_vorst_meetings_are_skipped():
+    raws = tribe.parse(load("barrow.p1.json", "barrow.p2.json"), "barrow", "community")
+    assert len(raws) == 64
+    assert {(r.venue_name, r.venue_address) for r in raws} == {("Barrow Mansion", "83 Wayne Street, Jersey City, 07302")}
+    vv = [r for r in raws if r.title.startswith("Van Vorst Neighborhood Association Meeting")]
+    assert vv[0].date == "2026-10-13"  # the association's own site says October 20
+    from pipeline import cli
+    barrow = next(s for s in json.loads(cli.CITY.read_text())["sources"] if s["id"] == "barrow")
+    kept, stats = cli.load_raws({"sources": [barrow]}, None, cli.FIXTURES, None)
+    assert stats["barrow"] == {"parsed": 64 - len(vv), "skipped": len(vv)} and len(vv) == 11
+    assert not any("Van Vorst" in r.title for r in kept)
