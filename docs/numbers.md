@@ -55,6 +55,7 @@ or none given) are counted apart: nothing can pin them.
 | 2026-09-24 | 488 | about 29, both kinds | | day one: Bookmobile stops given as cross streets |
 | 2026-09-26 | 522 | 23 | 19 | after #5, local rebuild: 16 at 13 Bookmobile stops written as corners or descriptions (#83), 5 at the City Hall Annex boardroom, 2 outside the city or misspelled |
 | 2026-09-26 | 492 | 16 | | the live run after #5 |
+| 2026-09-26 | 542 | 16 | | local rebuild with #83, after the day's sources: one corner placed by OpenStreetMap (McGovern Park), five stops placed from the listing's own words (McGinley Square, Columbia Park, Newport Plaza, PS 25, PS 31). Left: 5 at the City Hall Annex (#94), a corner that timed out at Overpass (asked again next run), a stop naming no street, four stops at places the map service does not know, two venues outside the city or misspelled |
 
 ## Notes
 
