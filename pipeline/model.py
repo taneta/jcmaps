@@ -98,6 +98,7 @@ class Event(BaseModel):
     status: Status = "scheduled"
     evidence: dict[str, Evidence] = {}
     alt_urls: list[str] = []
+    slug: str | None = None  # the share link's name, site/e/<slug>/ (pipeline/share.py); kept once published
     first_seen: str
     last_seen: str
     updated_at: str

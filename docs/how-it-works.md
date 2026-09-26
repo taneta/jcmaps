@@ -63,8 +63,8 @@ flowchart TB
     subgraph write ["Write"]
         direction LR
         report["9 Report<br/>on every run"] --> passed{"Gate<br/>passed?"}
-        passed -->|yes| publish["10 Publish<br/>new events.json"]
-        passed -->|no| keep["Keep the last<br/>good data live"]
+        passed -->|yes| publish["10 Publish<br/>new events.json<br/>and share pages"]
+        passed -->|no| keep["Keep the last<br/>good data live,<br/>with its share pages"]
     end
     collect --> enrichplace --> decide --> write
 ```
@@ -78,13 +78,17 @@ flowchart TB
   and gate, and a fresh listing of the same event wins. After a day, a feed that cannot be reached is left out,
   without failing the gate, until it answers again, and a feed that shrank is published as it is. Either way an
   issue opens.
+- **Share links.** Every published event gets a page at `e/<slug>/` whose tags make a chat show a preview: a map
+  around the pin, the day and start time, the place. Map pictures are drawn once per place with headless Chrome and
+  kept in the Actions cache. When the gate keeps the last good data, the pages are made from it.
 
 ## The page
 
 Pick a time window (today, the default; tomorrow, weekend or dates), Family or Everyone, and Free. Each pin shows
 what kind of event is on and how many, and the list shows the events in view. Family hides only events marked not
 for kids; unknowns show with a label. Free shows only events that say they are free, and the list says how many it
-left out for not listing a price. Data more than a day old shows a banner. "About JC Maps", in the map's credits and
+left out for not listing a price. Data more than a day old shows a banner. Each card has Share: its link opens the event on the map, and a chat
+previews it. "About JC Maps", in the map's credits and
 at the end of the list, opens the About page: who makes JC Maps, where the events come from, and a form for
 suggesting more. GoatCounter counts page views without cookies, and once a day whether the browser has been here
 before, from the date of its last visit, which only the browser keeps.
@@ -96,8 +100,8 @@ before, from the date of its last visit, which only the browser keeps.
 | The run | `.github/workflows/build.yml` runs `pipeline/cli.py`, which calls the stages in order; `.github/workflows/test.yml` runs the tests on a pull request |
 | Collect | `pipeline/sources/library.py` (library iCal), `pipeline/sources/ical.py` (any other iCal feed, such as the city's), `pipeline/sources/tribe.py` (sites on The Events Calendar), `pipeline/sources/njdoh.py` (the state health calendar's CSV), `pipeline/check.py` (prefilter) |
 | Label and place | `pipeline/enrich.py` (rules, event types), `pipeline/llm.py` (the one model call), `pipeline/geocode.py` |
-| Decide and write | `pipeline/check.py` (city boundary, duplicates), `pipeline/gate.py`, `pipeline/publish.py` |
-| The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`, `site/about.html` (the About page), `site/visits.js` (visit counts), `site/tokens.css` (colors and shapes, for both pages); the look is in `docs/design.md` |
+| Decide and write | `pipeline/check.py` (city boundary, duplicates), `pipeline/gate.py`, `pipeline/publish.py`, `pipeline/share.py` (share pages and their previews) |
+| The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`, `site/about.html` (the About page), `site/visits.js` (visit counts), `site/tokens.css` (colors and shapes, for both pages), `site/404.html` (sends an ended event's share link to the map); the look is in `docs/design.md` |
 | Settings | `city.json` (sources, city boundary), `data/library_branches.json`, `data/venue_points.json` (known map points, never geocoded) |
 
 When a pull request changes one of these flows, it updates the diagram too (AGENTS.md).
