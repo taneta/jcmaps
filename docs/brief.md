@@ -40,6 +40,7 @@ Verified 2026-09-24. Two adapters cover all four feeds.
 | Source | Access | What is there |
 |---|---|---|
 | Jersey City Free Public Library | LibCal iCal feed per calendar: `https://jclibrary.libcal.com/ical_subscribe.php?src=p&cid=<cid>` | 15 calendars. Main library 210 entries, Pavonia 150, Spotlight 31, reaching about three months ahead. Fields: SUMMARY, DTSTART, DTEND, LOCATION, DESCRIPTION, URL, CATEGORIES. Categories include Storytime Events, Children Events, All-Ages Events |
+| Barrow Mansion | Same API as Cultural Affairs: `https://barrowmansion.org/wp-json/tribe/events/v1/events` | 64 upcoming, to September 2027, all at 83 Wayne St: weekly meditation, fundraisers and the Van Vorst Neighborhood Association's meetings, which are skipped because the association lists them a week later |
 | JC Office of Cultural Affairs | The Events Calendar API: `https://jerseycityculture.org/wp-json/tribe/events/v1/events` | 68 upcoming, mostly free community events, venue addresses, no coordinates |
 | Jersey City Connects | Same API: `https://jerseycityconnects.com/wp-json/tribe/events/v1/events` | An adult social club: mixers, game nights, some events outside the city |
 | Riverview Farmers Market | Same API: `https://riverviewfarmersmarket.org/wp-json/tribe/events/v1/events` | 14 upcoming, to December, in Riverview-Fisk Park (498 Palisade Ave): yoga, qigong, crafts, Day of the Dead, the Heights Holiday Market; mostly marked Free |
@@ -54,6 +55,7 @@ Source rules:
 - **An empty `cost` field in The Events Calendar means unknown, not free.** Only the word free or a zero means free.
 - **Farmers markets and street fairs on the city's calendar are free to enter**, by the owner's rule, like the library's. It applies only when nothing else decided the price and the listing does not talk about money; the title words ("Farmers Market") are the evidence, marked as a rule.
 - **Boundary:** occurrences outside the city polygon are dropped and counted in the run report.
+- **A venue's copy of another organizer's event is skipped when the organizer's own site disagrees**, so the organizer's listing wins: `skip` in city.json, counted in the run report. Barrow Mansion lists the Van Vorst meetings on second Tuesdays, the association on third.
 
 Not now: Instagram, Facebook and the other social platforms (their terms forbid collection; v2 covers them through flyers), Macaroni KID (blocks scripted requests; baseline by hand).
 

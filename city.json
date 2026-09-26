@@ -506,6 +506,16 @@
    "organizer_type": "community",
    "publish": false,
    "note": "baseline only until asked; their curation is their product"
+  },
+  {
+   "id": "barrow",
+   "name": "Barrow Mansion",
+   "kind": "tribe",
+   "url": "https://barrowmansion.org",
+   "organizer_type": "community",
+   "publish": true,
+   "skip": "Van Vorst Neighborhood Association Meeting",
+   "note": "the association's own site lists its meetings on third Tuesdays, Barrow's calendar on second; the organizer's own listing wins"
   }
  ]
 }
