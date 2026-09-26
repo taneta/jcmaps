@@ -44,6 +44,16 @@ The done-when column in the brief's day-one table is the prediction; this file r
 | Unpinned venues, by events | City Hall Annex boardroom 5; 13 Bookmobile stops, most given as cross streets, 1 or 2 each; two venues outside the city or misspelled, 1 each |
 | Geocoder calls in that rebuild | 61, refreshing the cache entries that lacked a category; 32 unused entries still lack one and are refreshed if a venue needs them |
 
+## Metrics
+
+Events without a map pin, tracked after every rebuild that changes pins and in the weekly report read
+(`geocode.unpinned_events` in the run report; docs/routine.md).
+
+| Date | Events published | Without a pin | Pinned | What the unpinned are |
+|---|---|---|---|---|
+| 2026-09-24 | 488 | about 29 | 94% | day one: Bookmobile stops given as cross streets |
+| 2026-09-26 | 522 | 42 | 92% | after #5: 19 with no place at all (online), 16 at 13 Bookmobile stops written as corners or descriptions (#83), 5 at the City Hall Annex boardroom, 2 outside the city or misspelled |
+
 ## Notes
 
 - Kid-friendly before the model: yes 148, no 10, unknown 335; after: yes 309, no 58, unknown 121. Price after: free 406, paid 6, unknown 76. Registration: yes 72, no 21. Every event has a summary; 195 carry the listing's own age wording.
