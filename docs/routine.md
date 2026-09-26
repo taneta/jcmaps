@@ -27,7 +27,7 @@ flowchart TD
     intake["Where work comes from<br/>failed runs, visitor reports,<br/>suggestions, findings, the brief"]
     intake --> ticket["Ticket<br/>Bug or Change,<br/>priority, Done when"]:::owner
     ticket --> work["Own worktree and branch<br/>code, tests, diagrams"]:::agent
-    work --> pr["Pull request<br/>Done when ticked"]:::agent
+    work --> pr["Pull request<br/>Done when ticked,<br/>tests as a check"]:::agent
     pr --> review{"Review"}:::owner
     review -->|changes asked| work
     review -->|merge| deploy["The run on main<br/>deploys"]:::auto
@@ -52,6 +52,7 @@ itself.
    A prompt or model change is scored on `fixtures/labeled/enrich.json` first (no command does that yet). A changed
    flow means an updated diagram.
 4. **Check.** `uv run pytest`; for data, `uv run jcmaps build --pull`; for the page, `python -m http.server -d site`.
-5. **Pull request.** Tick *Done when*, saying how each was checked. The person committing is the author.
+5. **Pull request.** Tick *Done when*, saying how each was checked; the tests run on it as a check. The person
+   committing is the author.
 6. **After the merge.** Confirm the run is green and the site shows the change. Record predicted numbers in
    `docs/numbers.md`, file anything you found as new tickets, and remove the worktree.
