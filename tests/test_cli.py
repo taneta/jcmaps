@@ -13,7 +13,7 @@ import pytest
 
 from pipeline import cli, enrich, publish
 from pipeline.geocode import Geocoder
-from pipeline.sources import ical, library, tribe
+from pipeline.sources import library, tribe
 from pipeline.util import ROOT
 
 T0 = datetime(2026, 9, 24, 12, 0, tzinfo=timezone.utc)
@@ -80,13 +80,16 @@ def build(tmp_path, monkeypatch):
             if keep and sid in keep:
                 return [{**pages[0], "events": [e for p in pages for e in p["events"]][:keep[sid]]}]
             return pages
-        def fetch_ical(sid, url, cache_dir, client):
-            if sid in down:
-                raise httpx.ConnectError(DNS)
-            return (cli.FIXTURES / "ical" / f"{sid}.ics").read_text()
+        def fetch_file(kind, ext):  # every single-file source (the city's iCal, the clinics' CSV, ...) reads its frozen copy
+            def fetch(sid, url, cache_dir, client):
+                if sid in down:
+                    raise httpx.ConnectError(DNS)
+                return (cli.FIXTURES / kind / f"{sid}.{ext}").read_text()
+            return fetch
         monkeypatch.setattr(library, "fetch", fetch_ics)
         monkeypatch.setattr(tribe, "fetch", fetch)
-        monkeypatch.setattr(ical, "fetch", fetch_ical)
+        for kind, (mod, ext) in cli.SINGLE.items():
+            monkeypatch.setattr(mod, "fetch", fetch_file(kind, ext))
         monkeypatch.setattr(cli, "now_utc", lambda: at)
         code = cli.build(None, False, True, None, cached)
         return code, json.loads(publish.REPORT.read_text()), json.loads(publish.SNAPSHOT.read_text())
@@ -238,7 +241,7 @@ def test_the_issue_says_which_source_is_degraded_or_down(build, tmp_path):
 
 def test_a_push_builds_from_the_saved_feeds_without_a_request(build):
     _, fetched, first = build(T0)
-    for kind in ("library", "tribe", "ical"):
+    for kind in [d.name for d in cli.FIXTURES.iterdir() if d.is_dir() and d.name != "labeled"]:
         shutil.copytree(cli.FIXTURES / kind, cli.CACHE / kind)  # what the last fetching run saved
     code, rep, snap = build(T0, down={"library", "culture", "connects", "city"}, cached=True)  # any fetch would raise
     assert code == 0 and rep["sources"] == fetched["sources"] and snap["events"] == first["events"]
