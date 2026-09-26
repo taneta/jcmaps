@@ -101,7 +101,7 @@ def test_one_venue_per_address(make_raw, tmp_path):
 
 
 def test_fixture_venue_table_has_one_venue_per_address(tmp_path):
-    raws, _ = cli.load_raws(CITY, None, True, None)
+    raws, _ = cli.load_raws(CITY, None, cli.FIXTURES, None)
     venues = build_venues(raws, Geocoder(None, cache_path=tmp_path / "geo.json"))
     keys = [venue_key(v.name, v.address) for v in venues.values()]
     assert len(keys) == len(set(keys))

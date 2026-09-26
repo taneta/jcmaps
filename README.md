@@ -16,8 +16,10 @@ as a static page from GitHub Pages at https://jcmaps.com/.
 ## How it runs
 
 - **One path for every trigger.** Schedule (2am and 7am), a push to `main`, or a manual run all do the same
-  thing: pull the live site's `data/events.json` and caches, fetch the feeds, enrich new events, run the checks
-  and the gate, deploy the `site/` folder to Pages. If the gate fails, the pulled snapshot is republished
+  thing: pull the live site's `data/events.json` and caches, read the feeds, enrich new events, run the checks
+  and the gate, deploy the `site/` folder to Pages. Only scheduled and manual runs fetch the feeds, one request
+  at a time and spaced as each site's robots.txt asks; a push rebuilds from the feeds the last fetching run saved
+  (`--cached`), so a merge sends no request to a source. If the gate fails, the pulled snapshot is republished
   unchanged and an issue opens, so the site never goes dark. If a test or the build itself fails, nothing
   deploys and the last deployment stays live. If one source cannot be fetched, its last good events stay for
   up to a day while the other sources update.

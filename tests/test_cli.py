@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import textwrap
@@ -51,7 +52,7 @@ def build(tmp_path, monkeypatch):
     """`jcmaps build` on the frozen feeds as a live run makes it, with no model, no geocoder calls and every file in
     tmp_path: each run's snapshot is the next run's previous one. A source in `down` raises as culture's fetch did
     on 2026-09-24; `keep` cuts a source's feed to its first n events (0: an empty answer); a source in `off` is
-    switched off in city.json."""
+    switched off in city.json; `cached` builds from the feeds in cache/ as a push to main does."""
     city = json.loads(cli.CITY.read_text())
     lib = next(s for s in city["sources"] if s["id"] == "library")
     lib["calendars"] = {c: n for c, n in lib["calendars"].items() if (cli.FIXTURES / "library" / f"{c}.ics").exists()}
@@ -62,12 +63,15 @@ def build(tmp_path, monkeypatch):
     monkeypatch.setattr(publish, "REPORTS", tmp_path / "reports")
     monkeypatch.setattr(cli, "Geocoder", lambda query: Geocoder(None, cache_path=tmp_path / "geocode.json"))
     monkeypatch.setattr(enrich, "enrich_all", partial(enrich.enrich_all, cache_path=tmp_path / "enrich.json"))
-    monkeypatch.setattr(library, "fetch",
-                        lambda cid, cache_dir, client: (cli.FIXTURES / "library" / f"{cid}.ics").read_text())
 
-    def run(at: datetime, down=(), keep: dict[str, int] | None = None, off=()) -> tuple[int, dict, dict]:
+    def run(at: datetime, down=(), keep: dict[str, int] | None = None, off=(), cached=False) -> tuple[int, dict, dict]:
         cli.CITY.write_text(json.dumps({**city, "sources": [{**s, "publish": s.get("publish") and s["id"] not in off}
                                                              for s in city["sources"]]}))
+
+        def fetch_ics(cid, cache_dir, client):
+            if "library" in down:
+                raise httpx.ConnectError(DNS)
+            return (cli.FIXTURES / "library" / f"{cid}.ics").read_text()
 
         def fetch(sid, base, cache_dir, client):
             if sid in down:
@@ -76,9 +80,10 @@ def build(tmp_path, monkeypatch):
             if keep and sid in keep:
                 return [{**pages[0], "events": [e for p in pages for e in p["events"]][:keep[sid]]}]
             return pages
+        monkeypatch.setattr(library, "fetch", fetch_ics)
         monkeypatch.setattr(tribe, "fetch", fetch)
         monkeypatch.setattr(cli, "now_utc", lambda: at)
-        code = cli.build(None, False, True, None)
+        code = cli.build(None, False, True, None, cached)
         return code, json.loads(publish.REPORT.read_text()), json.loads(publish.SNAPSHOT.read_text())
     return run
 
@@ -195,3 +200,35 @@ def test_the_issue_says_which_source_is_degraded_or_down(build, tmp_path):
             f"{T0.isoformat()}, were carried forward (48 published)") in issue(tmp_path)
     build(T0 + timedelta(hours=25), down={"culture"})
     assert f"Source culture could not be fetched (ConnectError: {DNS}) and has nothing left to carry" in issue(tmp_path)
+
+
+def test_a_push_builds_from_the_saved_feeds_without_a_request(build):
+    _, fetched, first = build(T0)
+    for kind in ("library", "tribe"):
+        shutil.copytree(cli.FIXTURES / kind, cli.CACHE / kind)  # what the last fetching run saved
+    code, rep, snap = build(T0, down={"library", "culture", "connects"}, cached=True)  # any fetch would raise
+    assert code == 0 and rep["sources"] == fetched["sources"] and snap["events"] == first["events"]
+
+    shutil.rmtree(cli.CACHE)  # nothing saved yet: every source is carried, and the report says what is missing
+    code, rep, snap = build(T0 + timedelta(hours=2), cached=True)
+    assert code == 0 and {s["state"] for s in rep["sources"].values()} == {"degraded"}
+    assert rep["sources"]["culture"]["error"].startswith("could not be fetched (FileNotFoundError")
+    assert {e["id"] for e in snap["events"]} <= {e["id"] for e in first["events"]}
+
+
+def test_requests_to_a_host_are_spaced_as_its_robots_txt_asks(monkeypatch):
+    from pipeline import util
+    clock, naps = [0.0], []
+
+    def sleep(s):
+        naps.append(s)
+        clock[0] += s
+    monkeypatch.setattr(util.time, "monotonic", lambda: clock[0])
+    monkeypatch.setattr(util.time, "sleep", sleep)
+    wait = util.spaced({"jclibrary.libcal.com": 10})
+    for url in ("https://jclibrary.libcal.com/a", "https://jclibrary.libcal.com/b", "https://jerseycityculture.org/x",
+                "https://jclibrary.libcal.com/c"):
+        wait(httpx.Request("GET", url))
+        clock[0] += 1  # each request takes a second
+    assert naps == [9, 8]  # the library's requests land 10 s apart; the city site's one waits for nothing
+    assert "+https://jcmaps.com" in util.UA
