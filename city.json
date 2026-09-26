@@ -518,6 +518,15 @@
    "note": "baseline only until asked; their curation is their product"
   },
   {
+   "id": "njdoh",
+   "name": "New Jersey Department of Health",
+   "kind": "njdoh",
+   "url": "https://www.nj.gov/health/assets/documents/community-calendar.csv",
+   "organizer_type": "city",
+   "publish": true,
+   "note": "statewide; only rows at a Jersey City venue are read, and the columns naming people are dropped on download"
+  },
+  {
    "id": "barrow",
    "name": "Barrow Mansion",
    "kind": "tribe",
