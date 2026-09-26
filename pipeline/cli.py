@@ -18,7 +18,7 @@ import httpx
 from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
-from pipeline.sources import ical, library, tribe
+from pipeline.sources import ical, library, njdoh, tribe
 from pipeline.util import ROOT, UA, env, normalize, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
@@ -26,6 +26,8 @@ BRANCHES = ROOT / "data" / "library_branches.json"
 FIXTURES = ROOT / "fixtures"
 CACHE = ROOT / "cache"
 PULLED = ("events.json", "enrich.json", "geocode.json")
+# Sources read from one URL into one file, by kind: any module with fetch(sid, url, cache_dir, client) and parse(text, src).
+SINGLE = {"ical": (ical, "ics"), "njdoh": (njdoh, "csv")}
 
 
 def pull(site_url: str, client: httpx.Client) -> dict[str, str]:
@@ -66,10 +68,11 @@ def load_raws(city: dict, only: str | None, root: Path | None, client: httpx.Cli
                     text = ((root / "library" / f"{cid}.ics").read_text() if root
                             else library.fetch(cid, CACHE / "library", client))
                     got += library.parse(text, cid, branches.get(cid))
-            elif src["kind"] == "ical":
-                text = ((root / "ical" / f"{sid}.ics").read_text() if root
-                        else ical.fetch(sid, src["url"], CACHE / "ical", client))
-                got += ical.parse(text, src)
+            elif src["kind"] in SINGLE:
+                mod, ext = SINGLE[src["kind"]]
+                text = ((root / src["kind"] / f"{sid}.{ext}").read_text() if root
+                        else mod.fetch(sid, src["url"], CACHE / src["kind"], client))
+                got += mod.parse(text, src)
             else:
                 pages = ([json.loads(p.read_text()) for p in sorted((root / "tribe").glob(f"{sid}.p*.json"))]
                          if root else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
