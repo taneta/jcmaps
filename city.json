@@ -501,6 +501,16 @@
    "publish": true
   },
   {
+   "id": "county",
+   "name": "Hudson County",
+   "kind": "tribe",
+   "url": "https://www.hcnj.us",
+   "organizer_type": "city",
+   "publish": true,
+   "require_venue": true,
+   "note": "a countywide calendar: its events without a place are mostly outside the city"
+  },
+  {
    "id": "riverview",
    "name": "Riverview Farmers Market",
    "kind": "tribe",
