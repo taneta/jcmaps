@@ -185,7 +185,7 @@ def issue(cwd) -> str | None:
     """The build workflow's issue step, run where a build left its report: the issue body, or None for no issue."""
     workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
     script = re.search(r"<<'PY'[^\n]*\n(.*?)\n[ \t]*PY\n", workflow, re.S)
-    env = {**os.environ, "SERVER": "https://github.com", "REPO": "taneta/jcmaps", "RUN_ID": "1", "TODAY": "2026-09-25"}
+    env = {**os.environ, "SERVER": "https://github.com", "REPO": "taneta/jcmaps", "RUN_ID": "1"}
     run = subprocess.run([sys.executable, "-"], input=textwrap.dedent(script.group(1)), cwd=cwd, env=env,
                          capture_output=True, text=True)
     assert not run.stderr, run.stderr  # a crash also exits 1, which the step reads as nothing to report
@@ -196,8 +196,10 @@ def test_the_issue_says_which_source_is_degraded_or_down(build, tmp_path):
     build(T0)
     assert issue(tmp_path) is None
     build(T0 + timedelta(hours=6), down={"culture"})
+    body = issue(tmp_path)
+    assert f"**Seen:** run report, {(T0 + timedelta(hours=6)).isoformat()} ([run](" in body  # the run's time, from the report
     assert (f"Source culture could not be fetched (ConnectError: {DNS}). Its last good events, fetched "
-            f"{T0.isoformat()}, were carried forward (48 published)") in issue(tmp_path)
+            f"{T0.isoformat()}, were carried forward (48 published)") in body
     build(T0 + timedelta(hours=25), down={"culture"})
     assert f"Source culture could not be fetched (ConnectError: {DNS}) and has nothing left to carry" in issue(tmp_path)
 
@@ -232,3 +234,9 @@ def test_requests_to_a_host_are_spaced_as_its_robots_txt_asks(monkeypatch):
         clock[0] += 1  # each request takes a second
     assert naps == [9, 8]  # the library's requests land 10 s apart; the city site's one waits for nothing
     assert "+https://jcmaps.com" in util.UA
+
+
+def test_the_issue_for_a_run_that_wrote_no_report_says_so_with_the_current_time(tmp_path):
+    body = issue(tmp_path)  # no site/data/report.json here
+    assert re.search(r"\*\*Seen:\*\* run report, \d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00 \(\[run\]", body)
+    assert "The run stopped before writing a report" in body
