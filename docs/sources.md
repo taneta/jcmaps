@@ -47,8 +47,9 @@ flowchart TD
 8. **Fresh on every fetch.** Each fetching run re-reads every source, so changes and cancellations show by the next
    scheduled run. When two sources disagree, the organizer's own listing wins.
 9. **No personal data.** Details about people that a feed carries beyond its public listing (submitters, staff
-   contacts, attendees) and meeting links with passcodes are dropped when the feed is read. The map shows no email
-   address or phone number, since the event's link carries the contact, and fixtures replace them (#55).
+   contacts, attendees) and meeting links with passcodes are dropped when the feed is read: email addresses and
+   phone numbers become placeholders before the cache, the fixtures or the model see the feed. The map shows none,
+   since the event's link carries the contact.
 10. **Organizers stay in charge.** Every event links to its source, and an organizer can have a listing fixed or
     removed through the report link or the About page.
 

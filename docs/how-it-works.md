@@ -35,7 +35,9 @@ flowchart TD
     issues -.->|ticket, pull request, merge| repo
 ```
 
-- **Code reads the feeds.** The model only labels and summarizes events that code found; it never adds one.
+- **Code reads the feeds.** The model only labels and summarizes events that code found; it never adds one. A feed's
+  email addresses and phone numbers become placeholders as it is read, so neither the cache, the fixtures nor the
+  model hold them.
 - **Where things live:** code, docs and fixtures in git; the current data and caches on the live site; run reports
   and model logs as run artifacts for 90 days. The only secret is `OPENAI_API_KEY`.
 
