@@ -1,14 +1,16 @@
 """jcmaps build: fetch, parse, enrich, geocode, check, publish. jcmaps eval-enrich: the hand-check table.
-jcmaps score-enrich: the current prompt and model against the labeled set."""
+jcmaps score-enrich: the current prompt and model against the labeled set. jcmaps kpi: the week's numbers."""
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import re
 import sys
 import time
 from collections import Counter
+from datetime import datetime, timedelta
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -225,6 +227,42 @@ def score_enrich(classify: Callable[[str], llm.Call]) -> dict:
     return {"agree": dict(agree), "seen": dict(seen), "misses": misses, "cost_usd": cost}
 
 
+def kpi(sample: Path | None = None, now: datetime | None = None, snapshot: dict | None = None) -> dict:
+    """The week's numbers (docs/routine.md): events in the next 7 days by source, the sources with events and their
+    effective number, the shares pinned and with a known price; and, with a sample file (date, title, place, link),
+    coverage: the share of sampled events the map shows, with every miss. Coverage is the KPI, the rest is context."""
+    now = now or now_utc()
+    snap = snapshot or read_json(publish.SNAPSHOT)
+    if snap is None:  # no local build: the live site's snapshot
+        site_url = json.loads(CITY.read_text())["site_url"].rstrip("/")
+        snap = httpx.get(f"{site_url}/data/events.json", headers={"User-Agent": UA}, timeout=60, follow_redirects=True).json()
+    events = {e["id"]: e for e in snap["events"]}
+    venues = {v["id"]: v for v in snap["venues"]}
+    week = [o for o in snap["occurrences"] if now <= datetime.fromisoformat(o["start_utc"]) < now + timedelta(days=7)]
+    by_source = Counter(events[o["event_id"]]["source_id"] for o in week)
+    n = len(week)
+    out = {"events_7d": n, "by_source": dict(by_source.most_common()), "sources_with_events": len(by_source),
+           "effective_sources": round(1 / sum((k / n) ** 2 for k in by_source.values()), 1) if n else 0.0,
+           "pinned": round(sum(1 for o in week if venues.get(o["venue_id"] or "", {}).get("lat") is not None) / n, 2) if n else None,
+           "price_known": round(sum(1 for o in week if events[o["event_id"]]["price"] != "unknown") / n, 2) if n else None}
+    print(f"events in the next 7 days: {n}" + (" (" + ", ".join(f"{s} {k}" for s, k in out["by_source"].items()) + ")" if n else ""))
+    print(f"sources with events: {out['sources_with_events']}; effective sources: {out['effective_sources']}")
+    if n:
+        print(f"pinned: {out['pinned']:.0%}; price known: {out['price_known']:.0%}")
+    if sample:  # a sampled event is shown when the map has an event that day with the same title or at its place
+        rows = list(csv.DictReader(sample.open()))
+        misses = [r for r in rows if not any(
+            o["date"] == r["date"] and (check._same_title(r["title"], events[o["event_id"]]["title"])
+                                        or (r.get("place") and normalize(r["place"]) in normalize(venues.get(o["venue_id"] or "", {}).get("name", ""))))
+            for o in snap["occurrences"])]
+        out["coverage"] = {"sample": len(rows), "shown": len(rows) - len(misses),
+                           "misses": [f"{r['date']} {r['title']} ({r.get('place') or 'no place'})" for r in misses]}
+        c = out["coverage"]
+        print(f"coverage: {c['shown']} of {c['sample']} sampled events shown" + (f" ({c['shown'] / c['sample']:.0%})" if rows else ""))
+        print("\n".join("  miss: " + m for m in c["misses"]) or "  no misses")
+    return out
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="jcmaps")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -238,6 +276,8 @@ def main(argv: list[str] | None = None) -> None:
                    help="first fetch the previous snapshot and caches from the live site (default: site_url in city.json)")
     sub.add_parser("eval-enrich")
     sub.add_parser("score-enrich")
+    k = sub.add_parser("kpi")
+    k.add_argument("--sample", type=Path, metavar="CSV", help="the week's sampled events (date, title, place, link) to look for on the map")
     a = p.parse_args(argv)
     if a.cmd == "build":
         site_url = None
@@ -251,6 +291,9 @@ def main(argv: list[str] | None = None) -> None:
         if not client:
             p.error("score-enrich needs OPENAI_API_KEY (in .env locally)")
         score_enrich(lambda text: llm.classify(client, text))
+        sys.exit(0)
+    if a.cmd == "kpi":
+        kpi(a.sample)
         sys.exit(0)
     sys.exit(eval_enrich())
 
