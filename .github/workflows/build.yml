@@ -71,7 +71,7 @@ jobs:
           retention-days: 90
           if-no-files-found: ignore
 
-      - name: Open an issue when the gate fails or a source cannot be fetched or is empty
+      - name: Open an issue when the gate fails or a source cannot be fetched or is empty, or add to the open one
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
@@ -121,7 +121,12 @@ jobs:
           PY
           if [ -s /tmp/issue.md ]; then
             gh label create "auto:build" --force --color D93F0B --description "opened by the build" >/dev/null
-            gh issue create --title "Build $(date -u +%Y-%m-%d) needs attention" --body-file /tmp/issue.md --label "auto:build"
+            open=$(gh issue list --label "auto:build" --state open --json number --jq '.[0].number')
+            if [ -n "$open" ]; then
+              gh issue comment "$open" --body-file /tmp/issue.md
+            else
+              gh issue create --title "Build $(date -u +%Y-%m-%d) needs attention" --body-file /tmp/issue.md --label "auto:build"
+            fi
           fi
 
       # Deploy only when every step above passed. A failed gate still deploys, because the build step records its
