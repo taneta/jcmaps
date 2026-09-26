@@ -1,5 +1,8 @@
 Closes #
 
+**In one line:** <!-- Everyday words, for someone deciding what this does to the project: what is wrong or what
+changes, what a visitor or the owner notices, and any side effect or cost. No mechanism, no project jargon. -->
+
 ## What changed
 <!-- Two or three sentences a reader needs before opening the diff. -->
 

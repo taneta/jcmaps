@@ -54,7 +54,7 @@ itself.
    pull request quotes the result next to main's. A changed
    flow means an updated diagram.
 4. **Check.** `uv run pytest`; for data, `uv run jcmaps build --pull`; for the page, `python -m http.server -d site`.
-5. **Pull request.** Tick *Done when*, saying how each was checked; the tests run on it as a check. The person
-   committing is the author.
+5. **Pull request.** One plain line first, on what changes for the project. Then tick *Done when*, saying how each
+   was checked; the tests run on it as a check. The person committing is the author.
 6. **After the merge.** Confirm the run is green and the site shows the change. Record predicted numbers in
    `docs/numbers.md`, file anything you found as new tickets, and remove the worktree.
