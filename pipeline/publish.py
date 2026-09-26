@@ -90,8 +90,9 @@ def compose(raws: list[Raw], fields: dict[str, dict], venues: dict[str, Venue], 
                     events=events, occurrences=occurrences)
 
 
-def report(now: datetime, sources: dict, drops: list[dict], venues: dict[str, Venue], geocode_calls: int,
-           enrich_stats: dict, gate_reasons: list[str], published: int, duration_s: float) -> dict:
+def report(now: datetime, sources: dict, drops: list[dict], venues: dict[str, Venue], unpinned: dict[str, int],
+           geocode_calls: int, enrich_stats: dict, gate_reasons: list[str], published: int, duration_s: float) -> dict:
+    """unpinned: venue name -> its events, largest first, so the ones worth a known point stand out."""
     by_reason: dict[str, int] = {}
     for d in drops:
         by_reason[d["reason"]] = by_reason.get(d["reason"], 0) + 1
@@ -102,8 +103,7 @@ def report(now: datetime, sources: dict, drops: list[dict], venues: dict[str, Ve
         "drops": by_reason,
         "drop_examples": [d for d in drops if d["reason"] not in ("past", "beyond_horizon")][:40],
         "geocode": {"venues": len(venues), "with_coords": sum(1 for v in venues.values() if v.lat is not None),
-                    "calls": geocode_calls,
-                    "failed": [v.name for v in venues.values() if v.lat is None][:40]},
+                    "unpinned_events": sum(unpinned.values()), "calls": geocode_calls, "failed": unpinned},
         "enrich": enrich_stats,
         "gate": {"passed": not gate_reasons, "reasons": gate_reasons},
         "duration_s": round(duration_s, 1),

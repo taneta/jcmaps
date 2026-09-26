@@ -98,6 +98,6 @@ before, from the date of its last visit, which only the browser keeps.
 | Label and place | `pipeline/enrich.py` (rules, event types), `pipeline/llm.py` (the one model call), `pipeline/geocode.py` |
 | Decide and write | `pipeline/check.py` (city boundary, duplicates), `pipeline/gate.py`, `pipeline/publish.py` |
 | The page | `site/index.html`, `site/app.js`, `site/search.js` (filter rules), `site/icons.js`, `site/about.html` (the About page), `site/visits.js` (visit counts), `site/tokens.css` (colors and shapes, for both pages); the look is in `docs/design.md` |
-| Settings | `city.json` (sources, city boundary), `data/library_branches.json` |
+| Settings | `city.json` (sources, city boundary), `data/library_branches.json`, `data/venue_points.json` (known map points, never geocoded) |
 
 When a pull request changes one of these flows, it updates the diagram too (AGENTS.md).

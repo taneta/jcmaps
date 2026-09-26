@@ -1,0 +1,17 @@
+{
+ "472-jersey-ave-jersey-city": {"name": "Priscilla Gardner Main Library", "lat": 40.718916, "lon": -74.047387, "osm_id": "w406324292"},
+ "1841-john-f-kennedy-blvd-jersey-city": {"name": "Earl A. Morgan Branch", "lat": 40.703086, "lon": -74.091404, "osm_id": "w424833228"},
+ "546-west-side-ave-jersey-city": {"name": "West Bergen Branch", "lat": 40.719426, "lon": -74.082442, "osm_id": "w1462720531"},
+ "326-8th-st-jersey-city": {"name": "Pavonia Branch", "lat": 40.727307, "lon": -74.047948, "osm_id": "n10726449507"},
+ "489-bergen-ave-jersey-city": {"name": "Miller Branch", "lat": 40.717663, "lon": -74.076448, "osm_id": "w132500824"},
+ "1017-west-side-ave-jersey-city": {"name": "Marion Branch", "lat": 40.734152, "lon": -74.071628, "osm_id": "w222857304"},
+ "307-pacific-ave-jersey-city": {"name": "Lafayette Branch", "lat": 40.711703, "lon": -74.062434, "osm_id": "w994858020"},
+ "14-zabriskie-st-jersey-city": {"name": "Heights Branch", "lat": 40.745676, "lon": -74.050361, "osm_id": "w11632434"},
+ "678-newark-ave-jersey-city": {"name": "Five Corners Branch", "lat": 40.735255, "lon": -74.059545, "osm_id": "w409876647"},
+ "295-johnston-ave-jersey-city": {"name": "Communipaw Branch", "lat": 40.71215, "lon": -74.056565, "osm_id": "w60356170"},
+ "242-10th-st-jersey-city": {"name": "JCFPL Creative Arts Center", "lat": 40.729316, "lon": -74.044512, "osm_id": "w403813603"},
+ "394-central-ave-jersey-city": {"name": "Learning Center", "lat": 40.748225, "lon": -74.047684, "osm_id": "w1093815171"},
+ "275-martin-luther-king-dr-jersey-city": {"name": "Glenn D. Cunningham Branch", "lat": 40.708696, "lon": -74.081673, "osm_id": "w275370739"},
+ "43-martin-luther-king-dr-jersey-city": {"name": "Mary McLeod Bethune Park", "lat": 40.701879, "lon": -74.089681, "osm_id": "w11633511"},
+ "345-marin-blvd-jersey-city": {"name": "Art House Productions", "lat": 40.7207, "lon": -74.04139, "osm_id": null, "note": "OpenStreetMap has no 345 Marin Blvd; placed between its 351 and 355. Check on the map."}
+}

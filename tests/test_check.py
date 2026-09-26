@@ -5,6 +5,7 @@ from pathlib import Path
 from pipeline import check, cli
 from pipeline.geo import inside
 from pipeline.geocode import Geocoder, build_venues, candidates, venue_key
+from pipeline.util import slug
 from pipeline.model import Venue
 
 CITY = json.loads((Path(__file__).parent.parent / "city.json").read_text())
@@ -16,7 +17,7 @@ COMMUNIPAW = [("library", "Communipaw Branch", "295 Johnston Ave, Jersey City, N
 
 def one_point(tmp_path) -> Geocoder:
     """Every query lands on the Communipaw branch, as Nominatim put Bethune Park and the amphitheater on one point."""
-    return Geocoder(lambda q: (40.71215, -74.056565), cache_path=tmp_path / "geo.json", min_interval=0)
+    return Geocoder(lambda q: (40.71215, -74.056565, "amenity"), cache_path=tmp_path / "geo.json", min_interval=0)
 
 
 def test_boundary():
@@ -122,7 +123,7 @@ def test_geocoder_caches_and_falls_back(tmp_path):
 
     def fake(q):
         calls.append(q)
-        return (40.7, -74.05) if q.startswith("761 Summit Ave") else None
+        return (40.7, -74.05, "place") if q.startswith("761 Summit Ave") else None
 
     g = Geocoder(fake, cache_path=tmp_path / "geo.json", min_interval=0)
     qs = candidates("Bookmobile stop: School of Blind, 761 Summit Ave", "School of Blind, 761 Summit Ave")
@@ -131,6 +132,38 @@ def test_geocoder_caches_and_falls_back(tmp_path):
     assert g.lookup(qs) == (40.7, -74.05) and len(calls) == 2  # second lookup served from cache
     assert candidates("Exchange Place", "MONTGOMERY ST BETWEEN HUDSON ST., Jersey City")[-1] == "Exchange Place, Jersey City, NJ"
     assert Geocoder(None, cache_path=tmp_path / "geo.json").lookup(["nowhere"]) is None
+
+
+def test_a_known_venue_is_pinned_from_the_table_without_a_lookup(make_raw, tmp_path):
+    calls = []
+    g = Geocoder(lambda q: calls.append(q) or (40.7, -74.05, "place"), cache_path=tmp_path / "geo.json", min_interval=0)
+    raws = [make_raw(source_id="library", source_uid="1", venue_name="Communipaw Branch", venue_address="295 Johnston Ave, Jersey City, NJ"),
+            make_raw(source_uid="2", venue_name="Somewhere new", venue_address="10 Exchange Pl, Jersey City")]
+    venues = build_venues(raws, g)
+    points = json.loads((Path(__file__).parent.parent / "data" / "venue_points.json").read_text())
+    known, point = venues["295-johnston-ave-jersey-city"], points["295-johnston-ave-jersey-city"]
+    assert (known.lat, known.lon, known.osm_id) == (point["lat"], point["lon"], point["osm_id"])
+    assert calls == ["10 Exchange Pl, Jersey City"]  # only the unknown venue was looked up
+    branches = json.loads((Path(__file__).parent.parent / "data" / "library_branches.json").read_text())
+    assert {slug(venue_key(b["name"], b["address"])) for b in branches.values()} <= set(points)  # every branch has a point
+
+
+def test_a_street_answer_to_a_house_number_is_no_answer(make_raw, tmp_path):
+    street = lambda q: (40.71, -74.08, "highway") if "martin luther king" in q.lower() or "montgomery" in q.lower() else None
+    g = Geocoder(street, cache_path=tmp_path / "geo.json", min_interval=0)
+    raws = [make_raw(source_uid="1", venue_name="A Hall", venue_address="500 Martin Luther King Drive, Jersey City, NJ"),
+            make_raw(source_uid="2", venue_name="McGinley Sq.", venue_address="Montgomery St. & Bergen Ave, Jersey City")]
+    venues = build_venues(raws, g)
+    assert venues[raws[0].venue_id].lat is None  # a street is not a door: no pin, and the report lists the venue
+    assert venues[raws[1].venue_id].lat == 40.71  # a cross-street query asked for the street
+
+
+def test_cached_answers_without_a_category_are_asked_once_more(tmp_path):
+    from pipeline.util import normalize, write_json
+    q, calls = "500 Martin Luther King Drive, Jersey City, NJ", []
+    write_json(tmp_path / "geo.json", {normalize(q): [40.71, -74.08]})  # from before the category was kept
+    g = Geocoder(lambda x: calls.append(x) or (40.71, -74.08, "highway"), cache_path=tmp_path / "geo.json", min_interval=0)
+    assert g.lookup([q]) is None and g.lookup([q]) is None and len(calls) == 1
 
 
 def test_secret_scan_catches_key_shapes():
