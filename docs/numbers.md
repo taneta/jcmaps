@@ -55,6 +55,7 @@ or none given) are counted apart: nothing can pin them.
 | 2026-09-24 | 488 | about 29, both kinds | | day one: Bookmobile stops given as cross streets |
 | 2026-09-26 | 522 | 23 | 19 | after #5, local rebuild: 16 at 13 Bookmobile stops written as corners or descriptions (#83), 5 at the City Hall Annex boardroom, 2 outside the city or misspelled |
 | 2026-09-26 | 492 | 16 | | the live run after #5 |
+| 2026-09-26 | 544 | 22 | | the manual run after the day's sources landed (Saint Peter's, the county, the state clinics): 5 at the City Hall Annex, whose address the map service answers with a street (#86), the rest Bookmobile stops |
 
 ## Notes
 
