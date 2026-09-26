@@ -509,6 +509,17 @@
    "publish": true
   },
   {
+   "id": "approved",
+   "name": "Approved from the suggestion form",
+   "kind": "approved",
+   "url": "data/approved_events.json",
+   "link": "https://jcmaps.com/about.html",
+   "organizer_type": "community",
+   "publish": true,
+   "may_be_empty": true,
+   "note": "events the owner approved by hand; facts only, never who suggested them"
+  },
+  {
    "id": "jcfamilies",
    "name": "JC Families",
    "kind": "tribe",

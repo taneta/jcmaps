@@ -1,0 +1,7 @@
+[
+ {"title": "Fall Book Swap", "start": "2026-10-10T14:00", "end": "2026-10-10T16:00", "place": "Van Vorst Park",
+  "address": "Jersey Ave & Montgomery St, Jersey City, NJ", "link": "https://example.org/book-swap", "price": "free", "kids": "yes",
+  "organizer": "Friends of Van Vorst Park", "description": "Bring a book, take a book. Picture books and chapter books for kids on the lawn."},
+ {"title": "Summer Send-off Picnic", "start": "2026-09-20T12:00", "place": "Hamilton Park", "address": "Hamilton Park, Jersey City, NJ",
+  "description": "A neighborhood picnic; bring a dish."}
+]

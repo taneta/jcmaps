@@ -90,7 +90,7 @@ jobs:
           if r:
               gate, srcs = r["gate"], r["sources"]
               failed = {s: v for s, v in srcs.items() if v.get("error")}
-              empty = [s for s, v in srcs.items() if v.get("published", 0) == 0 and s not in failed]
+              empty = [s for s, v in srcs.items() if v.get("published", 0) == 0 and s not in failed and not v.get("may_be_empty")]
               if gate["passed"] and not failed and not empty:
                   sys.exit(1)
           seen = r["run_at"] if r else datetime.now(timezone.utc).isoformat(timespec="seconds")

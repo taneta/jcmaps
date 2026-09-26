@@ -46,6 +46,7 @@ Verified 2026-09-24. Three adapters cover the five feeds: LibCal, The Events Cal
 | City of Jersey City | iCal feed: `https://www.jerseycitynj.gov/ICalendarHandler?calendarId=12409811` | 122 entries from June 2026 to October 2027, 19 in the next 30 days: council, caucus and board meetings, Senior Freeze help, court outreach. No links and no prices; the event page is `https://www.jerseycitynj.gov/workspaces/one.aspx?objectId=<UID>&contextId=12409811` |
 | Jersey City Connects | Same API: `https://jerseycityconnects.com/wp-json/tribe/events/v1/events` | An adult social club: mixers, game nights, some events outside the city |
 | Riverview Farmers Market | Same API: `https://riverviewfarmersmarket.org/wp-json/tribe/events/v1/events` | 14 upcoming, to December, in Riverview-Fisk Park (498 Palisade Ave): yoga, qigong, crafts, Day of the Dead, the Heights Holiday Market; mostly marked Free |
+| Approved from the suggestion form | `data/approved_events.json` in the repo, read like a feed | Events the owner approved by hand: facts only, never who suggested them. Usually empty |
 | JC Families | Same API: `https://jcfamilies.com/wp-json/tribe/events/v1/events` | 10 upcoming. Baseline only until they have been asked; their curation is their product |
 
 Library calendar ids: Main 17419, Morgan 17420, West Bergen 17421, Pavonia 17422, Miller 17423, Marion 17424, Lafayette 17425, Heights 17426, Cunningham 17427, Five Corners 17430, Bookmobile 17432, Communipaw 19967, Creative Arts Center 20079, Spotlight 20148, Learning Center 21694.
