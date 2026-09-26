@@ -1,8 +1,10 @@
-"""Venue table with coordinates: known points from data/venue_points.json, else Nominatim at one request per
-second, cached in site/data/geocode.json."""
+"""Venue table with coordinates: known points from data/venue_points.json, corners from the node their streets share
+in OpenStreetMap (Overpass), everything else from Nominatim at one request per second; all cached in
+site/data/geocode.json."""
 from __future__ import annotations
 
 import re
+import sys
 import time
 from collections.abc import Callable
 from pathlib import Path
@@ -17,6 +19,10 @@ CACHE = ROOT / "site" / "data" / "geocode.json"  # published with the site, pull
 POINTS = ROOT / "data" / "venue_points.json"  # venue id -> lat, lon, osm_id: pinned from here, never geocoded (#5)
 STREET = "highway"  # Nominatim's category for a street; to a query with a house number that is no answer
 NOMINATIM = "https://nominatim.openstreetmap.org/search"
+OVERPASS = "https://overpass-api.de/api/interpreter"
+SUFFIX = {"st": "Street", "ave": "Avenue", "blvd": "Boulevard", "dr": "Drive", "rd": "Road", "pl": "Place", "ter": "Terrace",
+          "ct": "Court", "ln": "Lane"}
+STREET_END = re.compile(r"\b(?:st|street|ave|avenue|blvd|boulevard|dr|drive|rd|road|pl|place|ter|terrace|ct|court|ln|lane|way)\.?$", re.I)
 KNOWN_CITIES = ("jersey city", "hoboken", "union city", "bayonne", "newark", "new york", "weehawken",
                 "north bergen", "secaucus", "kearny", "harrison", "west new york")
 ADDRESS = re.compile(r"\b\d{1,5}(?:-\d{1,5})?\s+[A-Za-z][A-Za-z\.' ]{2,40}?\b(?:Ave|Avenue|St|Street|Dr|Drive|Blvd|"
@@ -61,6 +67,36 @@ def candidates(name: str | None, address: str | None) -> list[str]:
     return [c for c in out if not (normalize(c) in seen or seen.add(normalize(c)))]
 
 
+def streets_of(query: str) -> tuple[str, str] | None:
+    """The two streets of a corner in a query ("McGinley Sq., Montgomery St. & Bergen Ave, Jersey City, NJ"), else None."""
+    for part in query.split(","):
+        halves = re.split(r"\s+(?:&|and|at|/)\s+", part.strip(), maxsplit=1)
+        if len(halves) == 2 and all(STREET_END.search(h) for h in halves):
+            return halves[0], halves[1]
+    return None
+
+
+def overpass_corner(client: httpx.Client, bbox: list[float]) -> Callable[[str, str], tuple[float, float] | None]:
+    """The node two named streets share, from OpenStreetMap's Overpass API, inside the city's box. A street's name
+    is matched with its suffix written out or short ("Montgomery Street" or "Montgomery St")."""
+    lats, lons = sorted(x for x in bbox if x > 0), sorted(x for x in bbox if x < 0)
+    box = f"{lats[0]},{lons[0]},{lats[-1]},{lons[-1]}"
+
+    def pattern(street: str) -> str:
+        *words, last = street.rstrip(".").split()
+        return f"^{re.escape(' '.join(words))} ({SUFFIX.get(last.lower(), last)}|{last})$"
+
+    def query(a: str, b: str) -> tuple[float, float] | None:
+        time.sleep(5)  # Overpass's public servers refuse requests in quick succession
+        q = (f'[out:json][timeout:25];way["highway"]["name"~"{pattern(a)}",i]({box})->.a;'
+             f'way["highway"]["name"~"{pattern(b)}",i]({box})->.b;node(w.a)(w.b);out 1;')
+        r = client.post(OVERPASS, data={"data": q})
+        r.raise_for_status()
+        nodes = r.json()["elements"]
+        return (nodes[0]["lat"], nodes[0]["lon"]) if nodes else None
+    return query
+
+
 def nominatim_query(client: httpx.Client, viewbox: list[float]) -> Callable[[str], tuple[float, float, str] | None]:
     """The best hit as (lat, lon, category); the category tells a building or a place from a street."""
     def query(q: str) -> tuple[float, float, str] | None:
@@ -75,15 +111,16 @@ def nominatim_query(client: httpx.Client, viewbox: list[float]) -> Callable[[str
 
 class Geocoder:
     def __init__(self, query: Callable[[str], tuple[float, float, str] | None] | None, cache_path: Path = CACHE,
-                 min_interval: float = 1.1):
-        self.query, self.cache_path, self.min_interval = query, cache_path, min_interval
+                 min_interval: float = 1.1, corner: Callable[[str, str], tuple[float, float] | None] | None = None):
+        self.query, self.cache_path, self.min_interval, self.corner = query, cache_path, min_interval, corner
         self.cache: dict[str, list[float] | None] = read_json(cache_path, {}) or {}
         self._last = 0.0
         self.calls = 0
 
     def lookup(self, queries: list[str]) -> tuple[float, float] | None:
-        """The first query that lands on a place. A street answer to a query with a house number is no answer: the
-        pin would sit somewhere along the street, and a missing pin says more than a wrong one."""
+        """The first query that lands on a place: a corner at the node its streets share, anything else through the
+        map service. A street answer is no answer: the pin would sit somewhere along the street, and a missing pin
+        says more than a wrong one."""
         for q in queries:
             key = normalize(q)
             hit = self.cache.get(key)
@@ -92,14 +129,38 @@ class Geocoder:
                 wait = self._last + self.min_interval - time.monotonic()
                 if wait > 0:
                     time.sleep(wait)
-                hit = self.query(q)
+                streets = streets_of(q)
+                try:
+                    if streets and self.corner:
+                        hit = self.corner(*streets)
+                        hit = (*hit, "corner") if hit else None
+                    else:
+                        hit = self.query(q)
+                except httpx.HTTPError as e:  # not cached, so it is asked again next run
+                    print(f"geocoder: {q}: {e}", file=sys.stderr)
+                    self._last = time.monotonic()
+                    continue
                 self._last = time.monotonic()
                 self.calls += 1
                 self.cache[key] = list(hit) if hit else None
                 write_json(self.cache_path, self.cache, compact=True)
-            if hit and not (len(hit) == 3 and hit[2] == STREET and HOUSE.search(key)):
+            if hit and not (len(hit) == 3 and hit[2] == STREET):
                 return hit[0], hit[1]
         return None
+
+
+def place_by_hint(raws: list[Raw], fields: dict[str, dict], venues: dict[str, Venue], geocoder: Geocoder) -> int:
+    """A venue the address could not place gets one try with the model's reading of the listing (a landmark, a
+    corner), quoted from the text and confirmed by the map service. Returns how many venues that placed."""
+    placed = 0
+    for r in raws:
+        v, hint = venues.get(r.venue_id or ""), fields[r.id]
+        if v and v.lat is None and hint.get("venue_name"):
+            hit = geocoder.lookup(candidates(hint["venue_name"], hint.get("venue_address")))
+            if hit:
+                v.lat, v.lon = hit
+                placed += 1
+    return placed
 
 
 def _rank(r: Raw) -> tuple[int, bool, bool]:

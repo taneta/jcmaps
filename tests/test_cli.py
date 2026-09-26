@@ -61,7 +61,7 @@ def build(tmp_path, monkeypatch):
     monkeypatch.setattr(publish, "SNAPSHOT", tmp_path / "site" / "data" / "events.json")
     monkeypatch.setattr(publish, "REPORT", tmp_path / "site" / "data" / "report.json")
     monkeypatch.setattr(publish, "REPORTS", tmp_path / "reports")
-    monkeypatch.setattr(cli, "Geocoder", lambda query: Geocoder(None, cache_path=tmp_path / "geocode.json"))
+    monkeypatch.setattr(cli, "Geocoder", lambda query, **kw: Geocoder(None, cache_path=tmp_path / "geocode.json"))
     monkeypatch.setattr(enrich, "enrich_all", partial(enrich.enrich_all, cache_path=tmp_path / "enrich.json"))
 
     def run(at: datetime, down=(), keep: dict[str, int] | None = None, off=(), cached=False) -> tuple[int, dict, dict]:

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pipeline import check, cli
 from pipeline.geo import inside
-from pipeline.geocode import Geocoder, build_venues, candidates, venue_key
+from pipeline.geocode import Geocoder, build_venues, candidates, place_by_hint, streets_of, venue_key
 from pipeline.util import slug
 from pipeline.model import Venue
 
@@ -155,7 +155,30 @@ def test_a_street_answer_to_a_house_number_is_no_answer(make_raw, tmp_path):
             make_raw(source_uid="2", venue_name="McGinley Sq.", venue_address="Montgomery St. & Bergen Ave, Jersey City")]
     venues = build_venues(raws, g)
     assert venues[raws[0].venue_id].lat is None  # a street is not a door: no pin, and the report lists the venue
-    assert venues[raws[1].venue_id].lat == 40.71  # a cross-street query asked for the street
+    assert venues[raws[1].venue_id].lat is None  # nor for a corner: that is asked of Overpass, not the map service
+
+
+def test_a_corner_is_placed_where_its_streets_meet(make_raw, tmp_path):
+    assert streets_of("McGinley Sq., Montgomery St. & Bergen Ave, Jersey City, NJ") == ("Montgomery St.", "Bergen Ave")
+    assert streets_of("Winfield Ave. and JFK Blvd., Jersey City, NJ") == ("Winfield Ave.", "JFK Blvd.")
+    assert streets_of("Clubhouse Robinson Dr. & Droyers Pt., Jersey City, NJ") is None  # not two streets
+    asked = []
+    g = Geocoder(lambda q: None, corner=lambda a, b: asked.append((a, b)) or (40.7217, -74.0655), cache_path=tmp_path / "geo.json", min_interval=0)
+    raws = [make_raw(source_id="library", source_uid="1", venue_name="Bookmobile stop: McGinley Sq., Montgomery St. & Bergen Ave",
+                     venue_address="McGinley Sq., Montgomery St. & Bergen Ave")]
+    venues = build_venues(raws, g)
+    assert (venues[raws[0].venue_id].lat, asked) == (40.7217, [("Montgomery St.", "Bergen Ave")])
+    assert g.lookup(["McGinley Sq., Montgomery St. & Bergen Ave, Jersey City, NJ"]) == (40.7217, -74.0655) and len(asked) == 1  # cached
+
+
+def test_a_venue_the_address_could_not_place_gets_one_try_with_the_models_reading(make_raw, tmp_path):
+    g = Geocoder(lambda q: (40.73, -74.06, "shop") if q.startswith("Target") else None, cache_path=tmp_path / "geo.json", min_interval=0)
+    raws = [make_raw(source_uid="1", venue_name="Bookmobile stop: parking lot in front of Target", venue_address="parking lot in front of Target")]
+    venues = build_venues(raws, g)
+    assert venues[raws[0].venue_id].lat is None
+    hints = {raws[0].id: {"venue_name": "Target", "venue_address": None}}  # the model's reading, quoted from the listing
+    assert place_by_hint(raws, hints, venues, g) == 1 and venues[raws[0].venue_id].lat == 40.73
+    assert place_by_hint(raws, {raws[0].id: {"venue_name": None}}, venues, g) == 0  # nothing quoted, nothing tried
 
 
 def test_cached_answers_without_a_category_are_asked_once_more(tmp_path):

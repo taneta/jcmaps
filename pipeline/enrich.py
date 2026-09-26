@@ -112,8 +112,9 @@ def merge(raw: Raw, out: dict | None, organizer_default: str = "unknown") -> dic
     if out.get("summary"):
         f["summary"] = out["summary"].strip()[:200]
     f["topics"] = sorted(set(f["topics"]) | {t for t in out.get("topics") or [] if isinstance(t, str)})
-    if raw.offsite and out.get("venue_address") and quoted(out.get("venue_quote"), norm):
-        f["venue_name"], f["venue_address"] = out.get("venue_name") or out["venue_address"], out["venue_address"]
+    if (out.get("venue_name") or out.get("venue_address")) and quoted(out.get("venue_quote"), norm):
+        # an offsite listing takes it as its venue; any other keeps it as a hint for a venue the address could not place
+        f["venue_name"], f["venue_address"] = out.get("venue_name") or out["venue_address"], out.get("venue_address")
         f["evidence"]["venue"] = Evidence(quote=out["venue_quote"], from_="model")
     return _fallback(f, raw, organizer_default)
 
