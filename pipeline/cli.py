@@ -120,6 +120,7 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
     venues = {**old_venues, **build_venues(raws, geocoder)}
     raws, drops2 = check.check(raws + old, venues, city["boundary"])  # fresh records first, so they win duplicates
     drops += drops2
+    unpinned = Counter(venues[r.venue_id].name for r in raws if r.venue_id and venues[r.venue_id].lat is None)
 
     snapshot = publish.compose(raws, fields | old_fields, venues, city, now, previous, since)
     reasons = gate.gate(snapshot, city["boundary"], now)
@@ -133,8 +134,8 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
         if sid in since:
             s["carried_from"] = since[sid]
 
-    rep = publish.report(now, src_stats, drops, venues, geocoder.calls, enrich_stats, reasons,
-                         len(snapshot.events), time.monotonic() - t0)
+    rep = publish.report(now, src_stats, drops, venues, dict(unpinned.most_common(40)), geocoder.calls, enrich_stats,
+                         reasons, len(snapshot.events), time.monotonic() - t0)
     rep["pulled"] = pulled
     stamp = now.strftime("%Y-%m-%dT%H%M")
     write_json(publish.REPORTS / f"{stamp}.json", rep)
