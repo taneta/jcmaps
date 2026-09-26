@@ -448,10 +448,7 @@
    40.7106
   ]
  ],
- "crawl_delay_s": {
-  "jclibrary.libcal.com": 10,
-  "saintpeterspeacocks.com": 30
- },
+ "crawl_delay_s": {"jclibrary.libcal.com": 10, "saintpeterspeacocks.com": 30},
  "sources": [
   {
    "id": "library",
@@ -491,9 +488,7 @@
    "kind": "ical",
    "url": "https://www.jerseycitynj.gov/ICalendarHandler?calendarId=12409811",
    "link": "https://www.jerseycitynj.gov/workspaces/one.aspx?objectId={uid}&contextId=12409811",
-   "places": {
-    "City Hall": "280 Grove St, Jersey City, NJ"
-   },
+   "places": {"City Hall": "280 Grove St, Jersey City, NJ"},
    "organizer_type": "city",
    "publish": true
   },
@@ -502,14 +497,8 @@
    "name": "Saint Peter's University Athletics",
    "kind": "ical",
    "url": "https://saintpeterspeacocks.com/calendar.ashx/calendar.ics?sport_id=0",
-   "keep": {
-    "SUMMARY": "\\bvs\\b",
-    "LOCATION": "^Jersey City, NJ, ."
-   },
-   "places": {
-    "Yanitelli, S.J. Recreational Life Center": "Yanitelli Center, Jersey City, NJ",
-    "Jaroschak Field": "Jaroschak Field, Jersey City, NJ"
-   },
+   "keep": {"SUMMARY": "\\bvs\\b", "LOCATION": "^Jersey City, NJ, ."},
+   "places": {"Yanitelli, S.J. Recreational Life Center": "Yanitelli Center, Jersey City, NJ", "Jaroschak Field": "Jaroschak Field, Jersey City, NJ"},
    "organizer_type": "community",
    "publish": true
   },
