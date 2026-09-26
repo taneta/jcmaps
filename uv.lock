@@ -159,6 +159,7 @@ dependencies = [
     { name = "icalendar" },
     { name = "openai" },
     { name = "pydantic" },
+    { name = "python-dateutil" },
 ]
 
 [package.dev-dependencies]
@@ -172,6 +173,7 @@ requires-dist = [
     { name = "icalendar", specifier = ">=6" },
     { name = "openai", specifier = ">=1.100" },
     { name = "pydantic", specifier = ">=2.9" },
+    { name = "python-dateutil", specifier = ">=2.9" },
 ]
 
 [package.metadata.requires-dev]

@@ -483,6 +483,16 @@
    "publish": true
   },
   {
+   "id": "city",
+   "name": "City of Jersey City",
+   "kind": "ical",
+   "url": "https://www.jerseycitynj.gov/ICalendarHandler?calendarId=12409811",
+   "link": "https://www.jerseycitynj.gov/workspaces/one.aspx?objectId={uid}&contextId=12409811",
+   "places": {"City Hall": "280 Grove St, Jersey City, NJ"},
+   "organizer_type": "city",
+   "publish": true
+  },
+  {
    "id": "connects",
    "name": "Jersey City Connects",
    "kind": "tribe",

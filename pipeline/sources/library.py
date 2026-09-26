@@ -2,14 +2,14 @@
 from __future__ import annotations
 
 import re
-from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 
 import httpx
 from icalendar import Calendar
 
 from pipeline.model import Evidence, Raw
-from pipeline.util import TZ, scrub
+from pipeline.sources.ical import categories, span
+from pipeline.util import scrub
 
 SOURCE_ID = "library"
 FEED = "https://jclibrary.libcal.com/ical_subscribe.php?src=p&cid={cid}"
@@ -36,32 +36,6 @@ def fetch(cid: str, cache_dir: Path, client: httpx.Client) -> str:
     return text
 
 
-def _categories(ev) -> list[str]:
-    raw = ev.get("CATEGORIES")
-    if raw is None:
-        return []
-    items = raw if isinstance(raw, list) else [raw]
-    out: list[str] = []
-    for item in items:
-        out.extend(str(c) for c in getattr(item, "cats", [item]))
-    return [c.strip() for c in out if c.strip()]
-
-
-def _times(ev) -> tuple[datetime, datetime | None, bool, str]:
-    start = ev.get("DTSTART").dt
-    end = ev.get("DTEND").dt if ev.get("DTEND") else None
-    if isinstance(start, datetime):
-        start = start.astimezone(timezone.utc)
-        end = end.astimezone(timezone.utc) if isinstance(end, datetime) else None
-        return start, end, False, start.astimezone(TZ).date().isoformat()
-    # date-only entries are all-day; DTEND is exclusive
-    day: date = start
-    s = datetime.combine(day, time(0), TZ).astimezone(timezone.utc)
-    e_day = end if isinstance(end, date) else day + timedelta(days=1)
-    e = datetime.combine(e_day, time(0), TZ).astimezone(timezone.utc)
-    return s, e, True, day.isoformat()
-
-
 def parse(text: str, cid: str, branch: dict | None) -> list[Raw]:
     """branch: {"name", "address"} for a fixed calendar, None for Bookmobile and Spotlight."""
     cal = Calendar.from_ical(text)
@@ -72,12 +46,12 @@ def parse(text: str, cid: str, branch: dict | None) -> list[Raw]:
         uid = str(ev.get("UID", "")).split("-")[-1]
         if not title or not uid:
             continue
-        cats = _categories(ev)
+        cats = categories(ev)
         short = [c.split(">")[-1].strip() for c in cats]
         topics = sorted({c for c in short if not NOISE.match(c)})
         description = str(ev.get("DESCRIPTION", "")).strip()
         location = str(ev.get("LOCATION", "")).strip()
-        start, end, all_day, day = _times(ev)
+        start, end, all_day, day = span(ev.decoded("DTSTART"), ev.decoded("DTEND") if "DTEND" in ev else None)
 
         venue_name, venue_address, offsite = None, None, False
         if calname.lower().startswith("bookmobile"):

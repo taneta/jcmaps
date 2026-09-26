@@ -15,7 +15,7 @@ import httpx
 from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
-from pipeline.sources import library, tribe
+from pipeline.sources import ical, library, tribe
 from pipeline.util import ROOT, UA, env, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
@@ -63,6 +63,10 @@ def load_raws(city: dict, only: str | None, root: Path | None, client: httpx.Cli
                     text = ((root / "library" / f"{cid}.ics").read_text() if root
                             else library.fetch(cid, CACHE / "library", client))
                     got += library.parse(text, cid, branches.get(cid))
+            elif src["kind"] == "ical":
+                text = ((root / "ical" / f"{sid}.ics").read_text() if root
+                        else ical.fetch(sid, src["url"], CACHE / "ical", client))
+                got += ical.parse(text, src)
             else:
                 pages = ([json.loads(p.read_text()) for p in sorted((root / "tribe").glob(f"{sid}.p*.json"))]
                          if root else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
