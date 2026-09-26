@@ -491,6 +491,14 @@
    "publish": true
   },
   {
+   "id": "riverview",
+   "name": "Riverview Farmers Market",
+   "kind": "tribe",
+   "url": "https://riverviewfarmersmarket.org",
+   "organizer_type": "community",
+   "publish": true
+  },
+  {
    "id": "jcfamilies",
    "name": "JC Families",
    "kind": "tribe",

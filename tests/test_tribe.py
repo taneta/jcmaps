@@ -26,6 +26,16 @@ def test_culture_contract():
     assert len(kids) == 2 and kids[0].evidence["kid_friendly"].quote == "kids activities"
 
 
+def test_riverview_contract():
+    raws = tribe.parse(load("riverview.p1.json"), "riverview", "community")
+    assert len(raws) == 14
+    assert {r.venue_address for r in raws} == {"498 Palisade Ave, Jersey City, 07307", None}  # 2 list no venue
+    yoga = next(r for r in raws if r.title == "Yoga in the Park")
+    assert yoga.start_utc == datetime(2026, 9, 27, 13, 0, tzinfo=timezone.utc) and yoga.price == "free"
+    crafts = next(r for r in raws if r.title == "Free Arts & Crafts with Kelsey")
+    assert crafts.price == "unknown"  # an empty cost field; the model can still quote "Free" from the title
+
+
 def test_connects_times_are_local_despite_utc_flag():
     raws = tribe.parse(load("connects.p1.json"), "connects", "community")
     assert len(raws) == 38
