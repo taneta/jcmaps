@@ -36,6 +36,7 @@
   .seg button::before { inset: -7px 0; }
   .chip[aria-pressed="true"], .seg [aria-pressed="true"] { background: var(--ink); color: var(--surface); }
   .chip input { height: 28px; margin-right: -8px; padding: 0; border: 0; background: none; font-size: 16px; appearance: textfield; } /* dates: the chip is their frame */
+  .chip input[type="date"] { accent-color: var(--ink); } /* the browser's calendar marks the chosen day in ink, not its blue (#52) */
   #banner { display: none; margin: 6px 12px 0; padding: 10px 14px; border-radius: var(--radius-md); background: var(--ink);
     color: var(--surface); box-shadow: var(--shadow-float); pointer-events: auto; }
   #banner.on { display: block; }
