@@ -27,8 +27,9 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
   every page loads (light only); nothing else names a color. Marigold (--accent) means an event, never a control.
 - Commits: the person committing is the author and is responsible for the change. No AI co-author
   trailers (Co-authored-by: Claude or similar); AI assistance is disclosed once, in the README.
-- Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request,
-  and the pull request ticks the ticket's Done-when list, saying how each item was checked.
+- Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request. Both open with
+  one plain line on what changes for the project, and the pull request ticks the ticket's Done-when list, saying
+  how each item was checked.
 - Diagrams follow the code: when a pull request changes a workflow (the pipeline, the run, the page or the
   ticket process), it also updates the matching diagram in docs/how-it-works.md or docs/routine.md.
 

@@ -10,6 +10,9 @@ labels: bug
 <!-- Priority: high if the site is broken or stale, medium for wrong data or a fix that prevents a class of errors,
 low for new features and polish (docs/routine.md). -->
 
+**In one line:** <!-- Everyday words, for someone deciding what this does to the project: what is wrong or what
+changes, what a visitor or the owner notices, and any side effect or cost. No mechanism, no project jargon. -->
+
 ## What happens
 <!-- Facts only: the screen, the numbers, ids, links. A screenshot if it is visual. -->
 
