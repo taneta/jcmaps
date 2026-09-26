@@ -16,6 +16,13 @@ def test_scrub_replaces_contact_details_and_nothing_else():
                            "or email name@example.org. UID 17175267-1 on 2026-09-24 at 10:30.\r\n")
 
 
+def test_scrub_replaces_an_embedded_maps_key_and_keeps_the_rest_of_the_url():
+    key = "AIza" + "Sy" + "k" * 33  # built here, so the repo holds no key-shaped string
+    embed = f'<iframe src="https://www.google.com/maps/embed/v1/place?key={key}&amp;q=Riverview+Park"></iframe>'
+    assert scrub(embed) == ('<iframe src="https://www.google.com/maps/embed/v1/place?key=API-KEY-REMOVED'
+                            '&amp;q=Riverview+Park"></iframe>')
+
+
 def test_every_fixture_is_scrubbed():
     dirty = [str(p.relative_to(FIXTURES)) for p in FIXTURES.rglob("*")
              if p.is_file() and scrub(p.read_text()) != p.read_text()]

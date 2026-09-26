@@ -48,8 +48,8 @@ flowchart TD
    scheduled run. When two sources disagree, the organizer's own listing wins.
 9. **No personal data.** Details about people that a feed carries beyond its public listing (submitters, staff
    contacts, attendees) and meeting links with passcodes are dropped when the feed is read: email addresses and
-   phone numbers become placeholders before the cache, the fixtures or the model see the feed. The map shows none,
-   since the event's link carries the contact.
+   phone numbers become placeholders before the cache, the fixtures or the model see the feed, and so do API keys,
+   such as the one in an embedded map. The map shows none, since the event's link carries the contact.
 10. **Organizers stay in charge.** Every event links to its source, and an organizer can have a listing fixed or
     removed through the report link or the About page.
 

@@ -19,6 +19,7 @@ TZ = ZoneInfo("America/New_York")
 UA = "JCMaps/0.1 (+https://jcmaps.com; non-commercial Jersey City events map)"
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 PHONE = re.compile(r"(?<!\d)\(?\d{3}\)?[-.\s]+\d{3}[-.\s]+\d{4}(?!\d)")
+GOOGLE_KEY = re.compile(r"AIza[0-9A-Za-z_-]{35}(?![0-9A-Za-z_-])")  # as in an embedded map's URL
 
 
 def env(name: str, default: str) -> str:
@@ -64,10 +65,12 @@ def normalize(text: str) -> str:
 
 
 def scrub(text: str) -> str:
-    """A feed without its contact details, applied as the feed is read so that neither the cache, the fixtures nor
-    the model hold them (docs/sources.md, rule 9): email addresses and phone numbers become placeholders, and iCal
-    ORGANIZER lines (staff names and addresses) go. The event's link carries the contact."""
+    """A feed without its contact details or keys, applied as the feed is read so that neither the cache, the fixtures
+    nor the model hold them (docs/sources.md, rule 9): email addresses, phone numbers and Google API keys (a map
+    embedded in a description carries its site's key) become placeholders, and iCal ORGANIZER lines (staff names and
+    addresses) go. The event's link carries the contact."""
     text = re.sub(r"^ORGANIZER.*\n", "", text, flags=re.M)
+    text = GOOGLE_KEY.sub("API-KEY-REMOVED", text)
     return PHONE.sub("000-000-0000", EMAIL.sub("name@example.org", text))
 
 
