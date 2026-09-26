@@ -122,16 +122,16 @@ class Geocoder:
         map service. A street answer is no answer: the pin would sit somewhere along the street, and a missing pin
         says more than a wrong one."""
         for q in queries:
-            key = normalize(q)
+            streets = streets_of(q) if self.corner else None
+            key = normalize(f"corner: {streets[0]} & {streets[1]}" if streets else q)  # a corner's answer is its own entry
             hit = self.cache.get(key)
             stale = hit is not None and len(hit) == 2  # cached before the category was kept: asked once more
             if (key not in self.cache or stale) and self.query is not None:  # offline, unknown stays unknown
                 wait = self._last + self.min_interval - time.monotonic()
                 if wait > 0:
                     time.sleep(wait)
-                streets = streets_of(q)
                 try:
-                    if streets and self.corner:
+                    if streets:
                         hit = self.corner(*streets)
                         hit = (*hit, "corner") if hit else None
                     else:
