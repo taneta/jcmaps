@@ -32,17 +32,33 @@ jobs:
       - run: uv sync --frozen
       - run: uv run pytest -q
 
-      - name: Build (pull the live data, fetch feeds, enrich, check, gate)
+      # Only scheduled and manual runs fetch the feeds. A push rebuilds from the feeds the last fetching run saved,
+      # so a merge sends no request to a source (docs/sources.md, rule 6).
+      - name: Restore the feeds the last fetching run saved
+        if: github.event_name == 'push'
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: feeds-${{ github.run_id }}
+          restore-keys: feeds-
+      - name: Build (pull the live data; fetch the feeds, or on a push read the saved ones; enrich, check, gate)
         id: build
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JCMAP_MODEL: ${{ vars.JCMAP_MODEL }}
           JCMAP_EFFORT: ${{ vars.JCMAP_EFFORT }}
           JCMAP_COST_CAP_USD: ${{ vars.JCMAP_COST_CAP_USD }}
+          CACHED: ${{ github.event_name == 'push' && '--cached' || '' }}
         run: |
           set +e
-          uv run jcmaps build --pull
+          uv run jcmaps build --pull $CACHED
           echo "exit=$?" >> "$GITHUB_OUTPUT"
+      - name: Save the feeds for the next push
+        if: github.event_name != 'push'
+        uses: actions/cache/save@v4
+        with:
+          path: cache
+          key: feeds-${{ github.run_id }}
 
       - name: Keep the run report and model log for 90 days
         if: always()
@@ -80,17 +96,20 @@ jobs:
           print(f"**Where:** pipeline · **Seen:** run report, {os.environ['TODAY']} ([run]({run}))\n")
           print("## What happens")
           if r is None:
-              print("The build crashed before writing a report; the traceback is in the run log.")
+              print("The run stopped before writing a report: a failed test, install or build. The run log says which.")
           else:
               if not gate["passed"]:
                   print("The gate failed, so the last good snapshot stayed published:\n" + "\n".join(f"- {x}" for x in gate["reasons"]))
               for s, v in failed.items():
                   if v.get("state") == "degraded":
-                      print(f"\nSource {s} could not be fetched ({v['error']}). Its last good events, fetched {v['carried_from']}, "
-                            f"were carried forward ({v['published']} published); 24 hours after that fetch they are left out.")
+                      print(f"\nSource {s} {v['error']}. Its last good events, fetched {v['carried_from']}, were carried "
+                            f"forward ({v['published']} published); 24 hours after that fetch they are left out.")
+                  elif v["published"]:
+                      print(f"\nSource {s} {v['error']}, and its last good events are past carrying, "
+                            "so its smaller feed is published as it is.")
                   else:
-                      print(f"\nSource {s} could not be fetched ({v['error']}) and has nothing left to carry, "
-                            "so it is left out until a fetch succeeds.")
+                      print(f"\nSource {s} {v['error']} and has nothing left to carry, "
+                            "so it is left out until its feed answers with events again.")
               if empty:
                   print("\nSources that published zero events: " + ", ".join(empty))
               print("\n```json\n" + json.dumps({k: r.get(k) for k in ("sources", "drops", "geocode", "enrich", "pulled")}, indent=1) + "\n```")
@@ -104,13 +123,12 @@ jobs:
             gh issue create --title "Build $(date -u +%Y-%m-%d) needs attention" --body-file /tmp/issue.md --label "auto:build"
           fi
 
-      # Deploy even after a failed gate: site/data then still holds the pulled last good snapshot.
+      # Deploy only when every step above passed. A failed gate still deploys, because the build step records its
+      # exit code instead of failing, and site/data then holds the pulled last good snapshot. A failed test, install
+      # or build deploys nothing: the last deployment stays live, and the issue above points at the run log.
       - uses: actions/configure-pages@v5
-        if: always()
       - uses: actions/upload-pages-artifact@v3
-        if: always()
         with:
           path: site
       - id: deploy
-        if: always()
         uses: actions/deploy-pages@v4

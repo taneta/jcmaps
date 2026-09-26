@@ -55,6 +55,6 @@ def test_barrow_mansion_contract_and_its_copies_of_van_vorst_meetings_are_skippe
     assert vv[0].date == "2026-10-13"  # the association's own site says October 20
     from pipeline import cli
     barrow = next(s for s in json.loads(cli.CITY.read_text())["sources"] if s["id"] == "barrow")
-    kept, stats = cli.load_raws({"sources": [barrow]}, None, True, None)
+    kept, stats = cli.load_raws({"sources": [barrow]}, None, cli.FIXTURES, None)
     assert stats["barrow"] == {"parsed": 64 - len(vv), "skipped": len(vv)} and len(vv) == 11
     assert not any("Van Vorst" in r.title for r in kept)
