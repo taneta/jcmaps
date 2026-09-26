@@ -1,4 +1,5 @@
-"""jcmaps build: fetch, parse, enrich, geocode, check, publish. jcmaps eval-enrich: the hand-check table."""
+"""jcmaps build: fetch, parse, enrich, geocode, check, publish. jcmaps eval-enrich: the hand-check table.
+jcmaps score-enrich: the current prompt and model against the labeled set."""
 from __future__ import annotations
 
 import argparse
@@ -8,6 +9,8 @@ import re
 import sys
 import time
 from collections import Counter
+from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import httpx
@@ -16,7 +19,7 @@ from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
 from pipeline.sources import ical, library, tribe
-from pipeline.util import ROOT, UA, env, now_utc, read_json, spaced, write_json
+from pipeline.util import ROOT, UA, env, normalize, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
 BRANCHES = ROOT / "data" / "library_branches.json"
@@ -187,6 +190,34 @@ def eval_enrich(n: int = 30) -> int:
     return 0
 
 
+def score_enrich(classify: Callable[[str], llm.Call]) -> dict:
+    """Run the model on the labeled set and print how often each field agrees with the label, the misses and the
+    cost. Only fields the model decided count: a label without a model quote came from an adapter rule."""
+    rows = json.loads((FIXTURES / "labeled" / "enrich.json").read_text())
+    with ThreadPoolExecutor(6) as pool:
+        calls = list(pool.map(lambda r: classify(r["input"]), rows))
+    blank = {"kid_friendly": "unknown", "price": "unknown", "registration": "unknown", "organizer_type": "unknown",
+             "status": "scheduled", "age_text": None}
+    agree, seen, misses = Counter(), Counter(), []
+    for row, call in zip(rows, calls):
+        got = {k: v for k, (v, _) in enrich.proved(call.out or {}, normalize(row["input"])).items()}
+        for field, default in blank.items():
+            expected = row["expected"][field]
+            if expected != default and ("age" if field == "age_text" else field) not in row["quotes"]:
+                continue  # an adapter rule decided it
+            seen[field] += 1
+            if normalize(str(got.get(field, default))) == normalize(str(expected)):
+                agree[field] += 1
+            else:
+                misses.append(f"{row['id']} {field}: expected {expected!r}, got {got.get(field, default)!r}")
+    cost = round(sum(c.cost_usd for c in calls), 4)
+    for field in blank:
+        print(f"{field:15} {agree[field]}/{seen[field]}")
+    print("\n".join(misses) or "no misses")
+    print(f"{len(calls)} calls, ${cost} ({llm.MODEL})")
+    return {"agree": dict(agree), "seen": dict(seen), "misses": misses, "cost_usd": cost}
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="jcmaps")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -199,6 +230,7 @@ def main(argv: list[str] | None = None) -> None:
     b.add_argument("--pull", nargs="?", const="", metavar="URL",
                    help="first fetch the previous snapshot and caches from the live site (default: site_url in city.json)")
     sub.add_parser("eval-enrich")
+    sub.add_parser("score-enrich")
     a = p.parse_args(argv)
     if a.cmd == "build":
         site_url = None
@@ -207,6 +239,12 @@ def main(argv: list[str] | None = None) -> None:
             if not site_url:
                 p.error("--pull needs a URL or site_url in city.json")
         sys.exit(build(a.source, a.offline, a.no_model, site_url, a.cached))
+    if a.cmd == "score-enrich":
+        client = llm.make_client()
+        if not client:
+            p.error("score-enrich needs OPENAI_API_KEY (in .env locally)")
+        score_enrich(lambda text: llm.classify(client, text))
+        sys.exit(0)
     sys.exit(eval_enrich())
 
 

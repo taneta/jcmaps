@@ -241,6 +241,29 @@ def test_requests_to_a_host_are_spaced_as_its_robots_txt_asks(monkeypatch):
     assert "+https://jcmaps.com" in util.UA
 
 
+def test_score_enrich_counts_agreement_with_the_labeled_set_offline():
+    from pipeline.llm import Call
+    rows = json.loads((cli.FIXTURES / "labeled" / "enrich.json").read_text())
+    by_input = {r["input"]: r for r in rows}
+    fields = ("kid_friendly", "price", "registration", "organizer_type", "status")
+
+    def perfect(text):  # a model that answers what the labels say, with their quotes
+        e, q = by_input[text]["expected"], by_input[text]["quotes"]
+        out = {f: e[f] for f in fields} | {f"{f}_quote": q.get(f) for f in fields}
+        out |= {"age_text": e["age_text"], "age_min": None, "age_max": None, "topics": [], "summary": "s", "price_text": None,
+                "venue_name": None, "venue_address": None, "venue_quote": None}
+        return Call(input_hash="x", model="fake", out=out, cost_usd=0.001)
+
+    result = cli.score_enrich(perfect)
+    assert result["misses"] == [] and result["agree"] == result["seen"] and result["cost_usd"] == 0.03
+    # labels an adapter rule decided (a library storytime is for kids, free, the city's) are not the model's to score;
+    # a label corrected to unknown counts even where the model had quoted something
+    assert result["seen"] == {"kid_friendly": 24, "price": 19, "registration": 30, "organizer_type": 9, "status": 30, "age_text": 30}
+
+    blind = lambda text: Call(input_hash="x", model="fake", out=None)  # proves nothing: the unknown labels still agree
+    result = cli.score_enrich(blind)
+    assert result["agree"]["kid_friendly"] == 16 and result["seen"]["kid_friendly"] == 24
+    assert "kid_friendly: expected 'yes', got 'unknown'" in "\n".join(result["misses"])
 def test_the_issue_for_a_run_that_wrote_no_report_says_so_with_the_current_time(tmp_path):
     body = issue(tmp_path)  # no site/data/report.json here
     assert re.search(r"\*\*Seen:\*\* run report, \d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00 \(\[run\]", body)

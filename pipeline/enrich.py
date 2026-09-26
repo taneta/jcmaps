@@ -72,6 +72,20 @@ def quoted(quote: str | None, norm_text: str) -> bool:
     return bool(quote) and 3 <= len(quote) <= 300 and normalize(quote) in norm_text
 
 
+def proved(out: dict, norm: str) -> dict[str, tuple[str, str]]:
+    """The model's answers that pass the evidence rule, as field: (value, quote). An answer it marked unknown, or
+    whose quote is not in the normalized input, is left out. Shared by merge and by `jcmaps score-enrich`."""
+    p: dict[str, tuple[str, str]] = {}
+    for field in ("kid_friendly", "price", "registration", "organizer_type"):
+        if out.get(field) not in (None, "unknown") and quoted(out.get(f"{field}_quote"), norm):
+            p[field] = (out[field], out[f"{field}_quote"])
+    if out.get("status") == "cancelled" and quoted(out.get("status_quote"), norm):
+        p["status"] = ("cancelled", out["status_quote"])
+    if quoted(out.get("age_text"), norm):
+        p["age_text"] = (out["age_text"], out["age_text"])
+    return p
+
+
 def merge(raw: Raw, out: dict | None, organizer_default: str = "unknown") -> dict:
     """Event fields from the adapter's rules plus whatever the model proved with a quote.
     organizer_default is the source's kind (city, community) and applies only when nothing else decided."""
@@ -86,24 +100,13 @@ def merge(raw: Raw, out: dict | None, organizer_default: str = "unknown") -> dic
     if not out:
         return _fallback(f, raw, organizer_default)
     norm = normalize(raw.enrich_text())
-
-    def take(field: str, value, quote):
-        if f[field] != "unknown" or value in (None, "unknown"):
-            return  # an adapter rule already decided, or the model had nothing
-        if quoted(quote, norm):
+    for field, (value, quote) in proved(out, norm).items():
+        if field == "age_text":
+            f["age_text"], f["age_min"], f["age_max"] = value, out.get("age_min"), out.get("age_max")
+            f["evidence"]["age"] = Evidence(quote=quote, from_="model")
+        elif f[field] in ("unknown", "scheduled"):  # an adapter rule's answer stands; the model fills the rest
             f[field] = value
             f["evidence"][field] = Evidence(quote=quote, from_="model")
-
-    take("kid_friendly", out.get("kid_friendly"), out.get("kid_friendly_quote"))
-    take("price", out.get("price"), out.get("price_quote"))
-    take("registration", out.get("registration"), out.get("registration_quote"))
-    take("organizer_type", out.get("organizer_type"), out.get("organizer_type_quote"))
-    if f["status"] == "scheduled" and out.get("status") == "cancelled" and quoted(out.get("status_quote"), norm):
-        f["status"] = "cancelled"
-        f["evidence"]["status"] = Evidence(quote=out["status_quote"], from_="model")
-    if quoted(out.get("age_text"), norm):
-        f["age_text"], f["age_min"], f["age_max"] = out["age_text"], out.get("age_min"), out.get("age_max")
-        f["evidence"]["age"] = Evidence(quote=out["age_text"], from_="model")
     if quoted(out.get("price_text"), norm):
         f["price_text"] = out["price_text"]
     if out.get("summary"):
