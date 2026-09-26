@@ -13,5 +13,6 @@
  "394-central-ave-jersey-city": {"name": "Learning Center", "lat": 40.748225, "lon": -74.047684, "osm_id": "w1093815171"},
  "275-martin-luther-king-dr-jersey-city": {"name": "Glenn D. Cunningham Branch", "lat": 40.708696, "lon": -74.081673, "osm_id": "w275370739"},
  "43-martin-luther-king-dr-jersey-city": {"name": "Mary McLeod Bethune Park", "lat": 40.701879, "lon": -74.089681, "osm_id": "w11633511"},
+ "4-jackson-square-jersey-city": {"name": "City Hall Annex, Holloway Building", "lat": 40.7169, "lon": -74.07418, "osm_id": "w419162203", "note": "the Jackson Square municipal building; OpenStreetMap names its police district at 1 Jackson St, and the map service answers 4 Jackson Square with the street. Check on the map."},
  "345-marin-blvd-jersey-city": {"name": "Art House Productions", "lat": 40.7207, "lon": -74.04139, "osm_id": null, "note": "OpenStreetMap has no 345 Marin Blvd; placed between its 351 and 355. Check on the map."}
 }
