@@ -192,6 +192,33 @@ def issue(cwd) -> str | None:
     return run.stdout if run.returncode == 0 else None
 
 
+def issue_step(cwd, open_issue: str = "") -> list[str]:
+    """The whole issue step, shell included, with a fake `gh` that answers `issue list` with open_issue and records
+    every call. Returns the calls, one per line."""
+    workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
+    script = textwrap.dedent(re.search(r"Open an issue.*?run: \|\n(.*?)\n\n", workflow, re.S).group(1))
+    gh = cwd / "bin" / "gh"
+    gh.parent.mkdir(exist_ok=True)
+    gh.write_text('#!/bin/sh\necho "$@" >> "$GH_LOG"\ncase "$*" in *"issue list"*) echo "$OPEN_ISSUE";; esac\n')
+    gh.chmod(0o755)
+    env = {**os.environ, "PATH": f"{gh.parent}:{os.environ['PATH']}", "GH_LOG": str(cwd / "gh.log"), "OPEN_ISSUE": open_issue,
+           "SERVER": "https://github.com", "REPO": "taneta/jcmaps", "RUN_ID": "1"}
+    subprocess.run(["bash", "-e", "-c", script], cwd=cwd, env=env, capture_output=True, text=True, check=True)
+    calls = (cwd / "gh.log").read_text().splitlines() if (cwd / "gh.log").exists() else []
+    (cwd / "gh.log").unlink(missing_ok=True)
+    return calls
+
+
+def test_a_lasting_failure_comments_on_the_open_issue_instead_of_opening_another(build, tmp_path):
+    build(T0)
+    assert issue_step(tmp_path) == []  # nothing to report, so gh is not called at all
+    build(T0 + timedelta(hours=6), down={"culture"})
+    calls = issue_step(tmp_path)
+    assert calls[-1].startswith("issue create --title Build ") and calls[-1].endswith("--body-file /tmp/issue.md --label auto:build")
+    calls = issue_step(tmp_path, open_issue="12")
+    assert calls[-1] == "issue comment 12 --body-file /tmp/issue.md" and not any("issue create" in c for c in calls)
+
+
 def test_the_issue_says_which_source_is_degraded_or_down(build, tmp_path):
     build(T0)
     assert issue(tmp_path) is None
