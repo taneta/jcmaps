@@ -6,6 +6,7 @@ import json
 import os
 import sys
 import time
+from collections import Counter
 from pathlib import Path
 
 import httpx
@@ -14,7 +15,7 @@ from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
 from pipeline.sources import ical, library, tribe
-from pipeline.util import ROOT, UA, env, now_utc, read_json, write_json
+from pipeline.util import ROOT, UA, env, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
 BRANCHES = ROOT / "data" / "library_branches.json"
@@ -43,9 +44,8 @@ def pull(site_url: str, client: httpx.Client) -> dict[str, str]:
     return got
 
 
-def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client | None,
-              offline_root: Path = FIXTURES) -> tuple[list[Raw], dict]:
-    """offline reads frozen feeds from offline_root (fixtures, or cache/ for the last fetched copies)."""
+def load_raws(city: dict, only: str | None, root: Path | None, client: httpx.Client | None) -> tuple[list[Raw], dict]:
+    """root: read the feeds saved there instead of fetching (FIXTURES, the frozen ones; CACHE, the last fetched)."""
     raws: list[Raw] = []
     stats: dict[str, dict] = {}
     branches = read_json(BRANCHES, {}) or {}
@@ -57,40 +57,48 @@ def load_raws(city: dict, only: str | None, offline: bool, client: httpx.Client 
             got: list[Raw] = []
             if src["kind"] == "ics":
                 for cid in src["calendars"]:
-                    frozen = offline_root / "library" / f"{cid}.ics"
-                    if offline and not frozen.exists():
+                    if root == FIXTURES and not (root / "library" / f"{cid}.ics").exists():
                         continue  # only a few calendars are frozen
-                    text = frozen.read_text() if offline else library.fetch(cid, CACHE / "library", client)
+                    text = ((root / "library" / f"{cid}.ics").read_text() if root
+                            else library.fetch(cid, CACHE / "library", client))
                     got += library.parse(text, cid, branches.get(cid))
             elif src["kind"] == "ical":
-                text = ((offline_root / "ical" / f"{sid}.ics").read_text() if offline
+                text = ((root / "ical" / f"{sid}.ics").read_text() if root
                         else ical.fetch(sid, src["url"], CACHE / "ical", client))
                 got += ical.parse(text, src)
             else:
-                pages = ([json.loads(p.read_text()) for p in sorted((offline_root / "tribe").glob(f"{sid}.p*.json"))]
-                         if offline else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
+                pages = ([json.loads(p.read_text()) for p in sorted((root / "tribe").glob(f"{sid}.p*.json"))]
+                         if root else tribe.fetch(sid, src["url"], CACHE / "tribe", client))
+                if root and not pages:
+                    raise FileNotFoundError(root / "tribe" / f"{sid}.p1.json")
                 got += tribe.parse(pages, sid, src["organizer_type"])
             stats[sid] = {"parsed": len(got)}
             raws += got
         except Exception as e:  # a broken source yields no fresh events; build carries its last good ones
-            stats[sid] = {"parsed": 0, "error": f"{type(e).__name__}: {str(e)[:200]}"}
+            stats[sid] = {"parsed": 0, "error": f"could not be fetched ({type(e).__name__}: {str(e)[:200]})"}
             print(f"source {sid} failed: {e}", file=sys.stderr)
     return raws, stats
 
 
-def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None) -> int:
+def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None, cached: bool = False) -> int:
     t0 = time.monotonic()
     now = now_utc()
     city = json.loads(CITY.read_text())
-    client = httpx.Client(headers={"User-Agent": UA}, timeout=60, follow_redirects=True)
+    client = httpx.Client(headers={"User-Agent": UA}, timeout=60, follow_redirects=True,
+                          event_hooks={"request": [spaced(city.get("crawl_delay_s", {}))]})
     pulled = pull(pull_from, client) if pull_from else {}
 
-    raws, src_stats = load_raws(city, only, offline, client)
+    raws, src_stats = load_raws(city, only, FIXTURES if offline else CACHE if cached else None, client)
     raws, drops = check.prefilter(raws, now)
     # a partial or fixture build must not be judged against the full snapshot, nor carry from it
     previous = None if (only or offline) else read_json(publish.SNAPSHOT)
+    fresh = Counter(r.source_id for r in raws)
+    for sid, s in src_stats.items():  # a feed that lists far fewer events than last time is judged like a failed fetch
+        if "error" not in s and (why := publish.shrank(previous or {}, sid, fresh[sid])):
+            s["error"] = why
     failed = {sid for sid, s in src_stats.items() if "error" in s}
     since, old, old_fields, old_venues = publish.carry(previous or {}, failed, now)
+    raws = [r for r in raws if r.source_id not in since]  # a carried source's smaller feed waits its day out
     old, _ = check.prefilter(old, now)  # carried occurrences that are over are not reused
 
     model_client = None if (offline or no_model) else llm.make_client()
@@ -110,15 +118,15 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
     drops += drops2
 
     snapshot = publish.compose(raws, fields | old_fields, venues, city, now, previous, since)
-    reasons = gate.gate(snapshot, previous, city["boundary"], now, failed)
+    reasons = gate.gate(snapshot, city["boundary"], now)
     candidate = json.dumps(snapshot.model_dump(mode="json", by_alias=True), ensure_ascii=False, default=str)
     public = {str(f.relative_to(ROOT)): f.read_text(errors="replace")
               for f in (ROOT / "site").rglob("*") if f.is_file() and f != publish.SNAPSHOT and "node_modules" not in f.parts}
     reasons += gate.secret_scan({"candidate events.json": candidate, **public})
-    for sid, s in src_stats.items():  # a failed source is degraded while it has carried events, then down
+    for sid, s in src_stats.items():  # degraded while its last good events are carried, down with nothing to show
         s["published"] = snapshot.sources.get(sid, {}).get("count", 0)
-        s["state"] = "active" if sid not in failed else ("degraded" if s["published"] else "down")
-        if s["state"] == "degraded":
+        s["state"] = "degraded" if sid in since else "down" if sid in failed and not s["published"] else "active"
+        if sid in since:
             s["carried_from"] = since[sid]
 
     rep = publish.report(now, src_stats, drops, venues, geocoder.calls, enrich_stats, reasons,
@@ -159,7 +167,7 @@ def eval_enrich(n: int = 30) -> int:
     inputs = {}
     root = CACHE if (CACHE / "library").exists() else FIXTURES  # the last fetched feeds, or the frozen ones
     for src in [s for s in json.loads(CITY.read_text())["sources"] if s.get("publish")]:
-        for raw in load_raws({"sources": [src]}, None, True, None, offline_root=root)[0]:
+        for raw in load_raws({"sources": [src]}, None, root, None)[0]:
             inputs[raw.id] = raw.enrich_text()
     rows = []
     for e in picked:
@@ -182,6 +190,8 @@ def main(argv: list[str] | None = None) -> None:
     b.add_argument("--source")
     b.add_argument("--offline", action="store_true", help="fixtures instead of feeds; no geocoding or model calls")
     b.add_argument("--no-model", action="store_true")
+    b.add_argument("--cached", action="store_true",
+                   help="the feeds the last fetching run left in cache/ instead of fetching; how a push to main builds")
     b.add_argument("--pull", nargs="?", const="", metavar="URL",
                    help="first fetch the previous snapshot and caches from the live site (default: site_url in city.json)")
     sub.add_parser("eval-enrich")
@@ -192,7 +202,7 @@ def main(argv: list[str] | None = None) -> None:
             site_url = a.pull or json.loads(CITY.read_text()).get("site_url")
             if not site_url:
                 p.error("--pull needs a URL or site_url in city.json")
-        sys.exit(build(a.source, a.offline, a.no_model, site_url))
+        sys.exit(build(a.source, a.offline, a.no_model, site_url, a.cached))
     sys.exit(eval_enrich())
 
 

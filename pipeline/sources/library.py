@@ -9,6 +9,7 @@ from icalendar import Calendar
 
 from pipeline.model import Evidence, Raw
 from pipeline.sources.ical import categories, span
+from pipeline.util import scrub
 
 SOURCE_ID = "library"
 FEED = "https://jclibrary.libcal.com/ical_subscribe.php?src=p&cid={cid}"
@@ -29,9 +30,10 @@ BOOKMOBILE_STOP = re.compile(r"^(?P<place>.+?)\s*-\s*[^-]*?,?\s*Bookmobile Stop\
 def fetch(cid: str, cache_dir: Path, client: httpx.Client) -> str:
     r = client.get(FEED.format(cid=cid))
     r.raise_for_status()
+    text = scrub(re.sub(r"\r?\n[ \t]", "", r.text))  # unfolded first, so a contact split across lines is caught too
     cache_dir.mkdir(parents=True, exist_ok=True)
-    (cache_dir / f"{cid}.ics").write_text(r.text)
-    return r.text
+    (cache_dir / f"{cid}.ics").write_text(text)
+    return text
 
 
 def parse(text: str, cid: str, branch: dict | None) -> list[Raw]:

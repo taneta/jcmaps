@@ -11,7 +11,7 @@ from dateutil.rrule import rrulestr
 from icalendar import Calendar
 
 from pipeline.model import Raw
-from pipeline.util import TZ, now_utc, strip_html
+from pipeline.util import TZ, now_utc, scrub, strip_html
 
 # A location that is only a video call, or nothing at all, has no place: the event is listed without a pin.
 ONLINE = re.compile(r"(?:(?:via |on )?(?:zoom|online|virtual(?:ly)?|webinar|livestream|teams|google meet)\b[^0-9]*)?",
@@ -22,9 +22,10 @@ HOUSE = re.compile(r"\b\d{1,5}[A-Za-z]?(?:-\d{1,5})?\s+(?=[A-Za-z])")  # where a
 def fetch(source_id: str, url: str, cache_dir: Path, client: httpx.Client) -> str:
     r = client.get(url)
     r.raise_for_status()
+    text = scrub(re.sub(r"\r?\n[ \t]", "", r.text))  # unfolded first, so a contact split across lines is caught too
     cache_dir.mkdir(parents=True, exist_ok=True)
-    (cache_dir / f"{source_id}.ics").write_text(r.text)
-    return r.text
+    (cache_dir / f"{source_id}.ics").write_text(text)
+    return text
 
 
 def categories(ev) -> list[str]:

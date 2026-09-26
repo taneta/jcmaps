@@ -448,6 +448,7 @@
    40.7106
   ]
  ],
+ "crawl_delay_s": {"jclibrary.libcal.com": 10},
  "sources": [
   {
    "id": "library",

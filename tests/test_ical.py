@@ -1,6 +1,5 @@
 """The general iCal adapter on the city's frozen calendar, and the iCal rules any feed can hit."""
 import json
-import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -42,10 +41,13 @@ def test_city_locations_become_one_venue_per_address_or_none():
     assert ical.place("Islamic Center of Jersey City 17 Park Street", {}) == ("Islamic Center of Jersey City", "17 Park Street")
 
 
-def test_the_frozen_city_feed_holds_no_contact_details():
-    text = FEED.read_text()
-    assert not re.search(r"[A-Za-z0-9._%+-]+@(?!example\.org)[A-Za-z0-9.-]+\.[a-z]{2,}", text)
-    assert not re.search(r"\(?\b(?!000)[0-9]{3}\)?[ .-][0-9]{3}[ .-][0-9]{4}\b", text)
+def test_a_feed_is_unfolded_and_scrubbed_as_it_is_read(tmp_path):
+    import httpx
+    feed = "BEGIN:VCALENDAR\r\nDESCRIPTION:Email clerk@jc\r\n nj.org or call 201-\r\n 547-5000.\r\nEND:VCALENDAR\r\n"
+    client = httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(200, text=feed)))
+    text = ical.fetch("city", "https://example.org/city.ics", tmp_path, client)
+    assert text == (tmp_path / "city.ics").read_bytes().decode()
+    assert text == "BEGIN:VCALENDAR\r\nDESCRIPTION:Email name@example.org or call 000-000-0000.\r\nEND:VCALENDAR\r\n"
 
 
 CAL = """BEGIN:VCALENDAR
