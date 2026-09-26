@@ -40,6 +40,6 @@ as a static page from GitHub Pages at https://jcmaps.com/.
 
 ## When an issue opens
 
-The build opens an `auto:build` issue when the gate fails, a source cannot be fetched, or a source returns
-nothing. The issue body carries the run report; the full log is in the run's artifact. Fix the adapter or the
+The build opens an `auto:build` issue when the gate fails, a source cannot be fetched or lists far fewer events
+than before (its last good events then stay for a day while the other sources update), or a source returns nothing. The issue body carries the run report; the full log is in the run's artifact. Fix the adapter or the
 source, refreeze the fixture if the feed changed shape, and re-run the workflow.

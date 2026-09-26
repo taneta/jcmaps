@@ -46,7 +46,7 @@ flowchart TB
     %% Mirrors build() in pipeline/cli.py. Update it when a stage is added, removed or reordered.
     subgraph collect ["Collect"]
         direction LR
-        pull["1 Pull<br/>last data and caches"] --> fetch["2 Fetch and parse<br/>one adapter per feed type,<br/>or a failed feed's last<br/>good events for a day"]
+        pull["1 Pull<br/>last data and caches"] --> fetch["2 Fetch and parse<br/>one adapter per feed type,<br/>or a failed or shrunken<br/>feed's last good events<br/>for a day"]
         fetch --> prefilter["3 Prefilter<br/>past, closures, over 31 days"]
     end
     subgraph enrichplace ["Label and place"]
@@ -56,7 +56,7 @@ flowchart TB
     subgraph decide ["Decide"]
         direction LR
         check["6 Check<br/>outside the city, duplicates"] --> compose["7 Compose<br/>the new data"]
-        compose --> gate["8 Gate<br/>against the last<br/>good data"]
+        compose --> gate["8 Gate<br/>nothing past, outside<br/>the city or key-shaped"]
     end
     subgraph write ["Write"]
         direction LR
@@ -69,11 +69,13 @@ flowchart TB
 
 - **Evidence or unknown.** A model answer is kept only if it quotes the listing; otherwise the field says unknown.
   Answers are cached by the listing's text, so only new listings cost a call.
-- **The gate** refuses new data with past events, pins outside the city, no events at all, a source that lost over
-  30% of its events, or anything shaped like a key. The site then keeps the last good data, and an issue opens.
-- **A feed that cannot be reached** keeps its last good events, from the pulled data, for a day after its last
-  successful fetch. They go through the same checks and gate, and a fresh listing of the same event wins. After a
-  day the source is left out, without failing the gate, until it answers again. Either way an issue opens.
+- **The gate** refuses new data with past events, pins outside the city, no events at all, or anything shaped like a
+  key. The site then keeps the last good data, and an issue opens.
+- **A feed that cannot be reached, or that lists far fewer events than the source published last time,** keeps its
+  last good events, from the pulled data, for a day after its last successful fetch. They go through the same checks
+  and gate, and a fresh listing of the same event wins. After a day, a feed that cannot be reached is left out,
+  without failing the gate, until it answers again, and a feed that shrank is published as it is. Either way an
+  issue opens.
 
 ## The page
 

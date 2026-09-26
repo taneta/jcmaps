@@ -17,6 +17,7 @@ from pipeline.util import ROOT
 
 T0 = datetime(2026, 9, 24, 12, 0, tzinfo=timezone.utc)
 DNS = "[Errno -3] Temporary failure in name resolution"  # culture's fetch on 2026-09-24 (#11, #14)
+ERR = f"could not be fetched (ConnectError: {DNS})"
 
 
 def test_pull_writes_only_valid_files(tmp_path, monkeypatch):
@@ -49,11 +50,11 @@ def test_empty_environment_variables_mean_default(monkeypatch):
 def build(tmp_path, monkeypatch):
     """`jcmaps build` on the frozen feeds as a live run makes it, with no model, no geocoder calls and every file in
     tmp_path: each run's snapshot is the next run's previous one. A source in `down` raises as culture's fetch did
-    on 2026-09-24; a source in `empty` answers with no events."""
+    on 2026-09-24; `keep` cuts a source's feed to its first n events (0: an empty answer); a source in `off` is
+    switched off in city.json."""
     city = json.loads(cli.CITY.read_text())
     lib = next(s for s in city["sources"] if s["id"] == "library")
     lib["calendars"] = {c: n for c, n in lib["calendars"].items() if (cli.FIXTURES / "library" / f"{c}.ics").exists()}
-    (tmp_path / "city.json").write_text(json.dumps(city))
     monkeypatch.setattr(cli, "CITY", tmp_path / "city.json")
     monkeypatch.setattr(cli, "CACHE", tmp_path / "cache")
     monkeypatch.setattr(publish, "SNAPSHOT", tmp_path / "site" / "data" / "events.json")
@@ -64,12 +65,17 @@ def build(tmp_path, monkeypatch):
     monkeypatch.setattr(library, "fetch",
                         lambda cid, cache_dir, client: (cli.FIXTURES / "library" / f"{cid}.ics").read_text())
 
-    def run(at: datetime, down=(), empty=()) -> tuple[int, dict, dict]:
+    def run(at: datetime, down=(), keep: dict[str, int] | None = None, off=()) -> tuple[int, dict, dict]:
+        cli.CITY.write_text(json.dumps({**city, "sources": [{**s, "publish": s.get("publish") and s["id"] not in off}
+                                                             for s in city["sources"]]}))
+
         def fetch(sid, base, cache_dir, client):
             if sid in down:
                 raise httpx.ConnectError(DNS)
             pages = [json.loads(p.read_text()) for p in sorted((cli.FIXTURES / "tribe").glob(f"{sid}.p*.json"))]
-            return [{**p, "events": []} for p in pages] if sid in empty else pages
+            if keep and sid in keep:
+                return [{**pages[0], "events": [e for p in pages for e in p["events"]][:keep[sid]]}]
+            return pages
         monkeypatch.setattr(tribe, "fetch", fetch)
         monkeypatch.setattr(cli, "now_utc", lambda: at)
         code = cli.build(None, False, True, None)
@@ -95,7 +101,7 @@ def test_a_source_that_cannot_be_fetched_keeps_its_last_good_events(build):
     later = T0 + timedelta(hours=23)
     code, rep, snap = build(later, down={"culture"})
     assert code == 0 and rep["gate"] == {"passed": True, "reasons": []}
-    assert rep["sources"]["culture"] == {"parsed": 0, "error": f"ConnectError: {DNS}", "published": 47,
+    assert rep["sources"]["culture"] == {"parsed": 0, "error": ERR, "published": 47,
                                          "state": "degraded", "carried_from": first["generated_at"]}
     assert snap["sources"]["culture"] == {"count": 47, "carried_from": first["generated_at"]}
     published = {e["id"]: e for e in first["events"]}
@@ -127,7 +133,7 @@ def test_a_source_down_for_a_day_is_left_out_until_it_fetches_again(build):
 
     code, rep, snap = build(T0 + timedelta(hours=25), down={"culture"})
     assert code == 0 and rep["gate"]["passed"]
-    assert rep["sources"]["culture"] == {"parsed": 0, "error": f"ConnectError: {DNS}", "published": 0, "state": "down"}
+    assert rep["sources"]["culture"] == {"parsed": 0, "error": ERR, "published": 0, "state": "down"}
     assert "culture" not in snap["sources"] and snap["generated_at"] == (T0 + timedelta(hours=25)).isoformat()
 
     code, rep, snap = build(T0 + timedelta(hours=26))
@@ -135,12 +141,39 @@ def test_a_source_down_for_a_day_is_left_out_until_it_fetches_again(build):
     assert snap["sources"]["culture"] == {"count": 49}
 
 
-def test_a_source_that_answers_with_no_events_still_fails_the_gate(build):
+def test_a_feed_that_lists_far_fewer_events_is_carried_for_a_day_then_published_as_it_is(build, tmp_path):
     _, _, first = build(T0)
-    code, rep, snap = build(T0 + timedelta(hours=6), empty={"connects"})
-    assert code == 2 and rep["gate"]["reasons"] == ["source connects shrank from 34 to 0"]
-    assert rep["sources"]["connects"] == {"parsed": 0, "published": 0, "state": "active"}
-    assert snap == first  # the last good snapshot stays
+    assert first["sources"]["connects"] == {"count": 34}
+    code, rep, snap = build(T0 + timedelta(hours=6), keep={"connects": 18})
+    assert code == 0 and rep["gate"]["passed"] and snap["generated_at"] == (T0 + timedelta(hours=6)).isoformat()
+    assert rep["sources"]["connects"] == {"parsed": 18, "error": "shrank from 34 to 18", "published": 34,
+                                          "state": "degraded", "carried_from": first["generated_at"]}
+    assert f"Source connects shrank from 34 to 18. Its last good events, fetched {T0.isoformat()}" in issue(tmp_path)
+
+    code, rep, snap = build(T0 + timedelta(hours=25), keep={"connects": 18})  # a day later, the smaller feed it is
+    assert code == 0 and rep["sources"]["connects"] == {"parsed": 18, "error": "shrank from 34 to 14", "published": 13,
+                                                        "state": "active"}  # 4 of the 18 are over by then
+    assert "Source connects shrank from 34 to 14, and its last good events are past carrying, so its smaller feed is published as it is" in issue(tmp_path)
+    code, rep, snap = build(T0 + timedelta(hours=30), keep={"connects": 18})  # and the comparison has settled
+    assert rep["sources"]["connects"] == {"parsed": 18, "published": 13, "state": "active"} and issue(tmp_path) is None
+
+
+def test_switching_a_source_off_publishes_on_the_next_run(build):
+    build(T0)
+    code, rep, snap = build(T0 + timedelta(hours=6), off={"connects"})
+    assert code == 0 and rep["gate"]["passed"] and "connects" not in rep["sources"] and "connects" not in snap["sources"]
+
+
+def test_a_feed_that_parses_to_a_few_events_or_none_is_still_flagged(build, tmp_path):
+    _, _, first = build(T0)
+    code, rep, snap = build(T0 + timedelta(hours=6), keep={"connects": 2})
+    assert code == 0 and rep["sources"]["connects"] == {"parsed": 2, "error": "shrank from 34 to 2", "published": 34,
+                                                        "state": "degraded", "carried_from": first["generated_at"]}
+    assert "Source connects shrank from 34 to 2. Its last good events" in issue(tmp_path)
+    code, rep, snap = build(T0 + timedelta(hours=25), keep={"connects": 0})
+    assert code == 0 and rep["gate"]["passed"] and "connects" not in snap["sources"]
+    assert rep["sources"]["connects"] == {"parsed": 0, "error": "shrank from 34 to 0", "published": 0, "state": "down"}
+    assert "Source connects shrank from 34 to 0 and has nothing left to carry, so it is left out until its feed answers with events again" in issue(tmp_path)
 
 
 def issue(cwd) -> str | None:
