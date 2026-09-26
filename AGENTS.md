@@ -20,7 +20,7 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 - Sources follow docs/sources.md: the organizer's own feed first, robots.txt and terms decide, no personal data,
   and some events never reach the map.
 - Publishing goes through pipeline/gate.py; a failed gate keeps the last good snapshot and opens an issue.
-- A prompt or model change is scored on fixtures/labeled/enrich.json before it replaces cached values.
+- A prompt or model change is scored on fixtures/labeled/enrich.json (`jcmaps score-enrich`) before it replaces cached values.
 - Search rules live once, in site/search.js (pure functions, no DOM); the browser runs them
   and tests/test_search.py runs their node tests.
 - The look follows docs/design.md: colors, radii, shadows and the font are tokens in site/tokens.css, which
@@ -35,6 +35,7 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 ## Commands
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
 uv run jcmaps eval-enrich                                          # 30 enriched events with quotes for a hand-check
+uv run jcmaps score-enrich                                         # the prompt and model on the labeled set: agreement per field, misses, cost
 uv run pytest                                                      # contract, search-rule and design tests, offline (needs node)
 python -m http.server -d site                                      # preview the frontend
 

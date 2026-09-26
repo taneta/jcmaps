@@ -50,7 +50,8 @@ itself.
 2. **Branch.** Each ticket gets its own worktree from `origin/main`. Several sessions share the main folder, so
    never switch branches there.
 3. **Change.** Code with tests. A new source is a module in `pipeline/sources/`, fixtures and a `city.json` entry.
-   A prompt or model change is scored on `fixtures/labeled/enrich.json` first (no command does that yet). A changed
+   A prompt or model change is scored on `fixtures/labeled/enrich.json` first (`uv run jcmaps score-enrich`), and the
+   pull request quotes the result next to main's. A changed
    flow means an updated diagram.
 4. **Check.** `uv run pytest`; for data, `uv run jcmaps build --pull`; for the page, `python -m http.server -d site`.
 5. **Pull request.** Tick *Done when*, saying how each was checked; the tests run on it as a check. The person
