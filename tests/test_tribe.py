@@ -68,3 +68,14 @@ def test_barrow_mansion_contract_and_its_copies_of_van_vorst_meetings_are_skippe
     kept, stats = cli.load_raws({"sources": [barrow]}, None, cli.FIXTURES, None)
     assert stats["barrow"] == {"parsed": 64 - len(vv), "skipped": len(vv)} and len(vv) == 11
     assert not any("Van Vorst" in r.title for r in kept)
+
+
+def test_hudson_county_keeps_only_events_with_a_place():
+    raws = tribe.parse(load("county.p1.json"), "county", "city")
+    assert len(raws) == 31 and sum(1 for r in raws if r.venue_address) == 9
+    assert {r.venue_address.split(", ")[-2] for r in raws if r.venue_address} == {"Jersey City"}
+    from pipeline import cli
+    county = next(s for s in json.loads(cli.CITY.read_text())["sources"] if s["id"] == "county")
+    kept, stats = cli.load_raws({"sources": [county]}, None, cli.FIXTURES, None)
+    assert stats["county"] == {"parsed": 9, "no_venue": 22} and all(r.venue_address for r in kept)
+    assert "Board of County Commissioners Caucus Meeting" not in {r.title for r in kept}  # no place named: left out
