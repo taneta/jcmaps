@@ -475,6 +475,18 @@
    }
   },
   {
+   "id": "hccc",
+   "name": "Hudson County Community College",
+   "kind": "moderncampus",
+   "url": "https://api.calendar.moderncampus.net/pubcalendar/310cd426-7d96-4d87-bab8-018335d68d75/events",
+   "link": "https://www.hccc.edu/calendar/",
+   "categories": ["General Events", "Lectures Seminars Workshops", "The Arts at HCCC", "Mental and Physical Health", "HCCC Foundation"],
+   "places": {"Journal Square Campus": "70 Sip Ave, Jersey City, NJ", "Hudson County Community College": "70 Sip Ave, Jersey City, NJ", "Culinary Conference Center": "161 Newkirk St, Jersey City, NJ", "On Campus and Virtual": "70 Sip Ave, Jersey City, NJ"},
+   "organizer_type": "community",
+   "publish": true,
+   "note": "the JSON endpoint, since the iCal twin has no categories or links; only the Jersey City campuses are placed"
+  },
+  {
    "id": "culture",
    "name": "JC Office of Cultural Affairs",
    "kind": "tribe",
