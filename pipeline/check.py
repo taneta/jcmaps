@@ -83,6 +83,17 @@ def dedupe(raws: list[Raw]) -> tuple[list[Raw], list[dict]]:
             groups[(r.venue_id, r.date)].append(r)
     gone: set[int] = set()
     drops: list[dict] = []
+    # A run or an exhibition listed as one span, at a venue where another source lists its dates: the dates win,
+    # and each of them carries the span's link (a carried record already holds it from the last run).
+    for a in [r for r in raws if id(r) not in gone and r.venue_id and _days(r) > 1]:
+        showings = [b for b in raws if id(b) not in gone and b is not a and b.venue_id == a.venue_id and _days(b) <= 1
+                    and a.start_utc <= b.start_utc <= a.end_utc and _same_title(a.title, b.title)]
+        if showings:
+            gone.add(id(a))
+            for b in showings:
+                if a.url not in b.alt_urls:
+                    b.alt_urls.append(a.url)
+            drops.append({"id": a.id, "title": a.title, "reason": "duplicate", "of": showings[0].id})
     for group in groups.values():
         group.sort(key=lambda r: len(r.evidence), reverse=True)  # so the first of two duplicates is the winner
         for i, a in enumerate(group):
@@ -93,3 +104,7 @@ def dedupe(raws: list[Raw]) -> tuple[list[Raw], list[dict]]:
                 a.alt_urls.append(b.url)
                 drops.append({"id": b.id, "title": b.title, "reason": "duplicate", "of": a.id})
     return [r for r in raws if id(r) not in gone], drops
+
+
+def _days(r: Raw) -> float:
+    return ((r.end_utc or r.start_utc) - r.start_utc) / timedelta(days=1)

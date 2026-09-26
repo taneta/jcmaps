@@ -18,7 +18,7 @@ import httpx
 from pipeline import check, enrich, gate, llm, publish
 from pipeline.geocode import Geocoder, build_venues, nominatim_query
 from pipeline.model import Raw
-from pipeline.sources import ical, library, moderncampus, njdoh, tribe
+from pipeline.sources import arthouse, ical, library, moderncampus, njdoh, tribe
 from pipeline.util import ROOT, UA, env, normalize, now_utc, read_json, spaced, write_json
 
 CITY = ROOT / "city.json"
@@ -27,7 +27,7 @@ FIXTURES = ROOT / "fixtures"
 CACHE = ROOT / "cache"
 PULLED = ("events.json", "enrich.json", "geocode.json")
 # Sources read from one URL into one file, by kind: any module with fetch(sid, url, cache_dir, client) and parse(text, src).
-SINGLE = {"ical": (ical, "ics"), "njdoh": (njdoh, "csv"), "moderncampus": (moderncampus, "json")}
+SINGLE = {"ical": (ical, "ics"), "njdoh": (njdoh, "csv"), "moderncampus": (moderncampus, "json"), "arthouse": (arthouse, "json")}
 
 
 def pull(site_url: str, client: httpx.Client) -> dict[str, str]:
