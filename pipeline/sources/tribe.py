@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 import html
+import json
 from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 
 import httpx
 
 from pipeline.model import Evidence, Raw
-from pipeline.util import TZ, strip_html
+from pipeline.util import TZ, scrub, strip_html
 
 API = "{base}/wp-json/tribe/events/v1/events?per_page=50&page={page}&start_date=now"
 MAX_PAGES = 20
@@ -20,8 +21,9 @@ def fetch(source_id: str, base: str, cache_dir: Path, client: httpx.Client) -> l
     for page in range(1, MAX_PAGES + 1):
         r = client.get(API.format(base=base, page=page))
         r.raise_for_status()
-        (cache_dir / f"{source_id}.p{page}.json").write_text(r.text)
-        data = r.json()
+        text = scrub(r.text)
+        (cache_dir / f"{source_id}.p{page}.json").write_text(text)
+        data = json.loads(text)
         pages.append(data)
         if not data.get("next_rest_url"):
             break

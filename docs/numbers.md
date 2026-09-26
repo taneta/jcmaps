@@ -27,6 +27,13 @@ The done-when column in the brief's day-one table is the prediction; this file r
 | After the farmers market and street fair rule | 38 of 47 (81%) in a build from the feeds at 00:51 UTC on 25 September: the 4 Hamilton Park Farmers Market dates are free by rule |
 | Still unknown | 18 showings of RENT at Art House and 20 one-off events; the city's feed leaves their cost empty and states no price we can quote (findings in #16) |
 
+## Scrubbed fixtures, #55 (2026-09-25)
+
+| Number | Value |
+|---|---|
+| Contact details in the frozen feeds | 60 distinct email addresses, 13 phone numbers and 510 iCal ORGANIZER lines in 8 files |
+| Model input changed by the scrub | 240 of 614 frozen entries (39%): mostly library listings that name a branch's phone or email. The first run after the merge re-enriches that share of the live events once, about half of day one's model cost |
+
 ## Notes
 
 - Kid-friendly before the model: yes 148, no 10, unknown 335; after: yes 309, no 58, unknown 121. Price after: free 406, paid 6, unknown 76. Registration: yes 72, no 21. Every event has a summary; 195 carry the listing's own age wording.
