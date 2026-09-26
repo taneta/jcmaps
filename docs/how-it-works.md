@@ -53,7 +53,7 @@ flowchart TB
     end
     subgraph enrichplace ["Label and place"]
         direction LR
-        enrich["4 Enrich<br/>code rules, then the<br/>model for the rest"] --> geocode["5 Geocode<br/>one venue per address"]
+        enrich["4 Enrich<br/>code rules, then the<br/>model for the rest"] --> geocode["5 Geocode<br/>known points, addresses,<br/>corners, described places"]
     end
     subgraph decide ["Decide"]
         direction LR

@@ -18,7 +18,7 @@ from pathlib import Path
 import httpx
 
 from pipeline import check, enrich, gate, llm, publish, share
-from pipeline.geocode import Geocoder, build_venues, nominatim_query
+from pipeline.geocode import Geocoder, build_venues, nominatim_query, overpass_corner, place_by_hint
 from pipeline.model import Raw
 from pipeline.sources import arthouse, ical, library, moderncampus, njdoh, tribe
 from pipeline.util import ROOT, UA, env, normalize, now_utc, read_json, spaced, write_json
@@ -127,8 +127,10 @@ def build(only: str | None, offline: bool, no_model: bool, pull_from: str | None
         if r.offsite and f["venue_address"]:
             r.venue_name, r.venue_address = f["venue_name"], f["venue_address"]
 
-    geocoder = Geocoder(None if offline else nominatim_query(client, city["bbox"]))
+    geocoder = Geocoder(None if offline else nominatim_query(client, city["bbox"]),
+                        corner=None if offline else overpass_corner(client, city["bbox"]))
     venues = {**old_venues, **build_venues(raws, geocoder)}
+    place_by_hint(raws, fields, venues, geocoder)  # what the address could not place, the listing's own words may
     raws, drops2 = check.check(raws + old, venues, city["boundary"])  # fresh records first, so they win duplicates
     drops += drops2
     unpinned = Counter(venues[r.venue_id].name for r in raws if r.venue_id and venues[r.venue_id].lat is None)
