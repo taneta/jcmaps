@@ -143,11 +143,31 @@ function wire() {
     state.view = b.dataset.v; syncControls(); render();
   });
   $("#free").addEventListener("click", () => { state.freeOnly = !state.freeOnly; syncControls(); render(); });
-  const sheet = $("#sheet");
-  $("#handle").addEventListener("click", () => {
-    sheet.classList.toggle("full", !sheet.classList.contains("full") && !sheet.classList.contains("peek"));
-    sheet.classList.toggle("peek", false);
+  // The sheet follows a finger on its handle and settles at peek, half or full (the heights in the CSS). A pointer
+  // that hardly moved is a tap, which toggles half and full as before.
+  const sheet = $("#sheet"), handle = $("#handle");
+  let drag = null;
+  handle.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("#clear")) return;
+    drag = { y: e.clientY, height: sheet.offsetHeight, moved: false };
+    handle.setPointerCapture(e.pointerId);
   });
+  handle.addEventListener("pointermove", (e) => {
+    if (!drag || (!drag.moved && Math.abs(e.clientY - drag.y) < 8)) return;
+    drag.moved = true;
+    sheet.classList.add("dragging");
+    sheet.style.height = `${drag.height + drag.y - e.clientY}px`;
+  });
+  handle.addEventListener("pointerup", () => {
+    if (!drag) return;
+    const c = sheet.classList, stops = { peek: 64, half: innerHeight * 0.42, full: innerHeight * 0.88 };
+    let to = c.contains("full") || c.contains("peek") ? "half" : "full";
+    if (drag.moved) to = Object.keys(stops).reduce((a, b) => Math.abs(stops[b] - sheet.offsetHeight) < Math.abs(stops[a] - sheet.offsetHeight) ? b : a);
+    c.remove("dragging"); sheet.style.height = "";
+    c.toggle("peek", to === "peek"); c.toggle("full", to === "full");
+    drag = null;
+  });
+  handle.addEventListener("pointercancel", () => { sheet.classList.remove("dragging"); sheet.style.height = ""; drag = null; });
   $("#clear").addEventListener("click", (e) => { e.stopPropagation(); state.venue = null; render(); });
   $("#list").addEventListener("click", (e) => {
     if (e.target.closest("a")) return;
