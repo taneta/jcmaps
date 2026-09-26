@@ -38,6 +38,8 @@ def test_city_locations_become_one_venue_per_address_or_none():
     keys = {venue_key(raws[u].venue_name, raws[u].venue_address) for u in ("21059936", "21343556")}
     assert keys == {"280 grove st, jersey city"}  # City Hall and Council Chambers share one pin
     assert ical.place("Zoom (link in description)", {}) == (None, None)
+    assert ical.place("Boardroom at the Holloway Building, City Hall Annex", CITY["places"]) == (
+        "Holloway Building", "4 Jackson Square, Jersey City, NJ")  # the annex's other spelling names no street
     assert ical.place("Islamic Center of Jersey City 17 Park Street", {}) == ("Islamic Center of Jersey City", "17 Park Street")
 
 
@@ -132,3 +134,15 @@ def test_floating_times_all_day_entries_links_and_category_filter():
     assert (fair.venue_name, fair.venue_address) == ("Newark Avenue pedestrian plaza", None)
     health = ical.parse(CAL, {**SRC, "categories": ["health"]}, WINDOW)
     assert {r.source_uid for r in health} == {"yoga@20260927T0900", "yoga@20261004T0900", "yoga@20261025T0900"}
+
+
+def test_saint_peters_home_games_are_kept_and_away_games_dropped():
+    spu = next(s for s in json.loads((ROOT / "city.json").read_text())["sources"] if s["id"] == "spu_athletics")
+    raws = ical.parse((ROOT / "fixtures" / "ical" / "spu_athletics.ics").read_text(), spu, WINDOW)
+    assert len(raws) == 53 and sum(1 for r in raws if WINDOW[0] <= r.start_utc < WINDOW[1]) == 15  # of 179 entries
+    assert all(" vs " in r.title and " at " not in r.title for r in raws)  # home games only
+    assert {(r.venue_name, r.venue_address) for r in raws} == {
+        ("Yanitelli, S.J. Recreational Life Center", "Yanitelli Center, Jersey City, NJ"), ("Jaroschak Field", "Jaroschak Field, Jersey City, NJ")}
+    game = next(r for r in raws if r.date == "2026-10-03")
+    assert game.url.startswith("https://saintpeterspeacocks.com/calendar.aspx?game") and game.organizer_name == "Saint Peter's University Athletics"
+    assert ical.place("Jersey City, NJ", spu["places"]) == ("Jersey City, NJ", None)  # a game with no venue named: dropped by keep

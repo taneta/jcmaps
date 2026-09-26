@@ -27,7 +27,7 @@ flowchart TD
     run -->|deploys| site
     site -->|page and data| visitor
     run -->|failed run<br/>or feed| issues
-    visitor -->|Report a problem| issues
+    visitor -->|Report on GitHub| issues
     visitor -->|About page:<br/>suggest an event or a source| form
     form -.->|an approved event: a line in<br/>data/approved_events.json;<br/>a source: a ticket| repo
     visitor -->|page views; once a day,<br/>new or returning| counter

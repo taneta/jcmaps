@@ -71,7 +71,8 @@ def place(location: str, places: dict[str, str]) -> tuple[str | None, str | None
     m = HOUSE.search(text)
     if m:
         return text[:m.start()].strip(" ,") or None, address(text[m.start():])
-    known = next((name for name in places if name.lower() in text.lower()), None)
+    # the longest name that appears wins: "City Hall Annex" names the annex's building, not City Hall
+    known = max((name for name in places if name.lower() in text.lower()), key=len, default=None)
     return (known, places[known]) if known else (text, None)
 
 
@@ -108,11 +109,13 @@ def starts(ev, window: tuple[datetime, datetime]) -> list[date | datetime]:
 
 def parse(text: str, src: dict, window: tuple[datetime, datetime] | None = None) -> list[Raw]:
     """src is the source's city.json entry: id, name, and optionally link (a template with {uid}), places (name to
-    address) and categories (keep only entries with one of them). Repeating events are expanded inside the window,
-    by default from yesterday to a month ahead, and each date becomes its own record."""
+    address), categories (keep only entries with one of them) and keep (patterns an entry's properties must match,
+    such as SUMMARY and LOCATION: a team's home games). Repeating events are expanded inside the window, by default
+    from yesterday to a month ahead, and each date becomes its own record."""
     now = now_utc()
     window = window or (now - timedelta(days=1), now + timedelta(days=32))
     only = {c.lower() for c in src.get("categories", [])}
+    keep = {prop: re.compile(rx, re.I) for prop, rx in src.get("keep", {}).items()}
     out: dict[str, Raw] = {}
     events = Calendar.from_ical(text).walk("VEVENT")
     for ev in sorted(events, key=lambda e: "RECURRENCE-ID" in e):  # a changed date replaces the one its rule made
@@ -121,7 +124,8 @@ def parse(text: str, src: dict, window: tuple[datetime, datetime] | None = None)
         changed = f"{uid}@{_stamp(ev.decoded('RECURRENCE-ID'))}" if "RECURRENCE-ID" in ev else None
         if (not title or not uid or str(ev.get("STATUS", "")).upper() == "CANCELLED"
                 or str(ev.get("CLASS", "")).upper() in {"PRIVATE", "CONFIDENTIAL"}
-                or (only and not only & {c.lower() for c in cats})):
+                or (only and not only & {c.lower() for c in cats})
+                or not all(rx.search(str(ev.get(prop, ""))) for prop, rx in keep.items())):
             if changed:  # one cancelled date of a repeating event
                 out.pop(changed, None)
             continue
