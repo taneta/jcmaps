@@ -17,6 +17,8 @@ import httpx
 ROOT = Path(__file__).resolve().parent.parent
 TZ = ZoneInfo("America/New_York")
 UA = "JCMaps/0.1 (+https://jcmaps.com; non-commercial Jersey City events map)"
+EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
+PHONE = re.compile(r"(?<!\d)\(?\d{3}\)?[-.\s]+\d{3}[-.\s]+\d{4}(?!\d)")
 
 
 def env(name: str, default: str) -> str:
@@ -59,6 +61,14 @@ def normalize(text: str) -> str:
     for a, b in (("’", "'"), ("‘", "'"), ("“", '"'), ("”", '"'), ("–", "-"), ("—", "-")):
         text = text.replace(a, b)
     return re.sub(r"\s+", " ", text).strip().lower()
+
+
+def scrub(text: str) -> str:
+    """A feed without its contact details, applied as the feed is read so that neither the cache, the fixtures nor
+    the model hold them (docs/sources.md, rule 9): email addresses and phone numbers become placeholders, and iCal
+    ORGANIZER lines (staff names and addresses) go. The event's link carries the contact."""
+    text = re.sub(r"^ORGANIZER.*\n", "", text, flags=re.M)
+    return PHONE.sub("000-000-0000", EMAIL.sub("name@example.org", text))
 
 
 def strip_html(text: str) -> str:
