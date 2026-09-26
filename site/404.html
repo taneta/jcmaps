@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/">
+<title>JC Maps</title>
+<script>
+  // A share link outlives its event: /e/<slug>/ opens the map, which says the event has ended (openShared in app.js).
+  // Anything else missing opens the map too. The map counts the visit, so this page does not.
+  const m = location.pathname.match(/\/e\/([a-z0-9-]+)/);
+  location.replace(m ? `./#e=${m[1]}` : "./");
+</script>
+</head>
+<body><p><a href="./">Open JC Maps</a></p></body>
+</html>

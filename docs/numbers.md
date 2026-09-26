@@ -44,6 +44,16 @@ The done-when column in the brief's day-one table is the prediction; this file r
 | Unpinned venues, by events | City Hall Annex boardroom 5; 13 Bookmobile stops, most given as cross streets, 1 or 2 each; two venues outside the city or misspelled, 1 each |
 | Geocoder calls in that rebuild | 61, refreshing the cache entries that lacked a category; 32 unused entries still lack one and are refreshed if a venue needs them |
 
+## Weekly
+
+`uv run jcmaps kpi --sample <file>` prints these from the live snapshot (docs/routine.md). Coverage is the KPI: the
+share of a fixed weekly sample of Jersey City events, taken from places the map does not read, that the map shows.
+The rest is health, as context: raw counts move with the season.
+
+| Week | Events, next 7 days | Sources with events | Effective sources | Pinned | Price known | Coverage (sample) | Misses and why |
+|---|---|---|---|---|---|---|---|
+| 2026-W39, from Sept 26 | 147 (library 96, Connects 20, Cultural Affairs 16, city 5, Saint Peter's 5, Riverview 2, clinics 2, Barrow 1) | 8 | 2.2 | 95% | 76% | no sample yet | the first sample is next week's |
+
 ## Metrics
 
 Events at a venue the geocoder could not place, tracked after every rebuild that changes pins and in the weekly

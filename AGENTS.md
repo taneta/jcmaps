@@ -27,8 +27,9 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
   every page loads (light only); nothing else names a color. Marigold (--accent) means an event, never a control.
 - Commits: the person committing is the author and is responsible for the change. No AI co-author
   trailers (Co-authored-by: Claude or similar); AI assistance is disclosed once, in the README.
-- Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request,
-  and the pull request ticks the ticket's Done-when list, saying how each item was checked.
+- Tickets use the Bug or Change template in .github/ISSUE_TEMPLATE; one ticket per pull request. Both open with
+  one plain line on what changes for the project, and the pull request ticks the ticket's Done-when list, saying
+  how each item was checked.
 - Diagrams follow the code: when a pull request changes a workflow (the pipeline, the run, the page or the
   ticket process), it also updates the matching diagram in docs/how-it-works.md or docs/routine.md.
 
@@ -36,11 +37,12 @@ Read docs/brief.md when a decision needs context. Tickets are GitHub issues.
 uv run jcmaps build --pull [--source X] [--offline] [--no-model]   # pull live data, fetch, parse, enrich, check, publish
 uv run jcmaps eval-enrich                                          # 30 enriched events with quotes for a hand-check
 uv run jcmaps score-enrich                                         # the prompt and model on the labeled set: agreement per field, misses, cost
+uv run jcmaps kpi [--sample CSV]                                   # the week's numbers from the live snapshot; with a sample, coverage and its misses
 uv run pytest                                                      # contract, search-rule and design tests, offline (needs node)
 python -m http.server -d site                                      # preview the frontend
 
 ## Layout
-pipeline/   sources/, geocode.py, enrich.py, llm.py, check.py, gate.py, publish.py, cli.py
+pipeline/   sources/, geocode.py, enrich.py, llm.py, check.py, gate.py, publish.py, share.py (share links), cli.py
 fixtures/   frozen inputs, one folder per adapter (library, tribe, ical); labeled/enrich.json is the labeled set
 data/       library_branches.json (config)
 site/       index.html, about.html, app.js, search.js, icons.js, visits.js, tokens.css; data/ is generated (events, enrich, geocode, report)

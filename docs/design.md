@@ -90,7 +90,9 @@ nothing heavier than 600. Times and counts use tabular numerals, so they line up
 - **Segmented control** (`.seg`, Family | Everyone): one pill holding two buttons; the chosen one is ink. Use it for
   a choice between two named states, never a single button whose label flips.
 - **Toggle chip** (Free): a chip with `aria-pressed`, looking like a time chip.
-- **Field chip** (From, To, under Dates): a `label.chip` around its date input, so the label text names it. The
+- **Field chip** (From, To, under Dates): a `label.chip` around its date input, so the label text names it. Its
+  calendar is the browser's own: `accent-color` turns the chosen day ink, and the frame, the font and the Clear and
+  Today links stay the browser's, since a calendar of our own would be the site's first widget with its own code. The
   input has no border of its own, because the chip is its frame.
 - **Text button** (for example, clearing a selected pin): 14px/600 in `--ink-2`, no fill, 44px tall. Never `--accent`.
 - **Banner** (`#banner`): inverted, `--surface` text on `--ink`, with a 12px radius and the float shadow, inside the
@@ -106,9 +108,9 @@ nothing heavier than 600. Times and counts use tabular numerals, so they line up
 - **Tags**: 12px/500 pills. A fact (price text, ages, Registration) is `--surface-2` with `--ink-2`; Free and Kids
   use their own colors. An unknown (kids: not stated, price not listed) is a dashed
   `--line-strong` outline with `--ink-3` text.
-- **Links**: 13px/500, underlined in `--line-strong`; "Source ↗" in `--ink-2`, "Report on GitHub" in `--ink-3`,
-  both full ink on hover.
-- **Note** (what Free left out): while Free is on, the first row of the list says how many events it left out for
+- **Links**: 13px/500, underlined in `--line-strong`; "Source ↗" and "Share" (a text button) in `--ink-2`,
+  "Report on GitHub" in `--ink-3`, all full ink on hover.
+- **Note** (what Free left out, or that a shared event has ended): while Free is on, the first row of the list says how many events it left out for
   not listing a price ("9 more don't list a price"), counted where the list counts events. 13px `--ink-3` on
   `--surface-2`, full width, with a `--line` below. Free stays strict and says so, rather than hiding quietly.
 - **Section heading** (Ongoing, No map pin): 12px/600 uppercase in `--ink-3` on `--surface-2`.

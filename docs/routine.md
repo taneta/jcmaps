@@ -15,7 +15,7 @@ The first two rows run by themselves; the rest is the owner's.
 | An `auto:build` issue opens | Read it and the run log. If a feed was only down, the next run fetches it again (re-run the workflow to hurry it); otherwise open a Bug ticket. Fix it within a day: after that, visitors see the stale-data banner, or a feed that is still down drops off the site. |
 | A visitor report opens (labeled `report`, titled *Wrong listing: …*) | Compare the event with its source. If our data is wrong, open a Bug ticket. A wrong pin is fixed by adding the venue's point to `data/venue_points.json`. |
 | A suggestion arrives in the Google Form | Read it within a week. A source with a public calendar becomes a Change ticket. Until the map can take approved events, point an organizer to a calendar the map reads, such as the Office of Cultural Affairs' community calendar. Reply if they left an email. Their email stays in the form's responses, never in the repo. |
-| Weekly, 10 minutes | Read [the run report](https://jcmaps.com/data/report.json): events per source, drops, venues without a pin (when `geocode.unpinned_events` moves, a row in the Metrics table of `docs/numbers.md`), cost. On GoatCounter, look at the week's new and returning visitors and the sites that sent them. Until 24 October 2026, also compare the Weekend list with JC Families and Macaroni KID. |
+| Weekly, 10 minutes | Read [the run report](https://jcmaps.com/data/report.json): events per source, drops, venues without a pin (when `geocode.unpinned_events` moves, a row in the Metrics table of `docs/numbers.md`), cost. On GoatCounter, look at the week's new and returning visitors and the sites that sent them. Then the coverage sample: about 20 public Jersey City events for the coming 7 days from places the map does not read (JC Families' weekly roundup, Macaroni KID, local groups' Instagram, flyers, the Arts Council calendar), the same quota from each every week, as a CSV of date, title, place, link in the git-ignored `.claude/kpi/` folder. `uv run jcmaps kpi --sample <that file>` prints the week's numbers and coverage; add its row to the Weekly table in `docs/numbers.md`, with a reason for each miss (no calendar, social media only, site blocks us, source not built yet, dropped by our checks). |
 | Monthly | Check OpenAI spend against the budget. |
 | At least every 60 days | Make a commit. GitHub switches off a public repo's schedule after 60 quiet days; turn it back on under Actions. |
 | Rarely | Rotate the OpenAI key if it may have leaked (README). Renew the domain by 24 September 2028. |
@@ -54,7 +54,7 @@ itself.
    pull request quotes the result next to main's. A changed
    flow means an updated diagram.
 4. **Check.** `uv run pytest`; for data, `uv run jcmaps build --pull`; for the page, `python -m http.server -d site`.
-5. **Pull request.** Tick *Done when*, saying how each was checked; the tests run on it as a check. The person
-   committing is the author.
+5. **Pull request.** One plain line first, on what changes for the project. Then tick *Done when*, saying how each
+   was checked; the tests run on it as a check. The person committing is the author.
 6. **After the merge.** Confirm the run is green and the site shows the change. Record predicted numbers in
    `docs/numbers.md`, file anything you found as new tickets, and remove the worktree.

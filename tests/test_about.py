@@ -17,7 +17,8 @@ def test_the_map_links_to_about():
 
 
 def test_every_page_counts_visits():
-    uncounted = [p.name for p in (ROOT / "site").glob("*.html") if 'src="visits.js"' not in p.read_text()]
+    # 404.html only forwards (an ended event's share link) to the map, which counts the visit
+    uncounted = [p.name for p in (ROOT / "site").glob("*.html") if p.name != "404.html" and 'src="visits.js"' not in p.read_text()]
     assert not uncounted, f"{uncounted} do not load site/visits.js, so their visits go uncounted"
 
 

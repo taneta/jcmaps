@@ -13,7 +13,7 @@ import pytest
 
 from pipeline import cli, enrich, publish
 from pipeline.geocode import Geocoder
-from pipeline.sources import ical, library, tribe
+from pipeline.sources import library, tribe
 from pipeline.util import ROOT
 
 T0 = datetime(2026, 9, 24, 12, 0, tzinfo=timezone.utc)
@@ -80,13 +80,16 @@ def build(tmp_path, monkeypatch):
             if keep and sid in keep:
                 return [{**pages[0], "events": [e for p in pages for e in p["events"]][:keep[sid]]}]
             return pages
-        def fetch_ical(sid, url, cache_dir, client):
-            if sid in down:
-                raise httpx.ConnectError(DNS)
-            return (cli.FIXTURES / "ical" / f"{sid}.ics").read_text()
+        def fetch_file(kind, ext):  # every single-file source (the city's iCal, the clinics' CSV, ...) reads its frozen copy
+            def fetch(sid, url, cache_dir, client):
+                if sid in down:
+                    raise httpx.ConnectError(DNS)
+                return (cli.FIXTURES / kind / f"{sid}.{ext}").read_text()
+            return fetch
         monkeypatch.setattr(library, "fetch", fetch_ics)
         monkeypatch.setattr(tribe, "fetch", fetch)
-        monkeypatch.setattr(ical, "fetch", fetch_ical)
+        for kind, (mod, ext) in cli.SINGLE.items():
+            monkeypatch.setattr(mod, "fetch", fetch_file(kind, ext))
         monkeypatch.setattr(cli, "now_utc", lambda: at)
         code = cli.build(None, False, True, None, cached)
         return code, json.loads(publish.REPORT.read_text()), json.loads(publish.SNAPSHOT.read_text())
@@ -106,7 +109,8 @@ def duplicates(rep: dict, source: str) -> dict[str, str]:
 def test_a_source_that_cannot_be_fetched_keeps_its_last_good_events(build):
     _, rep, first = build(T0)
     assert first["sources"]["culture"] == {"count": 50}
-    assert duplicates(rep, "culture:") == {"connects:19676": "culture:10004827", "connects:19964": "culture:44071"}
+    assert duplicates(rep, "culture:") == {"connects:19676": "culture:10004827", "connects:19964": "culture:44071",
+                                          "arthouse:8249691537444": "culture:10004827"}  # RENT's run gives way to its showing
 
     later = T0 + timedelta(hours=23)
     code, rep, snap = build(later, down={"culture"})
@@ -119,7 +123,8 @@ def test_a_source_that_cannot_be_fetched_keeps_its_last_good_events(build):
     carried = {o["event_id"] for o in snap["occurrences"] if o["event_id"].startswith("culture:")}
     ended = {o["event_id"] for o in first["occurrences"] if o["event_id"].startswith("culture:") and ends(o) < later}
     assert "culture:10004827" in ended and not ended & carried  # RENT's night is over
-    assert duplicates(rep, "culture:") == {"culture:44071": "connects:19964"}  # the fresh listing of What We Keep wins
+    assert duplicates(rep, "culture:") == {"culture:44071": "connects:19964",  # the fresh listing of What We Keep wins
+                                          "arthouse:8249691537444": "culture:10004828"}  # RENT's run, to the next showing
     venues = {v["id"] for v in snap["venues"]}
     assert all(o["venue_id"] in venues for o in snap["occurrences"] if o["venue_id"])
 
@@ -153,17 +158,17 @@ def test_a_source_down_for_a_day_is_left_out_until_it_fetches_again(build):
 
 def test_a_feed_that_lists_far_fewer_events_is_carried_for_a_day_then_published_as_it_is(build, tmp_path):
     _, _, first = build(T0)
-    assert first["sources"]["connects"] == {"count": 34}
+    assert first["sources"]["connects"] == {"count": 33}  # one listing gives way to Art House's
     code, rep, snap = build(T0 + timedelta(hours=6), keep={"connects": 18})
     assert code == 0 and rep["gate"]["passed"] and snap["generated_at"] == (T0 + timedelta(hours=6)).isoformat()
-    assert rep["sources"]["connects"] == {"parsed": 18, "error": "shrank from 34 to 18", "published": 34,
+    assert rep["sources"]["connects"] == {"parsed": 18, "error": "shrank from 33 to 18", "published": 33,
                                           "state": "degraded", "carried_from": first["generated_at"]}
-    assert f"Source connects shrank from 34 to 18. Its last good events, fetched {T0.isoformat()}" in issue(tmp_path)
+    assert f"Source connects shrank from 33 to 18. Its last good events, fetched {T0.isoformat()}" in issue(tmp_path)
 
     code, rep, snap = build(T0 + timedelta(hours=25), keep={"connects": 18})  # a day later, the smaller feed it is
-    assert code == 0 and rep["sources"]["connects"] == {"parsed": 18, "error": "shrank from 34 to 14", "published": 13,
+    assert code == 0 and rep["sources"]["connects"] == {"parsed": 18, "error": "shrank from 33 to 14", "published": 13,
                                                         "state": "active"}  # 4 of the 18 are over by then
-    assert "Source connects shrank from 34 to 14, and its last good events are past carrying, so its smaller feed is published as it is" in issue(tmp_path)
+    assert "Source connects shrank from 33 to 14, and its last good events are past carrying, so its smaller feed is published as it is" in issue(tmp_path)
     code, rep, snap = build(T0 + timedelta(hours=30), keep={"connects": 18})  # and the comparison has settled
     assert rep["sources"]["connects"] == {"parsed": 18, "published": 13, "state": "active"} and issue(tmp_path) is None
 
@@ -177,13 +182,13 @@ def test_switching_a_source_off_publishes_on_the_next_run(build):
 def test_a_feed_that_parses_to_a_few_events_or_none_is_still_flagged(build, tmp_path):
     _, _, first = build(T0)
     code, rep, snap = build(T0 + timedelta(hours=6), keep={"connects": 2})
-    assert code == 0 and rep["sources"]["connects"] == {"parsed": 2, "error": "shrank from 34 to 2", "published": 34,
+    assert code == 0 and rep["sources"]["connects"] == {"parsed": 2, "error": "shrank from 33 to 2", "published": 33,
                                                         "state": "degraded", "carried_from": first["generated_at"]}
-    assert "Source connects shrank from 34 to 2. Its last good events" in issue(tmp_path)
+    assert "Source connects shrank from 33 to 2. Its last good events" in issue(tmp_path)
     code, rep, snap = build(T0 + timedelta(hours=25), keep={"connects": 0})
     assert code == 0 and rep["gate"]["passed"] and "connects" not in snap["sources"]
-    assert rep["sources"]["connects"] == {"parsed": 0, "error": "shrank from 34 to 0", "published": 0, "state": "down"}
-    assert "Source connects shrank from 34 to 0 and has nothing left to carry, so it is left out until its feed answers with events again" in issue(tmp_path)
+    assert rep["sources"]["connects"] == {"parsed": 0, "error": "shrank from 33 to 0", "published": 0, "state": "down"}
+    assert "Source connects shrank from 33 to 0 and has nothing left to carry, so it is left out until its feed answers with events again" in issue(tmp_path)
 
 
 def issue(cwd) -> str | None:
@@ -238,7 +243,7 @@ def test_the_issue_says_which_source_is_degraded_or_down(build, tmp_path):
 
 def test_a_push_builds_from_the_saved_feeds_without_a_request(build):
     _, fetched, first = build(T0)
-    for kind in ("library", "tribe", "ical"):
+    for kind in [d.name for d in cli.FIXTURES.iterdir() if d.is_dir() and d.name != "labeled"]:
         shutil.copytree(cli.FIXTURES / kind, cli.CACHE / kind)  # what the last fetching run saved
     code, rep, snap = build(T0, down={"library", "culture", "connects", "city"}, cached=True)  # any fetch would raise
     assert code == 0 and rep["sources"] == fetched["sources"] and snap["events"] == first["events"]
