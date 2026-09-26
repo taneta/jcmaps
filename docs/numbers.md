@@ -34,6 +34,16 @@ The done-when column in the brief's day-one table is the prediction; this file r
 | Contact details in the frozen feeds | 60 distinct email addresses, 13 phone numbers and 510 iCal ORGANIZER lines in 8 files |
 | Model input changed by the scrub | 240 of 614 frozen entries (39%): mostly library listings that name a branch's phone or email. The first run after the merge re-enriches that share of the live events once, about half of day one's model cost |
 
+## Known points and street answers, #5 (2026-09-26)
+
+| Number | Value |
+|---|---|
+| Known points | 15 in `data/venue_points.json`: the 13 library branches with an address, Art House Productions and Mary McLeod Bethune Park. 14 in use (the Learning Center's calendar is empty) |
+| Pins after the rule, local rebuild from the live snapshot | 480 of 522 occurrences (92%), 65 of 81 venues. 14 from known points, 51 from place, building or amenity answers; none from a street answer to a query with a house number |
+| Pins that moved | Cunningham branch 985 m and Bethune Park 1,455 m, from a street guess to the building; Art House 74 m (placed between 351 and 355 Marin Blvd, OSM has no 345); three others under 90 m from Nominatim's fresher answers |
+| Unpinned venues, by events | City Hall Annex boardroom 5; 13 Bookmobile stops, most given as cross streets, 1 or 2 each; two venues outside the city or misspelled, 1 each |
+| Geocoder calls in that rebuild | 61, refreshing the cache entries that lacked a category; 32 unused entries still lack one and are refreshed if a venue needs them |
+
 ## Notes
 
 - Kid-friendly before the model: yes 148, no 10, unknown 335; after: yes 309, no 58, unknown 121. Price after: free 406, paid 6, unknown 76. Registration: yes 72, no 21. Every event has a summary; 195 carry the listing's own age wording.
